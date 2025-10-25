@@ -1,7 +1,7 @@
 from apps.shared.models import BaseNameModel, BaseTimeModel
 
 
-class Category(BaseNameModel, BaseTimeModel):
+class CompetitorCategory(BaseNameModel, BaseTimeModel):
     pass
 
     def __str__(self):

@@ -53,3 +53,4 @@ admin.site.register(Area, AreaAdmin)
 admin.site.register(Street, StreetAdmin)
 admin.site.register(Place, PlaceAdmin)
 
+

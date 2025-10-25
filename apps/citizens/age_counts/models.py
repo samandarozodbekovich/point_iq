@@ -1,15 +1,15 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 
-from apps.areas.places.models import Place
 from apps.citizens.age_groups.models import AgeGroup
+from apps.citizens.population.models import Citizen
 from apps.shared.models import BaseTimeModel
 
 
 class PopulationStatistic(BaseTimeModel):
 
-    apartment = models.ForeignKey(
-        Place,
+    population = models.ForeignKey(
+        Citizen,
         on_delete=models.CASCADE,
         related_name="population_statistics"
     )
@@ -29,4 +29,4 @@ class PopulationStatistic(BaseTimeModel):
 
 
     def __str__(self):
-        return f"{self.apartment.name_uz} | {self.age_group.name_uz}: {self.population_count}"
+        return f"{self.population} | {self.age_group.name_uz}: {self.population_count}"

@@ -1,0 +1,12 @@
+from django.contrib import admin
+
+from apps.competitors.competitor_categories.models import CompetitorCategory
+
+
+
+@admin.register(CompetitorCategory)
+class CompetitorCategoryAdmin(admin.ModelAdmin):
+    list_display = ('name_uz', 'name_ru', 'name_uz_cyr')
+    list_filter = ('name_uz', 'name_ru', 'name_uz_cyr')
+    ordering = ('-created_at',)
+

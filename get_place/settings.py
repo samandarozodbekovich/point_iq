@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'djoser',
     'twilio',
+    'celery',
 
 
     # local apps
