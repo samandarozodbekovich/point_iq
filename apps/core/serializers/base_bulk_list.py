@@ -2,6 +2,12 @@ from rest_framework import serializers
 
 
 class BaseBulkListSerializer(serializers.ListSerializer):
+    def __init__(self, *args, **kwargs):
+        # Swagger schema generatsiyasi paytida child bo‘lmasa xatoga tushmasin
+        if kwargs.get('child') is None and getattr(self, 'swagger_fake_view', False):
+            kwargs['child'] = serializers.Serializer()
+        super().__init__(*args, **kwargs)
+
     def create(self, validated_data):
         model = self.child.Meta.model
         objs = [model(**item) for item in validated_data]

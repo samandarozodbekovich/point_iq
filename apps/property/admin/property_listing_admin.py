@@ -19,8 +19,8 @@ class PropertyListingAdmin(admin.ModelAdmin):
         'is_for_sale',
         'is_for_rent',
         'source',
-        'date_listed',
-        'date_updated',
+        'created_at',
+        'updated_at',
     )
 
 
@@ -42,14 +42,14 @@ class PropertyListingAdmin(admin.ModelAdmin):
         'is_for_rent',
         'year_built',
         'source',
-        'date_listed',
+        'created_at',
     )
 
 
-    ordering = ('-date_listed',)
+    ordering = ('-created_at',)
 
     list_select_related = ('place', 'street', 'area')
 
-    readonly_fields = ('date_listed', 'date_updated')
+    readonly_fields = ('created_at', 'updated_at')
 
 

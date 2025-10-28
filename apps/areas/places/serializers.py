@@ -1,24 +1,23 @@
+from rest_framework import serializers
+
 from apps.areas.places.models import Place
 from apps.core.serializers.base_bulk_list import BaseBulkListSerializer
-from apps.shared.serializers import BaseNameValidationSerializer
 
 
-class PlaceSerializer(BaseNameValidationSerializer, BaseBulkListSerializer):
-    name_field = ['name_uz', 'name_ru', 'name_uz_cyr']
+
+class PlaceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Place
         fields = [
             'id',
-            'name_uz',
-            'name_ru',
-            'name_uz_cyr',
             'street',
             'house_number',
             'latitude',
             'longitude',
             'description',
         ]
+        list_serializer_class = BaseBulkListSerializer
 
     def to_representation(self, instance):
         data = super().to_representation(instance)

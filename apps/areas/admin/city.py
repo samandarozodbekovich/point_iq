@@ -4,5 +4,5 @@ from apps.areas.cities.models import City
 
 @admin.register(City)
 class CityAdmin(admin.ModelAdmin):
-    list_display = ('name_uz',)
-    search_fields = ('name_uz',)
+    list_display = ('name_uz', 'name_ru', 'name_uz_cyr')
+    search_fields = ('name_uz', 'name_ru', 'name_uz_cyr')

@@ -3,7 +3,7 @@ from apps.core.serializers.base_bulk_list import BaseBulkListSerializer
 from apps.shared.serializers import BaseNameValidationSerializer
 
 
-class StreetSerializer(BaseNameValidationSerializer, BaseBulkListSerializer):
+class StreetSerializer(BaseNameValidationSerializer):
     name_field = ['name_uz', 'name_ru', 'name_uz_cyr']
 
     class Meta:
@@ -15,6 +15,7 @@ class StreetSerializer(BaseNameValidationSerializer, BaseBulkListSerializer):
             'name_uz_cyr',
             'area'
         ]
+        list_serializer_class = BaseBulkListSerializer
 
     def to_representation(self, instance):
         data = super().to_representation(instance)

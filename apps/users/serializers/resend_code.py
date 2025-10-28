@@ -22,7 +22,6 @@ class ResendCodeSerializer(serializers.Serializer):
     def save(self, **kwargs):
         user = self.validated_data["user"]
         code = user.create_verify_code()
-        # Enqueue the email task only after the DB transaction is committed
         transaction.on_commit(lambda: send_registration_email.delay(user.email, code))
         return user
 

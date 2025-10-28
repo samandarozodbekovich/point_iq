@@ -8,7 +8,6 @@ from apps.users.tasks import send_registration_email
 def send_activation_email(sender, instance, created, **kwargs):
     if created or instance.auth_status == NEW:
         code = instance.create_verify_code()
-        # send_registration_email.delay(instance.email, code)
         transaction.on_commit(lambda: send_registration_email.delay(instance.email, code))
 
 

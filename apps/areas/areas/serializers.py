@@ -3,12 +3,22 @@ from .models import Area
 from ...core.serializers.base_bulk_list import BaseBulkListSerializer
 
 
-class AreaSerializer(BaseNameValidationSerializer, BaseBulkListSerializer):
+class AreaSerializer(BaseNameValidationSerializer):
     name_field = ['name_uz', 'name_ru', 'name_uz_cyr']
 
     class Meta:
         model = Area
-        fields = '__all__'
+        fields = [
+            'id',
+            'name_uz',
+            'name_ru',
+            'name_uz_cyr',
+            'city',
+            'district',
+            'wealthy_area_rating'
+        ]
+        list_serializer_class = BaseBulkListSerializer
+
 
     def to_representation(self, instance):
         data = super().to_representation(instance)

@@ -6,15 +6,25 @@ class BaseNameValidationSerializer(serializers.ModelSerializer):
     name_field = None
 
     def validate(self, data):
-        name_field = self.name_field
         model = self.Meta.model
+        name_fields = self.name_field
 
-        name = data.get(name_field, None)
-        if name is None:
-            raise ValidationError("Name field is required")
+        instance = getattr(self, "instance", None)
 
-        name = name.replace(' ', '').replace('_', '')
+        for field in name_fields:
+            name = data.get(field)
+            if not name:
+                continue
 
-        if model.objects.filter(**{name_field: name}).exists():
-            raise ValidationError("Name already exists")
+            cleaned_name = name.replace(' ', '').replace('_', '')
+
+            queryset = model.objects.filter(**{field: cleaned_name})
+            if instance:
+                queryset = queryset.exclude(pk=instance.pk)
+
+            if queryset.exists():
+                raise ValidationError({field: "This name already exists"})
+
         return data
+
+

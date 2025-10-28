@@ -1,11 +1,9 @@
-from rest_framework import serializers
-
 from apps.areas.districts.models import District
 from apps.core.serializers.base_bulk_list import BaseBulkListSerializer
 from apps.shared.serializers import BaseNameValidationSerializer
 
 
-class DistrictSerializer(BaseNameValidationSerializer, BaseBulkListSerializer):
+class DistrictSerializer(BaseNameValidationSerializer):
     name_field = ['name_uz', 'name_ru', 'name_uz_cyr']
 
     class Meta:
@@ -17,6 +15,7 @@ class DistrictSerializer(BaseNameValidationSerializer, BaseBulkListSerializer):
             'name_uz_cyr',
             'city'
         ]
+        list_serializer_class = BaseBulkListSerializer
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
