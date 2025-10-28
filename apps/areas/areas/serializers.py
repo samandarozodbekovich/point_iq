@@ -1,4 +1,3 @@
-from rest_framework import serializers
 from apps.shared.serializers import BaseNameValidationSerializer
 from .models import Area
 from ...core.serializers.base_bulk_list import BaseBulkListSerializer
@@ -9,15 +8,7 @@ class AreaSerializer(BaseNameValidationSerializer, BaseBulkListSerializer):
 
     class Meta:
         model = Area
-        fields = [
-            'name_uz',
-            'name_ru',
-            'name_uz_cyr'
-            'area',
-            'city',
-            'district',
-            'area_rating'
-        ]
+        fields = '__all__'
 
     def to_representation(self, instance):
         data = super().to_representation(instance)

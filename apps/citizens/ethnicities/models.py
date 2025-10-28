@@ -1,6 +1,3 @@
-from django.db import models
-
-from apps.citizens.population.models import Citizen
 from apps.shared.models import BaseNameModel, BaseTimeModel
 
 

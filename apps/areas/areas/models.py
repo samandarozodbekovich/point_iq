@@ -10,6 +10,7 @@ class Area(BaseNameModel, BaseTimeModel):
     district = models.ForeignKey(District, on_delete=models.CASCADE)
     wealthy_area_rating = models.IntegerField(blank=True, null=True, validators=[MinValueValidator(0), MaxValueValidator(10)])
 
+
     def __str__(self):
         return f"{self.name_uz} ({self.district.name_uz})"
 

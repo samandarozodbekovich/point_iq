@@ -1,5 +1,4 @@
 from rest_framework import permissions
-from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 
 from apps.areas.areas.models import Area

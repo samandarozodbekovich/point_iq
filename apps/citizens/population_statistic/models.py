@@ -2,14 +2,14 @@ from django.db import models
 from django.core.validators import MinValueValidator
 
 from apps.citizens.age_groups.models import AgeGroup
-from apps.citizens.population.models import Citizen
+from apps.citizens.population.models import Population
 from apps.shared.models import BaseTimeModel
 
 
 class PopulationStatistic(BaseTimeModel):
 
     population = models.ForeignKey(
-        Citizen,
+        Population,
         on_delete=models.CASCADE,
         related_name="population_statistics"
     )

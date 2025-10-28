@@ -3,7 +3,7 @@ from apps.areas.places.models import Place
 from apps.shared.models import BaseTimeModel
 
 
-class Citizen(BaseTimeModel):
+class Population(BaseTimeModel):
     apartment = models.ForeignKey(Place, on_delete=models.CASCADE)
     count_male = models.IntegerField(default=0)
     count_female = models.IntegerField(default=0)
