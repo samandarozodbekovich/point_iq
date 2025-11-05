@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from apps.areas.places.models import Place
+from apps.areas.utils import get_coordinates_from_address
 from apps.core.serializers.base_bulk_list import BaseBulkListSerializer
 
 
@@ -34,3 +35,19 @@ class PlaceSerializer(serializers.ModelSerializer):
     def validate(self, data):
         data = super().validate(data)
         return data
+
+
+
+    def create(self, validated_data):
+        # Street va house_number dan to‘liq manzil yasaymiz
+        street = validated_data.get("street")
+        house_number = validated_data.get("house_number", "")
+        address = f"{street} {house_number}"
+
+        # Koordinata olish
+
+        lat, lon = get_coordinates_from_address(address)
+        validated_data["latitude"] = lat
+        validated_data["longitude"] = lon
+
+        return super().create(validated_data)

@@ -1,18 +1,31 @@
+import os
 from decouple import config
 from datetime import timedelta
 from pathlib import Path
+from dotenv import load_dotenv
 
+
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
+FOURSQUARE_API_KEY = os.getenv("FOURSQUARE_API_KEY")
+YANDEX_GEOCODE_KEY=os.getenv("YANDEX_GEOCODE_KEY")
+
 DEBUG = config('DEBUG', default=False, cast=bool)
+
+
+# Default map center / zoom (optional)
+YANDEX_MAP_CENTER = [41.311081, 69.240562]
+YANDEX_MAP_ZOOM = 12
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -213,6 +226,11 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
 
 AUTH_USER_MODEL = 'users.User'
 

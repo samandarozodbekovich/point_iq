@@ -16,12 +16,12 @@ class ForgotPasswordView(APIView):
         serializer.is_valid(raise_exception=True)
 
         user = serializer.validated_data.get('user')
-        code = user.create_verify_code('email')
+        code = user.create_verify_code('phone_number')
         send_registration_email(user.email, code)
 
         return Response({
             'success': True,
-            'message': 'Verification code sent to your email',
+            'message': 'Verification code sent to your phone number',
             'status': user.auth_status,
         }, status=200)
 

@@ -1,5 +1,6 @@
-from .models import Ethnicity
-from ...core.serializers.base_bulk_list import BaseBulkListSerializer
+from rest_framework import serializers
+
+from .models import Ethnicity, EthnicityPopulation
 from ...shared.serializers import BaseNameValidationSerializer
 
 
@@ -14,8 +15,6 @@ class EthnicitySerializer(BaseNameValidationSerializer):
             'name_ru',
             'name_uz_cyr',
         ]
-        list_serializer_class = BaseBulkListSerializer
-
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -23,4 +22,19 @@ class EthnicitySerializer(BaseNameValidationSerializer):
 
     def validate(self, data):
         data = BaseNameValidationSerializer.validate(self, data)
+        return data
+
+
+class EthnicityPopulationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EthnicityPopulation
+        fields = [
+            'id',
+            'population',
+            'ethnicity',
+            'count'
+        ]
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['population'] = instance.population.population_density if instance.population else None
         return data

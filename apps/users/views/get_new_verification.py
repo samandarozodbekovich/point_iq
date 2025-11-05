@@ -9,7 +9,7 @@ class GetNewVerificationView(APIView):
     def get(self, request, *args, **kwargs):
         user = self.request.user
         self.check_verification(user)
-        code = user.create_verify_code('email')
+        code = user.create_verify_code('phone_number')
 
         return Response({"code": code})
 

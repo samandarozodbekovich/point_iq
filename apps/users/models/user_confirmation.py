@@ -1,6 +1,7 @@
 from django.db import models
-from django.utils import timezone
 from datetime import timedelta
+from django.utils import timezone
+
 
 from apps.users.models import User
 
@@ -21,4 +22,4 @@ class UserConfirmation(models.Model):
         return timezone.now() > self.expiration_time
 
     def __str__(self):
-        return f"{self.user.email} - {self.code}"
+        return f"{self.user.phone_number} - {self.code}"

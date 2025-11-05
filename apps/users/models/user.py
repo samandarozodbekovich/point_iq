@@ -20,7 +20,7 @@ class User(AbstractBaseUser, PermissionsMixin, BaseTimeModel):
         (DONE, 'Done'),
     )
 
-    email = models.EmailField(unique=True)
+    phone_number = models.CharField(max_length=15, unique=True)
     first_name = models.CharField(max_length=100, blank=True)
     last_name = models.CharField(max_length=100, blank=True)
     is_active = models.BooleanField(default=True)
@@ -28,16 +28,19 @@ class User(AbstractBaseUser, PermissionsMixin, BaseTimeModel):
     auth_status = models.CharField(max_length=31, choices=AUTH_STATUS, default=NEW)
     last_login = models.DateTimeField(blank=True, null=True)
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = []
 
     objects = UserManager()
 
     def __str__(self):
-        return self.email
+        return self.phone_number
 
     def create_verify_code(self):
         from apps.users.models.user_confirmation import UserConfirmation
+        if self.is_superuser:
+            return None  # superuser uchun code yaratma
+
         code = "".join([str(random.randint(0, 9)) for _ in range(4)])
         UserConfirmation.objects.create(user=self, code=code)
         return code

@@ -24,10 +24,12 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('map/', include('apps.areas.urls')),
+    path('', include('apps.areas.urls')),
     path('users/', include('apps.users.urls')),
     path("citizens/", include('apps.citizens.urls')),
     path('competitors/', include('apps.competitors.urls')),
+    path("property/", include('apps.property.urls')),
+    path('map/', include('apps.dictionary.urls')),
 
     # swagger
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

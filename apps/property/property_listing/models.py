@@ -26,5 +26,3 @@ class PropertyListing(BaseTimeModel):
     source = models.CharField(max_length=100)
     is_for_sale = models.BooleanField(default=False)
     is_for_rent = models.BooleanField(default=False)
-    date_listed = models.DateTimeField()
-    date_updated = models.DateTimeField()

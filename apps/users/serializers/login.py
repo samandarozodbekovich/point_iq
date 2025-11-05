@@ -5,16 +5,16 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 class LoginSerializer(TokenObtainPairSerializer):
-    email = serializers.EmailField(required=True)
+    phone_number = serializers.CharField(required=True)
     password = serializers.CharField(write_only=True)
 
     def validate(self, attrs):
-        email = attrs.get('email').lower()
+        phone_number = attrs.get('phone_number').lower()
         password = attrs.get('password')
 
-        user = authenticate(email=email, password=password)
+        user = authenticate(phone_number=phone_number, password=password)
         if not user:
-            raise ValidationError("Email or password is incorrect.")
+            raise ValidationError("Phone number or password is incorrect.")
 
         if user.auth_status != 'done':
             raise PermissionDenied("You are not authorized to log in yet.")

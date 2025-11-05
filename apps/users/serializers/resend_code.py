@@ -6,11 +6,11 @@ from apps.users.models.user import User, NEW, CODE_VERIFIED, DONE
 from apps.users.tasks import send_registration_email
 
 class ResendCodeSerializer(serializers.Serializer):
-    email = serializers.EmailField(required=True)
+    phone_number = serializers.CharField(required=True)
 
     def validate(self, data):
-        email = data.get("email").lower()
-        user = User.objects.filter(email=email).first()
+        phone_number = data.get("phone_number").lower()
+        user = User.objects.filter(email=phone_number).first()
 
         if not user:
             raise serializers.ValidationError("This user does not exist.")
@@ -22,6 +22,7 @@ class ResendCodeSerializer(serializers.Serializer):
     def save(self, **kwargs):
         user = self.validated_data["user"]
         code = user.create_verify_code()
+        # code will be sent to phone_number when service works
         transaction.on_commit(lambda: send_registration_email.delay(user.email, code))
         return user
 
