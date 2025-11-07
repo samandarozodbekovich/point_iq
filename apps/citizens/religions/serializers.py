@@ -13,7 +13,7 @@ class ReligionSerializer(BaseNameValidationSerializer):
             'id',
             'name_uz',
             'name_ru',
-            'name_cyr',
+            'name_uz_cyr',
         ]
 
     def to_representation(self, instance):

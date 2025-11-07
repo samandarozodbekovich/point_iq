@@ -1,36 +1,32 @@
+# populate_categories.py
+from rest_framework import viewsets, status
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
-from apps.competitors.competitor.models import Competitor
-from apps.competitors.competitor.views import StandardResultsSetPagination
-from apps.competitors.competitor_categories.models import CompetitorCategory
+from .models import CompetitorCategory
+from .serializers import CompetitorCategorySerializer
 
 
-class CompetitorCategoryAPIView(APIView):
-    pagination_class = StandardResultsSetPagination
 
-    def get(self, request, category_name):
-        paginator = StandardResultsSetPagination()
+class CompetitorCategoryViewSet(viewsets.ModelViewSet):
+    """
+    CompetitorCategory uchun ViewSet.
+    Oddiy CRUD imkoniyatlari mavjud.
+    """
+    queryset = CompetitorCategory.objects.all()
+    serializer_class = CompetitorCategorySerializer
 
-        try:
-            category = CompetitorCategory.objects.get(name_uz=category_name)
-        except CompetitorCategory.DoesNotExist:
-            return Response({"detail": "Category not found"}, status=404)
+    # GET requestda kerak bo'lsa til tanlash imkoniyati
+    def list(self, request, *args, **kwargs):
+        lang = request.GET.get('lang', 'uz')
+        queryset = self.get_queryset()
+        data = []
+        for category in queryset:
+            data.append({
+                'id': category.id,
+                'name': getattr(category, f'name_{lang}', category.name_uz),
+                'external_id': category.external_id
+            })
+        return Response(data, status=status.HTTP_200_OK)
 
-        queryset = Competitor.objects.filter(category=category).order_by('id')
-        result_page = paginator.paginate_queryset(queryset, request)
-
-        data = [{
-            "id": c.id,
-            "name": c.name_uz,
-            "street": c.place.street.name_uz,
-            "address": c.place.description,
-            "latitude": c.place.latitude,
-            "longitude": c.place.longitude
-        } for c in result_page]
-
-        return paginator.get_paginated_response({
-            "category": category_name,
-            "total_count": queryset.count(),
-            "results": data
-        })
+    # create va update metodlar ModelViewSet orqali avtomatik ishlaydi
+    # agar qo'shimcha validatsiya yoki logikani yozmoqchi bo'lsangiz, create() va update() override qilishingiz mumkin
