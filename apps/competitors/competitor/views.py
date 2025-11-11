@@ -34,7 +34,7 @@ class CompetitorViewSet(BaseModelViewSet):
         category = request.query_params.get("category")
 
         if not query or not category:
-            return Response({"error": "city and category required"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "query and category required"}, status=status.HTTP_400_BAD_REQUEST)
 
         # Celery ishga tushadi
         fetch_and_update_competitors.delay(query, category)

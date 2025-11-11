@@ -10,11 +10,11 @@ RUN apt-get update && apt-get install -y \
 # Workdir
 WORKDIR /app
 
-# Requirements
+# Copy requirements and install
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Project files
+# Copy project
 COPY . .
 
 # Default command

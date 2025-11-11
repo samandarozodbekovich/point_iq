@@ -13,6 +13,8 @@ PyJWT
 
 # Ma’lumotlar bazasi
 psycopg2
+Pillow
+
 
 # Celery va Redis
 celery
@@ -31,3 +33,7 @@ sqlparse
 geopandas
 shapely
 pyproj
+
+gunicorn
+
+twilio

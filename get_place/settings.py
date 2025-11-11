@@ -1,5 +1,5 @@
 import os
-from decouple import config
+from decouple import config, Csv
 from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
@@ -25,7 +25,8 @@ YANDEX_MAP_ZOOM = 12
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+
 
 
 # Application definition
@@ -144,16 +145,14 @@ TEMPLATES = [
 WSGI_APPLICATION = "get_place.wsgi.application"
 
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': config("DB_NAME"),
-        'USER': config("USER"),
-        "PASSWORD": config("PASSWORD"),
-        "HOST": config("HOST"),
-        'PORT': config("PORT")
-
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
     }
 }
 
@@ -219,12 +218,12 @@ REDIS_HOST = config("REDIS_HOST", default="localhost")
 REDIS_PORT = config("REDIS_PORT", default=6379, cast=int)
 
 # Celery konfiguratsiyasi
-CELERY_BROKER_URL = config("CELERY_BROKER_URL", default=f"redis://{REDIS_HOST}:{REDIS_PORT}/0")
-CELERY_RESULT_BACKEND = config("CELERY_RESULT_BACKEND", default=f"redis://{REDIS_HOST}:{REDIS_PORT}/0")
-CELERY_ACCEPT_CONTENT = config("CELERY_ACCEPT_CONTENT", default="json").split(",")
-CELERY_TASK_SERIALIZER = config("CELERY_TASK_SERIALIZER", default="json")
-CELERY_RESULT_SERIALIZER = config("CELERY_RESULT_SERIALIZER", default="json")
-CELERY_TIMEZONE = config("CELERY_TIMEZONE", default="Asia/Tashkent")
+CELERY_BROKER_URL = config('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = config('CELERY_RESULT_BACKEND')
+CELERY_ACCEPT_CONTENT = [config('CELERY_ACCEPT_CONTENT')]
+CELERY_TASK_SERIALIZER = config('CELERY_TASK_SERIALIZER')
+CELERY_RESULT_SERIALIZER = config('CELERY_RESULT_SERIALIZER')
+CELERY_TIMEZONE = config('CELERY_TIMEZONE')
 
 CHANNEL_LAYERS = {
     "default": {
