@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from .models import Population
+from ...areas.districts.models import District
 from ...core.serializers.base_bulk_list import BaseBulkListSerializer
 from ...shared.serializers import BaseNameValidationSerializer
 
@@ -11,7 +12,7 @@ class PopulationSerializer(serializers.ModelSerializer):
         model = Population
         fields = [
             'id',
-            'apartment',
+            'district',
             'count_male',
             'count_female',
             'average_income',

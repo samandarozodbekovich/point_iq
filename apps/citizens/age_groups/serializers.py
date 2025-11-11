@@ -1,8 +1,6 @@
 from rest_framework import serializers
 
 from .models import AgeGroup, AgeGroupPopulation
-from ...core.serializers.base_bulk_list import BaseBulkListSerializer
-from ...shared.serializers import BaseNameValidationSerializer
 
 
 class AgeGroupSerializer(serializers.ModelSerializer):

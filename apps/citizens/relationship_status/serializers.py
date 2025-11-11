@@ -5,7 +5,9 @@ from ...shared.serializers import BaseNameValidationSerializer
 
 
 class RelationshipStatusSerializer(BaseNameValidationSerializer):
+
     name_field = ['name_uz', 'name_ru', 'name_uz_cyr']
+
     class Meta:
         model = RelationshipStatus
         fields = [

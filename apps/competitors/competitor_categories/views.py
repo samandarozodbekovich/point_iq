@@ -4,15 +4,15 @@ from rest_framework.response import Response
 
 from .models import CompetitorCategory
 from .serializers import CompetitorCategorySerializer
+from ...shared.views.base_view_set import BaseModelViewSet
 
 
-
-class CompetitorCategoryViewSet(viewsets.ModelViewSet):
+class CompetitorCategoryViewSet(BaseModelViewSet):
     """
     CompetitorCategory uchun ViewSet.
     Oddiy CRUD imkoniyatlari mavjud.
     """
-    queryset = CompetitorCategory.objects.all()
+    model = CompetitorCategory
     serializer_class = CompetitorCategorySerializer
 
     # GET requestda kerak bo'lsa til tanlash imkoniyati

@@ -7,3 +7,4 @@ from apps.shared.views.base_deleted_items_view_set import BaseDeletedItemsViewSe
 class PropertyImageViewSet(BaseBulkMethods, BaseDeletedItemsViewSet ):
     model = PropertyImage
     serializer_class = PropertyImageSerializer
+

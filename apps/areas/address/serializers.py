@@ -1,25 +1,25 @@
-from apps.areas.streets.models import Street
+from apps.areas.address.models import Address
 from apps.core.serializers.base_bulk_list import BaseBulkListSerializer
 from apps.shared.serializers import BaseNameValidationSerializer
 
 
-class StreetSerializer(BaseNameValidationSerializer):
+class AddressSerializer(BaseNameValidationSerializer):
     name_field = ['name_uz', 'name_ru', 'name_uz_cyr']
 
     class Meta:
-        model = Street
+        model = Address
         fields = [
             'id',
             'name_uz',
             'name_ru',
             'name_uz_cyr',
-            'area'
+            'district'
         ]
         list_serializer_class = BaseBulkListSerializer
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        data['area'] = instance.area.name_uz if instance.area else None
+        data['district'] = instance.district.name_uz if instance.district else None
         return data
 
     def validate(self, data):

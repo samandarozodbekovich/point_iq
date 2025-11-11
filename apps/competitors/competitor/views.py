@@ -8,8 +8,7 @@ from math import radians, cos, sin, asin, sqrt
 from .models import Competitor
 from .serializers import CompetitorSerializer
 from .tasks import fetch_and_update_competitors
-
-
+from ...shared.views.base_view_set import BaseModelViewSet
 
 
 def haversine(lat1, lon1, lat2, lon2):
@@ -25,8 +24,8 @@ def haversine(lat1, lon1, lat2, lon2):
     return R * c
 
 
-class CompetitorViewSet(viewsets.ModelViewSet):
-    queryset = Competitor.objects.all()
+class CompetitorViewSet(BaseModelViewSet):
+    model = Competitor
     serializer_class = CompetitorSerializer
 
     # 🟢 1. Asenkron API fetch (va darhol mavjud ma'lumotni qaytarish)

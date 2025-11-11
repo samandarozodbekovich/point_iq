@@ -1,14 +1,8 @@
-from rest_framework.generics import ListAPIView, RetrieveAPIView
-
 from apps.citizens.population.models import Population
 from apps.citizens.population.serializers import PopulationSerializer
+from apps.shared.views.base_view_set import BaseModelViewSet
 
 
-class PopulationAPIView(ListAPIView, RetrieveAPIView):
+class PopulationViewSet(BaseModelViewSet):
+    model = Population
     serializer_class = PopulationSerializer
-
-    def get_queryset(self):
-        pk = self.kwargs.get('pk')
-        if pk:
-            return Population.objects.filter(pk=pk)
-        return Population.objects.all()

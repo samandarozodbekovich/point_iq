@@ -1,12 +1,12 @@
 from django.db import models
 
-from apps.areas.streets.models import Street
+from apps.areas.address.models import Address
 from apps.dictionary.cars.car_type.models import CarType
 from apps.shared.models import BaseTimeModel
 
 
 class RegisteredCar(BaseTimeModel):
-    street = models.ForeignKey(Street, on_delete=models.CASCADE)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE)
     car_type = models.ForeignKey(CarType, on_delete=models.CASCADE)
     year = models.IntegerField()
     month = models.IntegerField(null=True, blank=True)

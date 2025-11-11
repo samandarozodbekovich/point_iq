@@ -12,7 +12,7 @@ class BaseDeletedItemsViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny, IsOwnerOrAdmin]
 
     def get_queryset(self):
-        return self.model.objects.filter(pk=self.kwargs.get("pk")).order_by("-created_at")
+        return self.model.objects.filter(is_deleted=False).order_by("-created_at")
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)

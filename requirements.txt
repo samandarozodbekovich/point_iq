@@ -1,0 +1,33 @@
+# Django va asosiy kutubxonalar
+Django
+djangorestframework
+drf-yasg
+python-dotenv
+python-decouple
+
+# Autentifikatsiya (JWT, Djoser)
+djangorestframework_simplejwt
+social-auth-app-django
+social-auth-core
+PyJWT
+
+# Ma’lumotlar bazasi
+psycopg2
+
+# Celery va Redis
+celery
+redis
+
+# HTTP so‘rovlar
+requests
+urllib3
+
+# Foydali yordamchilar
+pytz
+tzdata
+sqlparse
+
+# (Ixtiyoriy — agar geo yoki koordinata bilan ishlayotgan bo‘lsang)
+geopandas
+shapely
+pyproj

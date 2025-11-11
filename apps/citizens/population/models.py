@@ -1,10 +1,10 @@
 from django.db import models
-from apps.areas.places.models import Place
+from apps.areas.districts.models import District
 from apps.shared.models import BaseTimeModel
 
 
 class Population(BaseTimeModel):
-    apartment = models.ForeignKey(Place, on_delete=models.CASCADE)
+    district = models.ForeignKey(District, on_delete=models.CASCADE)
     count_male = models.IntegerField(default=0)
     count_female = models.IntegerField(default=0)
     average_income = models.DecimalField(max_digits=10, decimal_places=2)
@@ -12,5 +12,5 @@ class Population(BaseTimeModel):
     population_density = models.IntegerField()
 
     def __str__(self):
-        return f"{self.apartment.street} {self.apartment.house_number}"
+        return f"{self.population_density} in {self.district.name_uz}"
 

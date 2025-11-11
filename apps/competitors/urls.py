@@ -7,8 +7,8 @@ from apps.competitors.competitor_categories.views import CompetitorCategoryViewS
 
 
 router = DefaultRouter()
-router.register('', CompetitorViewSet)
-router.register('category', CompetitorCategoryViewSet)
+router.register('', CompetitorViewSet,  basename='competitors')
+router.register('category', CompetitorCategoryViewSet, basename='competitor-category')
 
 urlpatterns = [
     path('', include(router.urls)),

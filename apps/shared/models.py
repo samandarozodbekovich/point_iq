@@ -8,6 +8,19 @@ class BaseTimeModel(models.Model):
     class Meta:
         abstract = True
 
+    def soft_delete(self, user=None):
+        self.is_deleted = True
+        self.save()
+
+    # Restore qilish
+    def restore(self):
+        self.is_deleted = False
+        self.save()
+
+    # Bazadan butunlay o‘chirish
+    def hard_delete(self):
+        super().delete()
+
 
 class BaseNameModel(models.Model):
     name_uz = models.CharField(max_length=100)
@@ -16,3 +29,9 @@ class BaseNameModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+class SoftDeleteManager(models.Manager):
+    """Faqat o‘chirilmagan obyektlarni ko‘rsatadigan manager"""
+    def get_queryset(self):
+        return super().get_queryset().filter(is_deleted=False)

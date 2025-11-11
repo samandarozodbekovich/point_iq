@@ -1,7 +1,7 @@
 from django.db import models
 
 from apps.citizens.population.models import Population
-from apps.shared.models import BaseNameModel, BaseTimeModel
+from apps.shared.models import BaseTimeModel
 
 
 class AgeGroup(BaseTimeModel):
