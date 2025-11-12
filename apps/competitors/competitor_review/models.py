@@ -9,12 +9,12 @@ class CompetitorReview(models.Model):
     competitor = models.ForeignKey(Competitor, on_delete=models.CASCADE, related_name='reviews')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
     rating = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(5)], null=True, blank=True)
-    comments = models.TextField(null=True,blank=True)
+    comment = models.TextField(null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['created_at']
 
     def __str__(self):
-        return f"{self.user.username} support the {self.competitor.name_uz}"
+        return f"{self.user.first_name} support the {self.competitor.name_uz}"
 

@@ -2,6 +2,7 @@
 Django
 djangorestframework
 drf-yasg
+drf-nested-routers
 python-dotenv
 python-decouple
 
@@ -19,6 +20,7 @@ Pillow
 # Celery va Redis
 celery
 redis
+django-hitcount
 
 # HTTP so‘rovlar
 requests

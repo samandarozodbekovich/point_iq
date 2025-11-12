@@ -13,8 +13,8 @@ def update_competitor_rating(sender, instance, **kwargs):
         average_rating=Avg('rating'),
         review_count=Count('id')
     )
-    competitor.review_count = agg['review_count']
-    competitor.average_rating = round(agg['average_rating'], 2) if agg['average_rating'] else None
+    avg_rating = agg['average_rating']
+    competitor.average_rating = round(avg_rating, 2) if avg_rating is not None else None
     competitor.save(update_fields=['average_rating', 'review_count'])
 
 

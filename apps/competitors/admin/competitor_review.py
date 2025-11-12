@@ -10,6 +10,6 @@ class CompetitorReviewInline(admin.TabularInline):
 
 @admin.register(CompetitorReview)
 class CompetitorReviewAdmin(admin.ModelAdmin):
-    list_display = ('competitor', 'user', 'rating', 'created_at')
+    list_display = ('id','competitor', 'user', 'rating', 'created_at')
     list_filter = ('rating', 'created_at')
     search_fields = ('comment', 'user__phone_number', 'competitor__name_uz')

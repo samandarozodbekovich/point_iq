@@ -1,4 +1,5 @@
 from rest_framework import viewsets, permissions
+from rest_framework.exceptions import PermissionDenied
 
 from apps.competitors.competitor_review.models import CompetitorReview
 from apps.competitors.competitor_review.serializers import CompetitorReviewSerializer
@@ -6,7 +7,6 @@ from apps.competitors.competitor_review.serializers import CompetitorReviewSeria
 
 class CompetitorReviewViewSet(viewsets.ModelViewSet):
     serializer_class = CompetitorReviewSerializer
-    queryset = CompetitorReview.objects.all()
 
     def get_permissions(self):
         if self.action == 'create':
@@ -16,5 +16,11 @@ class CompetitorReviewViewSet(viewsets.ModelViewSet):
         else:
             return [permissions.AllowAny()]
 
+
+    def get_queryset(self):
+        competitor_id = self.kwargs['competitor_pk']  # nested router bilan keladi
+        return CompetitorReview.objects.filter(competitor_id=competitor_id)
+
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        competitor_id = self.kwargs['competitor_pk']
+        serializer.save(user=self.request.user, competitor_id=competitor_id)

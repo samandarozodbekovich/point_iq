@@ -1,5 +1,7 @@
 from django.urls import path,include
 
+from rest_framework_nested import routers
+
 from rest_framework.routers import DefaultRouter
 
 from apps.competitors.competitor.views import CompetitorViewSet
@@ -8,10 +10,13 @@ from apps.competitors.competitor_review.views import CompetitorReviewViewSet
 
 
 router = DefaultRouter()
-router.register('', CompetitorViewSet,  basename='competitors')
-router.register('category', CompetitorCategoryViewSet, basename='competitor-category')
-router.register('reviews', CompetitorReviewViewSet, basename='competitor-reviews')
+router.register(r'', CompetitorViewSet,  basename='competitors')
+router.register(r'category', CompetitorCategoryViewSet, basename='competitor-category')
+
+competitor_router = routers.NestedDefaultRouter(router, r'', lookup='competitor')
+competitor_router.register(r'reviews', CompetitorReviewViewSet, basename='competitor-reviews')
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('', include(competitor_router.urls)),
 ]
