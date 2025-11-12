@@ -1,7 +1,14 @@
+from django.db import models
+from hitcount.models import HitCount
 from rest_framework import serializers
 from .models import Competitor
+from ..competitor_review.serializers import CompetitorReviewSerializer
+
 
 class CompetitorSerializer(serializers.ModelSerializer):
+    reviews = CompetitorReviewSerializer(many=True, read_only=True)
+    average_rating = serializers.SerializerMethodField()
+    hits = serializers.SerializerMethodField()
     category = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -14,10 +21,12 @@ class CompetitorSerializer(serializers.ModelSerializer):
             "address",
             "longitude",
             "latitude",
-            "rating",
             "category",
             "footfall_estimate",
             "review_count",
+            'average_rating',
+            'hits',
+            'reviews',
         ]
 
     def get_category(self, obj):
@@ -30,3 +39,11 @@ class CompetitorSerializer(serializers.ModelSerializer):
                 "external_id": obj.category.external_id,
             }
         return None
+
+    def get_average_rating(self, obj):
+        avg = obj.reviews.aggregate(models.Avg('rating'))['rating__avg']
+        return round(avg, 2) if avg else None
+
+    def get_hits(self, obj):
+        hitcount = HitCount.objects.get_for_object(obj)
+        return hitcount.hits

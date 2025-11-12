@@ -1,6 +1,6 @@
 
 from django.db.models import Q
-from rest_framework import status, viewsets
+from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from math import radians, cos, sin, asin, sqrt
@@ -8,6 +8,7 @@ from math import radians, cos, sin, asin, sqrt
 from .models import Competitor
 from .serializers import CompetitorSerializer
 from .tasks import fetch_and_update_competitors
+from ..competitor_review.serializers import CompetitorReviewSerializer
 from ...shared.views.base_view_set import BaseModelViewSet
 
 
@@ -27,6 +28,13 @@ def haversine(lat1, lon1, lat2, lon2):
 class CompetitorViewSet(BaseModelViewSet):
     model = Competitor
     serializer_class = CompetitorSerializer
+    lookup_field = 'id'
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.hit_count(request, instance)
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
     # 🟢 1. Asenkron API fetch (va darhol mavjud ma'lumotni qaytarish)
     def list(self, request):
@@ -112,6 +120,17 @@ class CompetitorViewSet(BaseModelViewSet):
             "radius_km": radius_km,
             "count": len(nearby_objs),
             "results": serializer.data
+        })
+
+    @action(detail=True, methods=['get'])
+    def reviews(self, request, pk=None):
+        """Bitta competitorga tegishli barcha reviewlar va o'rtacha rating"""
+        competitor = self.get_object()
+        serializer = CompetitorReviewSerializer(competitor.reviews.all(), many=True)
+        return Response({
+            "competitor": competitor.name_uz,
+            "average_rating": competitor.average_rating,
+            "reviews": serializer.data
         })
 
 

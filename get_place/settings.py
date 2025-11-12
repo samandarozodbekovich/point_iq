@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'twilio',
     'celery',
     'drf_yasg',
+    'hitcount',
 
 
     # local apps
