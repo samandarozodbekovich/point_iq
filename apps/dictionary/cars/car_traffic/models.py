@@ -1,11 +1,11 @@
 from django.db import models
 
-from apps.areas.address.models import Address
+from apps.areas.districts.models import District
 from apps.shared.models import BaseTimeModel
 
 
 class CarTraffic(BaseTimeModel):
-    address = models.ForeignKey(Address, on_delete=models.CASCADE)
+    district = models.ForeignKey(District, on_delete=models.CASCADE)
     date_recorded = models.DateField()
     average_daily_cars = models.IntegerField()
     peak_hour = models.CharField(max_length=20)

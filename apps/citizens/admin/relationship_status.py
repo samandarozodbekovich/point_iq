@@ -5,8 +5,8 @@ from apps.citizens.relationship_status.models import RelationshipStatus, Relatio
 
 @admin.register(RelationshipStatus)
 class RelationshipStatusAdmin(admin.ModelAdmin):
-    list_display = ('name_uz',)
-    list_filter = ('name_uz',)
+    list_display = ('id','name_uz','name_ru', 'name_uz_cyr')
+    list_filter = ('name_uz','name_ru','name_uz_cyr')
     list_per_page = 50
 
 

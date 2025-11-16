@@ -1,5 +1,4 @@
 
-
 from apps.citizens.relationship_status.models import RelationshipStatus, RelationshipStatusPopulation
 from apps.citizens.relationship_status.serializers import RelationshipStatusSerializer, \
     RelationshipStatusPopulationSerializer

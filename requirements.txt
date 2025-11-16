@@ -21,6 +21,7 @@ Pillow
 celery
 redis
 django-hitcount
+django-tablib
 
 # HTTP so‘rovlar
 requests
