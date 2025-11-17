@@ -40,3 +40,5 @@ pyproj
 gunicorn
 
 twilio
+
+django-cors-headers
