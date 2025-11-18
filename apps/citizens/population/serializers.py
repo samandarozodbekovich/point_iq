@@ -1,8 +1,6 @@
 from rest_framework import serializers
 
 from .models import Population
-from ...areas.districts.models import District
-from ...core.serializers.base_bulk_list import BaseBulkListSerializer
 
 
 class PopulationSerializer(serializers.ModelSerializer):
@@ -29,8 +27,6 @@ class PopulationSerializer(serializers.ModelSerializer):
             'immigration_count',
             'emission_count',
         ]
-        list_serializer_class = BaseBulkListSerializer
-
 
 
     def to_representation(self, instance):
