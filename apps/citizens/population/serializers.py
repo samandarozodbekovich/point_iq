@@ -3,10 +3,16 @@ from rest_framework import serializers
 from .models import Population
 from ...areas.districts.models import District
 from ...core.serializers.base_bulk_list import BaseBulkListSerializer
-from ...shared.serializers import BaseNameValidationSerializer
 
 
 class PopulationSerializer(serializers.ModelSerializer):
+    count_male = serializers.FloatField()
+    count_female = serializers.FloatField()
+    population_density = serializers.FloatField()
+    average_income = serializers.FloatField()
+    unemployment_rate = serializers.FloatField()
+    birth_rate = serializers.FloatField()
+    death_rate = serializers.FloatField()
 
     class Meta:
         model = Population
@@ -18,14 +24,19 @@ class PopulationSerializer(serializers.ModelSerializer):
             'average_income',
             'unemployment_rate',
             'population_density',
+            'birth_rate',
+            'death_rate',
+            'immigration_count',
+            'emission_count',
         ]
         list_serializer_class = BaseBulkListSerializer
 
 
+
     def to_representation(self, instance):
         data = super().to_representation(instance)
+        data['district'] = instance.district.name_uz if instance.district else None
         return data
 
     def validate(self, data):
-        data = BaseNameValidationSerializer.validate(self, data)
         return data
