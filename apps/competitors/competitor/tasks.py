@@ -1,3 +1,4 @@
+
 from celery import shared_task
 from .models import Competitor
 from ..utils import search_places_with_geocode
