@@ -5,13 +5,13 @@ from apps.shared.models import BaseTimeModel
 
 class Population(BaseTimeModel):
     district = models.ForeignKey(District, on_delete=models.CASCADE)
-    count_male = models.IntegerField(default=0)
-    count_female = models.IntegerField(default=0)
-    average_income = models.DecimalField(max_digits=10, decimal_places=2)
-    unemployment_rate = models.DecimalField(max_digits=4, decimal_places=2)
-    population_density = models.IntegerField()
-    birth_rate = models.IntegerField()
-    death_rate = models.IntegerField()
+    count_male = models.FloatField()
+    count_female = models.FloatField()
+    average_income = models.FloatField()
+    unemployment_rate = models.FloatField()
+    population_density = models.FloatField()
+    birth_rate = models.FloatField()
+    death_rate = models.FloatField()
     immigration_count = models.IntegerField()
     emission_count = models.IntegerField()
 
