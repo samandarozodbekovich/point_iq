@@ -17,7 +17,7 @@ class GovernmentWorkerSerializer(serializers.ModelSerializer):
             'name_uz_cyr',
             'position',
             'phone_number',
-            'work_day'
+            'work_day',
             'work_time',
         ]
 
