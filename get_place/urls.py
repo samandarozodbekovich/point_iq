@@ -30,7 +30,7 @@ urlpatterns = [
         path("citizens/", include('apps.citizens.urls')),
         path('competitors/', include('apps.competitors.urls')),
         path("property/", include('apps.property.urls')),
-        path('government-bodies/', include('apps.government_bodies.urls')),
+        path('government/', include('apps.government_bodies.urls')),
     ])),
 
         path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
