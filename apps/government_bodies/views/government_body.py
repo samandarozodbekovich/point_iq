@@ -1,8 +1,8 @@
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from apps.government_bodies.models import GovernmentBody
-from apps.government_bodies.serializers import GovernmentBodySerializer
+from apps.government_bodies.models.government_body import GovernmentBody
+from apps.government_bodies.serializers.government_body import GovernmentBodySerializer
 from apps.shared.functions import get_nearby_objects
 from apps.shared.views.base_view_set import BaseModelViewSet
 

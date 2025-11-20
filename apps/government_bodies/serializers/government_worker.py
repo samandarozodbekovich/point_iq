@@ -1,28 +1,26 @@
 from rest_framework import serializers
 
-from apps.government_bodies.models import GovernmentBody
+from apps.government_bodies.models import GovernmentWorker
 from apps.shared.serializers import BaseNameValidationSerializer
 
 
-class GovernmentBodySerializer(serializers.ModelSerializer):
+class GovernmentWorkerSerializer(serializers.ModelSerializer):
     name_field = ['name_uz', 'name_ru', 'name_uz_cyr']
 
     class Meta:
-        model = GovernmentBody
+        model = GovernmentWorker
         fields = [
             'id',
+            'government',
             'name_uz',
             'name_ru',
             'name_uz_cyr',
-            'description',
-            'address',
-            'schedule',
-            'director',
+            'position',
             'phone_number',
-            'email',
-            'latitude',
-            'longitude',
+            'work_day'
+            'work_time',
         ]
+
     def to_representation(self, instance):
         data = super().to_representation(instance)
         return data
@@ -30,5 +28,3 @@ class GovernmentBodySerializer(serializers.ModelSerializer):
     def validate(self, data):
         data = BaseNameValidationSerializer.validate(self, data)
         return data
-
-
