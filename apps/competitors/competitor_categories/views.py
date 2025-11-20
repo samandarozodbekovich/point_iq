@@ -1,5 +1,5 @@
-# populate_categories.py
-from rest_framework import viewsets, status
+
+from rest_framework import status
 from rest_framework.response import Response
 
 from .models import CompetitorCategory
@@ -8,14 +8,10 @@ from ...shared.views.base_view_set import BaseModelViewSet
 
 
 class CompetitorCategoryViewSet(BaseModelViewSet):
-    """
-    CompetitorCategory uchun ViewSet.
-    Oddiy CRUD imkoniyatlari mavjud.
-    """
+
     model = CompetitorCategory
     serializer_class = CompetitorCategorySerializer
 
-    # GET requestda kerak bo'lsa til tanlash imkoniyati
     def list(self, request, *args, **kwargs):
         lang = request.GET.get('lang', 'uz')
         queryset = self.get_queryset()
@@ -28,5 +24,4 @@ class CompetitorCategoryViewSet(BaseModelViewSet):
             })
         return Response(data, status=status.HTTP_200_OK)
 
-    # create va update metodlar ModelViewSet orqali avtomatik ishlaydi
-    # agar qo'shimcha validatsiya yoki logikani yozmoqchi bo'lsangiz, create() va update() override qilishingiz mumkin
+

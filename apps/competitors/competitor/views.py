@@ -1,30 +1,17 @@
 
-
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 from hitcount.models import HitCount
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from math import radians, cos, sin, asin, sqrt
 
 from .models import Competitor
 from .serializers import CompetitorSerializer
 from .tasks import fetch_and_update_competitors
+from ...shared.functions import get_nearby_objects, hit_count
 from ...shared.views.base_view_set import BaseModelViewSet
 
-
-def haversine(lat1, lon1, lat2, lon2):
-    """2 nuqta orasidagi masofani km da hisoblaydi."""
-    R = 6371
-    if not all([lat1, lon1, lat2, lon2]):
-        return 9999
-    lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
-    d_lat = lat2 - lat1
-    d_lon = lon2 - lon1
-    a = sin(d_lat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(d_lon / 2) ** 2
-    c = 2 * asin(sqrt(a))
-    return R * c
 
 
 class CompetitorViewSet(BaseModelViewSet):
@@ -35,17 +22,15 @@ class CompetitorViewSet(BaseModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
 
-        # HitCount obyektini olish yoki yaratish
         content_type = ContentType.objects.get_for_model(instance)
         hit_count_obj, created = HitCount.objects.get_or_create(
             content_type=content_type,
             object_pk=instance.pk
         )
 
-        # Hit qo‘shish (bitta foydalanuvchi bir necha marta kirsa ham faqat 1 ta hit)
-        self.hit_count(request, hit_count_obj)
+        hit_count(request, hit_count_obj)
 
-        # Seriazlizer orqali javob berish
+        # response by serializer
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
@@ -94,63 +79,40 @@ class CompetitorViewSet(BaseModelViewSet):
 
     @action(detail=True, methods=['get'])
     def nearby(self, request, pk=None):
-        try:
-            comp = self.get_object()
-        except Competitor.DoesNotExist:
-            return Response({"error": "Competitor not found"}, status=status.HTTP_404_NOT_FOUND)
+        comp = self.get_object()
 
-        lat, lon = comp.latitude, comp.longitude
-        if not lat or not lon:
-            return Response({"error": "No coordinates available"}, status=status.HTTP_400_BAD_REQUEST)
+        if not comp.latitude or not comp.longitude:
+            return Response({"error": "No coordinates available"}, status=400)
 
-        radius_km = 5
-        nearby_objs = []
-        for other in Competitor.objects.exclude(id=comp.id):
-            if not other.latitude or not other.longitude:
-                continue
-            distance = haversine(lat, lon, other.latitude, other.longitude)
-            if distance <= radius_km:
-                nearby_objs.append(other)
+        nearby_objs = get_nearby_objects(comp.latitude, comp.longitude, model=Competitor)
 
         serializer = self.get_serializer(nearby_objs, many=True)
         return Response({
-            "center": {"latitude": lat, "longitude": lon},
-            "radius_km": radius_km,
+            "center": {"latitude": comp.latitude, "longitude": comp.longitude},
+            "radius_km": 5,
             "count": len(nearby_objs),
             "results": serializer.data
         })
 
-    # Foydalanuvchi koordinatasi (lat/lon) bo‘yicha 5 km radiusdagi joylar
-    @action(detail=False, methods=['get'])
+    @action(detail=True, methods=['get'])
     def nearby_location(self, request):
-        lat = request.query_params.get("lat")
-        lon = request.query_params.get("lon")
-
-        if not lat or not lon:
-            return Response({"error": "lat and lon required"}, status=status.HTTP_400_BAD_REQUEST)
-
         try:
-            lat = float(lat)
-            lon = float(lon)
-        except ValueError:
-            return Response({"error": "invalid coordinates"}, status=status.HTTP_400_BAD_REQUEST)
+            lat = float(request.query_params.get("lat"))
+            long = float(request.query_params.get("long"))
+        except:
+            return Response({"error": "long and lat are required"}, status=400)
 
-        radius_km = 5
-        nearby_objs = []
-        for comp in Competitor.objects.all():
-            if not comp.latitude or not comp.longitude:
-                continue
-            distance = haversine(lat, lon, comp.latitude, comp.longitude)
-            if distance <= radius_km:
-                nearby_objs.append(comp)
-
+        nearby_objs = get_nearby_objects(lat, long, model=Competitor)
         serializer = self.get_serializer(nearby_objs, many=True)
         return Response({
-            "center": {"latitude": lat, "longitude": lon},
-            "radius_km": radius_km,
+            "center": {"latitude":lat, "longitude":long},
+            "radius_km": 5,
             "count": len(nearby_objs),
             "results": serializer.data
         })
+
+
+
 
 
 

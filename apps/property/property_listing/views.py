@@ -1,11 +1,9 @@
-from django.db.models import Q
-from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from apps.competitors.utils import haversine
 from apps.property.property_listing.models import PropertyListing
 from apps.property.property_listing.serializers import PropertyListingSerializer
+from apps.shared.functions import get_nearby_objects
 from apps.shared.views.base_deleted_items_view_set import BaseDeletedItemsViewSet
 
 
@@ -27,63 +25,36 @@ class PropertyListingViewSet(BaseDeletedItemsViewSet):
             "results": serializer.data
         })
 
-    # 🟡 2. ID bo‘yicha 5 km radiusdagi joylarni topish
-    @action(detail=True, methods=['get'])
+    @action(methods=['get'], detail=True)
     def nearby(self, request, pk=None):
-        try:
-            comp = self.get_object()
-        except PropertyListing.DoesNotExist:
-            return Response({"error": "Property not found"}, status=status.HTTP_404_NOT_FOUND)
+        branch = self.get_object()
 
-        lat, lon = comp.latitude, comp.longitude
-        if not lat or not lon:
-            return Response({"error": "No coordinates available"}, status=status.HTTP_400_BAD_REQUEST)
+        if branch.latitude is None or branch.longitude is None:
+            return Response({"error": "No coordinates available"}, status=400)
 
-        radius_km = 5
-        nearby_objs = []
-        for other in PropertyListing.objects.exclude(id=comp.id):
-            if not other.latitude or not other.longitude:
-                continue
-            distance = haversine(lat, lon, other.latitude, other.longitude)
-            if distance <= radius_km:
-                nearby_objs.append(other)
-
+        nearby_objs = get_nearby_objects(branch.latitude, branch.longitude, model=PropertyListing)
         serializer = self.get_serializer(nearby_objs, many=True)
         return Response({
-            "center": {"latitude": lat, "longitude": lon},
-            "radius_km": radius_km,
+            "center": {"lat": branch.latitude, "lng": branch.longitude},
+            "radius": 5,
             "count": len(nearby_objs),
-            "results": serializer.data
+            "objects": serializer.data
         })
 
-    # 🔵 3. Foydalanuvchi koordinatasi (lat/lon) bo‘yicha 5 km radiusdagi joylar
-    @action(detail=False, methods=['get'])
+    @action(methods=['get'], detail=True)
     def nearby_location(self, request):
-        lat = request.query_params.get("lat")
-        lon = request.query_params.get("lon")
-
-        if not lat or not lon:
-            return Response({"error": "lat and lon required"}, status=status.HTTP_400_BAD_REQUEST)
-
         try:
-            lat = float(lat)
-            lon = float(lon)
-        except ValueError:
-            return Response({"error": "invalid coordinates"}, status=status.HTTP_400_BAD_REQUEST)
+            lat = request.query_params.get('lat')
+            lng = request.query_params.get('lng')
+        except:
+            return Response({"error": "No coordinates available"}, status=400)
 
-        radius_km = 5
-        nearby_objs = []
-        for property in PropertyListing.objects.all():
-            if not property.latitude or not property.longitude:
-                continue
-            distance = haversine(lat, lon, property.latitude, property.longitude)
-            if distance <= radius_km:
-                nearby_objs.append(property)
-
+        nearby_objs = get_nearby_objects(lat, lng, model=PropertyListing)
         serializer = self.get_serializer(nearby_objs, many=True)
         return Response({
-            "center": {"latitude": lat, "longitude": lon},
-            "radius_km": radius_km,
+            "center": {"lat": lat, "lng": lng},
+            "radius": 5,
             "count": len(nearby_objs),
-            "results": serializer.data
+            "objects": serializer.data
         })
+

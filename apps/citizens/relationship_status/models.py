@@ -15,5 +15,5 @@ class RelationshipStatusPopulation(BaseTimeModel):
     relationship_status = models.ForeignKey(RelationshipStatus, on_delete=models.CASCADE)
     count = models.IntegerField(default=0)
     def __str__(self):
-        return self.population
+        return f"{self.population} - {self.relationship_status}"
 

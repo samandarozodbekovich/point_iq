@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'apps.citizens',
     'apps.competitors',
     'apps.property',
+    'apps.government_bodies',
 
 ]
 
@@ -223,6 +224,7 @@ AUTHENTICATION_BACKENDS = [
 AUTH_USER_MODEL = 'users.User'
 
 
+# Redis konfiguratsiyasi
 REDIS_HOST = config("REDIS_HOST", default="127.0.0.1")
 REDIS_PORT = config("REDIS_PORT", default=6379, cast=int)
 
@@ -241,3 +243,7 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+
+ESKIZ_EMAIL = config('ESKIZ_EMAIL')
+ESKIZ_PASSWORD = config('ESKIZ_PASSWORD')
