@@ -30,11 +30,9 @@ class CompetitorViewSet(BaseModelViewSet):
 
         hit_count(request, hit_count_obj)
 
-        # response by serializer
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
-    # Asenkron API fetch (and give info from database)
     def list(self, request):
         query = request.query_params.get("query")  # city yoki street
         category = request.query_params.get("category")
@@ -42,10 +40,8 @@ class CompetitorViewSet(BaseModelViewSet):
         if not query or not category:
             return Response({"error": "query and category required"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Celery works
         fetch_and_update_competitors.delay(query, category)
 
-        # info from database
         competitors = Competitor.objects.filter(
             Q(category__name_uz__icontains=category),
             Q(Q(address__icontains=query) | Q(name_uz__icontains=query))

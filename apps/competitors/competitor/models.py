@@ -13,12 +13,10 @@ class Competitor(BaseNameModel, BaseTimeModel):
     longitude = models.FloatField(null=True, blank=True)
     latitude = models.FloatField(null=True, blank=True)
 
-    # Analytics fields
     average_rating = models.FloatField(null=True, blank=True)
     footfall_estimate = models.IntegerField(default=0)
     review_count = models.IntegerField(default=0)
 
-    # Hitcount
     hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk',
                                        related_query_name='competitor')
 

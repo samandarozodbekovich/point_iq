@@ -7,9 +7,6 @@ from django.db import transaction
 
 @shared_task
 def fetch_and_update_competitors(city, category_name):
-    """
-    Tashqi API dan joylarni olib kelish va bazaga bulk_create / bulk_update bilan saqlash
-    """
     places = search_places_with_geocode(city, category_name)
     if not places:
         print(f"[No results] {city}, {category_name}")

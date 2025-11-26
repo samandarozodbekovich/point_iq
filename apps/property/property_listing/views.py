@@ -13,7 +13,6 @@ class PropertyListingViewSet(BaseDeletedItemsViewSet):
 
     def list(self, request):
         address = request.query_params.get("address")
-        # Bazadagi mavjud ma’lumotlarni qaytarish
         properties = PropertyListing.objects.filter(
             address__icontains=address
         )

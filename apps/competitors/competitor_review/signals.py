@@ -4,8 +4,6 @@ from django.dispatch import receiver
 
 from apps.competitors.competitor_review.models import CompetitorReview
 
-
-
 @receiver([post_delete, post_save], sender=CompetitorReview)
 def update_competitor_rating(sender, instance, **kwargs):
     competitor = instance.competitor
