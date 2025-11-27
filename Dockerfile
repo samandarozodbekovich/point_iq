@@ -1,21 +1,24 @@
-# Python image
-FROM python:3.13-slim
 
-# System dependencies
-RUN apt-get update && apt-get install -y \
+FROM python:3.13-slim AS base
+
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Workdir
 WORKDIR /app
 
-# Copy requirements and install
+
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy project
+
 COPY . .
 
-# Default command
-CMD ["gunicorn", "get_place.wsgi:application", "--bind", "0.0.0.0:8000"]
+RUN mkdir -p /home/app/static /home/app/media
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1
+
+CMD ["gunicorn", "get_place.wsgi:application", "--bind", "0.0.0.0:8000", "--workers=3", "--threads=2"]
