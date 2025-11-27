@@ -16,15 +16,21 @@ class BaseBulkMethods:
         serializer.is_valid(raise_exception=True)
         model = self.get_queryset().model
 
-        all_objects = []
+        created_objects = []
+
         with transaction.atomic():
+            objects_to_create = []
+
             for item in serializer.validated_data:
                 for li in self.get_lang_data(item):
-                    all_objects.append(model(**li))
-            if all_objects:
-                model.objects.bulk_create(all_objects, ignore_conflicts=True)
+                    obj = model(**li)
+                    objects_to_create.append(obj)
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+            if objects_to_create:
+                model.objects.bulk_create(objects_to_create, ignore_conflicts=True)
+                created_objects = objects_to_create  # keyin serialize qilamiz
+
+        return Response(self.get_serializer(created_objects, many=True).data, status=status.HTTP_201_CREATED)
 
     @action(detail=False, methods=['put', 'patch'], url_path='update')
     def bulk_update(self, request, *args, **kwargs):
@@ -54,4 +60,4 @@ class BaseBulkMethods:
                 fields = [f for f in serializer.validated_data[0].keys() if f != 'id']
                 model.objects.bulk_update(update_objs, fields=fields)
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(self.get_serializer(update_objs, many=True).data, status=status.HTTP_200_OK)

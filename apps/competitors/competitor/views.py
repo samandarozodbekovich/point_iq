@@ -9,12 +9,13 @@ from rest_framework.response import Response
 from .models import Competitor
 from .serializers import CompetitorSerializer
 from .tasks import fetch_and_update_competitors
+from ...core.views import BaseBulkMethods
 from ...shared.functions import get_nearby_objects, hit_count
 from ...shared.views.base_view_set import BaseModelViewSet
 
 
 
-class CompetitorViewSet(BaseModelViewSet):
+class CompetitorViewSet(BaseModelViewSet, BaseBulkMethods):
     model = Competitor
     serializer_class = CompetitorSerializer
     lookup_field = 'pk'

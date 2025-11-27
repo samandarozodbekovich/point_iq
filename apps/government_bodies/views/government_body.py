@@ -1,13 +1,14 @@
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from apps.core.views import BaseBulkMethods
 from apps.government_bodies.models.government_body import GovernmentBody
 from apps.government_bodies.serializers.government_body import GovernmentBodySerializer
 from apps.shared.functions import get_nearby_objects
 from apps.shared.views.base_view_set import BaseModelViewSet
 
 
-class GovernmentBodyViewSet(BaseModelViewSet):
+class GovernmentBodyViewSet(BaseModelViewSet, BaseBulkMethods):
     model = GovernmentBody
     serializer_class = GovernmentBodySerializer
 
