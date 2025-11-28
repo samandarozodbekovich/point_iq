@@ -4,7 +4,7 @@ from ...core.serializers.base_bulk_list import BaseBulkListSerializer
 
 
 class CompetitorCategorySerializer(BaseNameValidationSerializer):
-    name_field = ['name_uz', 'name_ru', 'name_uz_cyr']
+    name_field = ['name_uz', 'name_ru', 'name_cyr']
 
     class Meta:
         model = CompetitorCategory
@@ -12,7 +12,7 @@ class CompetitorCategorySerializer(BaseNameValidationSerializer):
             'id',
             'name_uz',
             'name_ru',
-            'name_uz_cyr',
+            'name_cyr',
         ]
         list_serializer_class = BaseBulkListSerializer
 

@@ -25,8 +25,15 @@ YANDEX_MAP_ZOOM = 12
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
-
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '45.138.159.84',
+    'api.getplace.uz',
+]
+# HTTPS va proxy headers
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 # Application definition
@@ -202,7 +209,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = "/home/app/static"
+STATIC_ROOT = '/app/staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -214,7 +221,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = "/home/app/media"
+MEDIA_ROOT = '/app/media'
 
 
 AUTHENTICATION_BACKENDS = [

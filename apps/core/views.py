@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 class BaseBulkMethods:
-    lang_fields = ['_uz', '_ru', '_uz_cyr']
+    lang_fields = ['_uz', '_ru', '_cyr']
 
     def get_lang_data(self, item):
 

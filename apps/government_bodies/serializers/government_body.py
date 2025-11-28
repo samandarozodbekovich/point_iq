@@ -5,7 +5,7 @@ from apps.shared.serializers import BaseNameValidationSerializer
 
 
 class GovernmentBodySerializer(serializers.ModelSerializer):
-    name_field = ['name_uz', 'name_ru', 'name_uz_cyr']
+    name_field = ['name_uz', 'name_ru', 'name_cyr']
 
     class Meta:
         model = GovernmentBody
@@ -13,7 +13,7 @@ class GovernmentBodySerializer(serializers.ModelSerializer):
             'id',
             'name_uz',
             'name_ru',
-            'name_uz_cyr',
+            'name_cyr',
             'description',
             'address',
             'schedule',

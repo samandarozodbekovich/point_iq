@@ -17,7 +17,7 @@ class CompetitorSerializer(serializers.ModelSerializer):
             "id",
             "name_uz",
             "name_ru",
-            "name_uz_cyr",
+            "name_cyr",
             "address",
             "longitude",
             "latitude",
@@ -35,7 +35,7 @@ class CompetitorSerializer(serializers.ModelSerializer):
                 "id": obj.category.id,
                 "name_uz": obj.category.name_uz,
                 "name_ru": obj.category.name_ru,
-                "name_uz_cyr": obj.category.name_uz_cyr,
+                "name_cyr": obj.category.name_cyr,
                 "external_id": obj.category.external_id,
             }
         return None

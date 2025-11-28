@@ -22,7 +22,7 @@ class Competitor(BaseNameModel, BaseTimeModel):
 
 
     def __str__(self):
-        return self.name_uz or self.name_ru or self.name_uz_cyr or "Unnamed competitor"
+        return self.name_uz or self.name_ru or self.name_cyr or "Unnamed competitor"
 
 
     @property

@@ -1,6 +1,6 @@
 import json
 from django.core.management.base import BaseCommand
-from django.apps import apps
+
 
 class BaseImportCommand(BaseCommand):
     help = "Import JSON data with progress bar, duplicate check, ForeignKey support, and pk update"

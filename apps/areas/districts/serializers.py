@@ -4,7 +4,7 @@ from apps.shared.serializers import BaseNameValidationSerializer
 
 
 class DistrictSerializer(BaseNameValidationSerializer):
-    name_field = ['name_uz', 'name_ru', 'name_uz_cyr']
+    name_field = ['name_uz', 'name_ru', 'name_cyr']
 
     class Meta:
         model = District
@@ -12,7 +12,7 @@ class DistrictSerializer(BaseNameValidationSerializer):
             'id',
             'name_uz',
             'name_ru',
-            'name_uz_cyr',
+            'name_cyr',
             'city'
         ]
         list_serializer_class = BaseBulkListSerializer

@@ -5,7 +5,7 @@ from apps.shared.serializers import BaseNameValidationSerializer
 
 
 class GovernmentWorkerSerializer(serializers.ModelSerializer):
-    name_field = ['name_uz', 'name_ru', 'name_uz_cyr']
+    name_field = ['name_uz', 'name_ru', 'name_cyr']
 
     class Meta:
         model = GovernmentWorker
@@ -14,7 +14,7 @@ class GovernmentWorkerSerializer(serializers.ModelSerializer):
             'government',
             'name_uz',
             'name_ru',
-            'name_uz_cyr',
+            'name_cyr',
             'position',
             'phone_number',
             'work_day',
