@@ -1,14 +1,28 @@
-from openai import OpenAI
-from django.conf import settings
+from apps.ai.services import client
+from apps.ai.logger import logger
 
-OPENAI_API_KEY = settings.OPENAI_API_KEY
 
-client = OpenAI(api_key=OPENAI_API_KEY)
+def ask_chatbot_response(query: str, context_docs: list = None) -> str:
+    """Oddiy chatbot javobini OpenAI dan olish"""
+    try:
+        if context_docs:
+            docs_text = "\n".join([d.get("text", "") for d in context_docs])
+            prompt = f"""Siz yordamchi chatbot-siz. Savollarga qisqacha va foydali javoblar bering.
 
-def ask_chatbot(question, context_docs=[]):
-    prompt = f"Context: {context_docs}\nQuestion: {question}"
-    resp = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[{"role": "user", "content": prompt}]
-    )
-    return resp.choices[0].message.content
+Kontekst: {docs_text}
+Savol: {query}
+
+Javob:"""
+        else:
+            prompt = f"Savol: {query}\n\nQisqacha va foydali javob bering:"
+
+        resp = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.7,
+            max_tokens=300
+        )
+        return resp.choices[0].message.content
+    except Exception as e:
+        logger.error(f"Chatbot response xatosi: {str(e)}")
+        return "Kechirasiz, javobni berolmadim. Iltimos, qaytadan urinib ko'ring."

@@ -1,5 +1,6 @@
 import numpy as np
-import faiss
+
+from apps.ai.services import logger
 from apps.networks.models import CellTower
 from apps.competitors.competitor.models import Competitor
 from apps.citizens.people_consume.models import PeopleConsume
@@ -11,37 +12,61 @@ tower_ids = None
 people_consume_data = None
 people_education_data = None
 
+
 def build_vector_db(region_coords=None, radius_km=20):
+    """
+    Vector database qurilishi - FAISS o'chirilgan, sodda versiya
+    Tower ma'lumotlarini va statsitikalarni yig'ish
 
-    global index, tower_ids, people_consume_data, people_education_data
+    Args:
+        region_coords (tuple): (latitude, longitude)
+        radius_km (float): Qidiruv radiusi (kilometrda)
 
-    towers = CellTower.objects.all()
-    if region_coords:
-        lat, lon = region_coords
-        # radius kattalashtirildi
-        towers = towers.filter(
-            latitude__gte=lat-0.2, latitude__lte=lat+0.2,
-            longitude__gte=lon-0.2, longitude__lte=lon+0.2
-        )
+    Returns:
+        tuple: (tower_data, people_consume_data, people_education_data)
+    """
+    global tower_data, people_consume_data, people_education_data
 
-    if not towers.exists():
-        index, tower_ids = None, None
-    else:
-        vectors = []
-        tower_ids = []
-        for t in towers:
-            vectors.append([float(t.latitude), float(t.longitude)])
-            tower_ids.append(t.id)
+    try:
+        # Tower ma'lumotlarini olish
+        towers = CellTower.objects.all()
 
-        vectors = np.array(vectors).astype('float32')
-        dim = vectors.shape[1]
-        index = faiss.IndexFlatL2(dim)
-        index.add(vectors)
+        if region_coords:
+            lat, lon = region_coords
+            # 0.2 degrees ≈ 20 km
+            towers = towers.filter(
+                latitude__gte=lat - 0.2,
+                latitude__lte=lat + 0.2,
+                longitude__gte=lon - 0.2,
+                longitude__lte=lon + 0.2
+            )
 
-    people_consume_data = list(PeopleConsume.objects.all().values())
-    people_education_data = list(PeopleEducation.objects.all().values())
+        # Tower'larni dictionary formatida saqlash
+        if towers.exists():
+            tower_data = list(towers.values(
+                "id",
+                "latitude",
+                "longitude",
+                "operator_name"
+            ))
+            logger.info(f"Loaded {len(tower_data)} towers")
+        else:
+            tower_data = None
+            logger.warning("No towers found in region")
 
-    return index, tower_ids, people_consume_data, people_education_data
+        # Aholi istemolli ma'lumotlari
+        people_consume_data = list(PeopleConsume.objects.all().values())
+        logger.info(f"Loaded {len(people_consume_data)} consume records")
+
+        # Ta'lim markazlari ma'lumotlari
+        people_education_data = list(PeopleEducation.objects.all().values())
+        logger.info(f"Loaded {len(people_education_data)} education records")
+
+        return tower_data, people_consume_data, people_education_data
+
+    except Exception as e:
+        logger.error(f"build_vector_db xatosi: {str(e)}")
+        return None, None, None
 
 def query_ai(user_query: str, region_coords=None, top_k=5):
 

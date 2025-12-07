@@ -1,4 +1,4 @@
-
+# Django va REST Framework
 Django
 djangorestframework
 drf-yasg
@@ -6,48 +6,54 @@ drf-nested-routers
 python-dotenv
 python-decouple
 
+# Authentication
 djangorestframework_simplejwt
 social-auth-app-django
 social-auth-core
 PyJWT
 
+# Database
 psycopg2
 Pillow
 
-
+# Task Queue va Cache
 celery
 redis
 django-hitcount
 django-tablib
 
+# HTTP va Utilities
 requests
 urllib3
 
+# Time Zone
 pytz
 tzdata
 sqlparse
 
+# Geo va Mapping
 geopandas
 shapely
 pyproj
 
+# Server
 gunicorn
 
+# SMS
 twilio
 
+# Geocoding
 geopy
 
+# CORS
 django-cors-headers
 
-# work with AI
+# AI - OpenAI ONLY
 openai
 xgboost
 scikit-learn
 joblib
-faiss-cpu
 django_json_widget
 
-sentence_transformers
+# Optional: Visualization va Analysis (ixtiyoriy)
 seaborn
-lightgbm
-

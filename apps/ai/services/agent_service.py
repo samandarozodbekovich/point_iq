@@ -18,10 +18,13 @@ if not OPENAI_KEY:
 client = OpenAI(api_key=OPENAI_KEY)
 
 #  Intent aniqlash
-def detect_intent(query):
+def detect_intent(query: str) -> str:
+    """Foydalanuvchining niyatini aniqlash"""
     q = query.lower()
-    if "cafe" in q or "business" in q or "biznes" in q:
+    if any(word in q for word in ["cafe", "business", "biznes", "ochmoq", "oching"]):
         return "business_advice"
+    elif any(word in q for word in ["qaysi", "qanday", "nima", "kim"]):
+        return "info_request"
     return "general_chat"
 
 #  Region va biznes turi aniqlash
