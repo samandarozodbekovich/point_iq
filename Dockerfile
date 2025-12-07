@@ -21,4 +21,4 @@ RUN mkdir -p /app/staticfiles /app/media
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1
 
-CMD ["gunicorn", "get_place.wsgi:application", "--bind", "0.0.0.0:8000", "--workers=3", "--t>
+CMD ["gunicorn", "get_place.wsgi:application", "--bind", "0.0.0.0:8000", "--workers=3", "--timeout", "120"]

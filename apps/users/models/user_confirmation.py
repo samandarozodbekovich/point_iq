@@ -7,7 +7,7 @@ from apps.users.models import User
 
 
 class UserConfirmation(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='verify_codes')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL , null=True, blank=True, related_name='verify_codes')
     code = models.CharField(max_length=4)
     expiration_time = models.DateTimeField(blank=True, null=True)
     is_confirmed = models.BooleanField(default=False)

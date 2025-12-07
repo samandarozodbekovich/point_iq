@@ -6,8 +6,8 @@ from apps.shared.models import BaseTimeModel
 
 
 class RegisteredCar(BaseTimeModel):
-    district = models.ForeignKey(District, on_delete=models.CASCADE)
-    car_type = models.ForeignKey(CarType, on_delete=models.CASCADE)
+    district = models.ForeignKey(District, on_delete=models.SET_NULL , null=True, blank=True)
+    car_type = models.ForeignKey(CarType, on_delete=models.SET_NULL , null=True, blank=True)
     year = models.IntegerField()
     month = models.IntegerField(null=True, blank=True)
     registered_count = models.IntegerField()

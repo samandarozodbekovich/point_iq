@@ -25,5 +25,5 @@ class AgeGroupPopulation(BaseTimeModel):
         verbose_name_plural = "Age Group Populations"
 
     def __str__(self):
-        return f"{self.population} - {self.age_group}"
+        return f"{self.population__district__name_uz} - {self.age_group}"
 

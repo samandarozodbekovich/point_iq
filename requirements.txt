@@ -38,3 +38,16 @@ twilio
 geopy
 
 django-cors-headers
+
+# work with AI
+openai
+xgboost
+scikit-learn
+joblib
+faiss-cpu
+django_json_widget
+
+sentence_transformers
+seaborn
+lightgbm
+

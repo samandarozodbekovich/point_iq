@@ -5,7 +5,7 @@ from apps.shared.models import BaseTimeModel, SoftDeleteManager
 
 
 class PropertyImage(BaseTimeModel):
-    property = models.ForeignKey(PropertyListing, on_delete=models.CASCADE, related_name='images')
+    property = models.ForeignKey(PropertyListing, on_delete=models.SET_NULL , null=True, blank=True, related_name='images')
     image = models.ImageField(upload_to='properties/property_images')
     is_deleted = models.BooleanField(default=False)
 

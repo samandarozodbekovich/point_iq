@@ -1,0 +1,3805 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41584777832,
+                    37.775802612305
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 17,
+                "area": 22822,
+                "samples": 1,
+                "range": 1000,
+                "updated": 0
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41859436035,
+                    37.77717590332
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 4183,
+                "area": 3,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1331993362
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41172790527,
+                    37.779922485352
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 311,
+                "net": 40,
+                "area": 7,
+                "samples": 13,
+                "range": 1000,
+                "updated": 1467397028
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.422708,
+                    37.776385
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 311,
+                "net": 480,
+                "area": 7,
+                "samples": 7,
+                "range": 1000,
+                "updated": 1561085927
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.427844,
+                    37.777325
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 311,
+                "net": 480,
+                "area": 7,
+                "samples": 3,
+                "range": 1000,
+                "updated": 1550434368
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.4144744873,
+                    37.778549194336
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 4183,
+                "area": 3,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1315438314
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41722106934,
+                    37.778549194336
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 40,
+                "area": 7,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1444950680
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.411728,
+                    37.782669
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 40,
+                "area": 7,
+                "samples": 2,
+                "range": 1000,
+                "updated": 1334001887
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41996765137,
+                    37.775802612305
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 311,
+                "net": 40,
+                "area": 7,
+                "samples": 30,
+                "range": 1000,
+                "updated": 1483880870
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.421616,
+                    37.778459
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 311,
+                "net": 480,
+                "area": 7,
+                "samples": 8,
+                "range": 1000,
+                "updated": 1561351286
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42134094238,
+                    37.77717590332
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 4183,
+                "area": 3,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1339978566
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42775,
+                    37.782669
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 56967,
+                "samples": 3,
+                "range": 1000,
+                "updated": 1326033337
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42408752441,
+                    37.775802612305
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 6029,
+                "samples": 2,
+                "range": 1000,
+                "updated": 1238883188
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.412758,
+                    37.779923
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 5037,
+                "area": 66,
+                "samples": 4,
+                "range": 1000,
+                "updated": 1395662159
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41333,
+                    37.778778
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 40,
+                "area": 48,
+                "samples": 6,
+                "range": 1000,
+                "updated": 1426442980
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42546081543,
+                    37.781295776367
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 40,
+                "area": 7,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1341700087
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.419815,
+                    37.780685
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 6044,
+                "samples": 9,
+                "range": 1000,
+                "updated": 1278073257
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.411728,
+                    37.780609
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 6044,
+                "samples": 2,
+                "range": 1000,
+                "updated": 1465323399
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.420959,
+                    37.780838
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 6044,
+                "samples": 18,
+                "range": 1000,
+                "updated": 1238917002
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.414474,
+                    37.779236
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 6044,
+                "samples": 2,
+                "range": 1000,
+                "updated": 1465323399
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41172790527,
+                    37.782669067383
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 4183,
+                "area": 87,
+                "samples": 4,
+                "range": 1000,
+                "updated": 1395658201
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42408752441,
+                    37.77717590332
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 4183,
+                "area": 3,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1318887216
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.419651,
+                    37.775539
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 6029,
+                "samples": 26,
+                "range": 1000,
+                "updated": 1278073383
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.421341,
+                    37.776126
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 6029,
+                "samples": 17,
+                "range": 1000,
+                "updated": 1278011154
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.4144744873,
+                    37.77717590332
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 380,
+                "area": 31451,
+                "samples": 1,
+                "range": 1000,
+                "updated": 0
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.413605,
+                    37.776806
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 311,
+                "net": 490,
+                "area": 231,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1560265769
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41481,
+                    37.778736
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 311,
+                "net": 490,
+                "area": 231,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1560273294
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.415924,
+                    37.777863
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 311,
+                "net": 490,
+                "area": 231,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1560273760
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.413517,
+                    37.776667
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 311,
+                "net": 490,
+                "area": 231,
+                "samples": 2,
+                "range": 1000,
+                "updated": 1560271892
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.415924,
+                    37.777863
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 311,
+                "net": 490,
+                "area": 231,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1560273772
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.414108,
+                    37.778278
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 0,
+                "area": 231,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1545879677
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.411331,
+                    37.776325
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 311,
+                "net": 490,
+                "area": 231,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1560196720
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.423409,
+                    37.776913
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 311,
+                "net": 870,
+                "area": 231,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1564759165
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.422759,
+                    37.778213
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 120,
+                "area": 231,
+                "samples": 6,
+                "range": 1000,
+                "updated": 1581760424
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.427422,
+                    37.775475
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 120,
+                "area": 231,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1532812848
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.422646,
+                    37.778797
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 311,
+                "net": 870,
+                "area": 231,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1564763913
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.417702,
+                    37.777569
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 311,
+                "net": 870,
+                "area": 231,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1564759049
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.417564,
+                    37.77766
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 311,
+                "net": 870,
+                "area": 231,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1564758997
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.411747,
+                    37.779267
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 120,
+                "area": 231,
+                "samples": 14,
+                "range": 1532,
+                "updated": 1581666600
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.413084,
+                    37.77662
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 120,
+                "area": 231,
+                "samples": 6,
+                "range": 1000,
+                "updated": 1581762632
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.427663,
+                    37.781596
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 120,
+                "area": 231,
+                "samples": 3,
+                "range": 1000,
+                "updated": 1555381032
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.410215,
+                    37.779474
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 120,
+                "area": 231,
+                "samples": 6,
+                "range": 1088,
+                "updated": 1564604279
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.421416,
+                    37.782504
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 120,
+                "area": 231,
+                "samples": 10,
+                "range": 1584,
+                "updated": 1555525819
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.416719,
+                    37.778481
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 120,
+                "area": 231,
+                "samples": 20,
+                "range": 1583,
+                "updated": 1581668291
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42004,
+                    37.777541
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 311,
+                "net": 870,
+                "area": 231,
+                "samples": 2,
+                "range": 1000,
+                "updated": 1564759717
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.416008,
+                    37.78072
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 312,
+                "net": 530,
+                "area": 231,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1583548176
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.415438,
+                    37.776638
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 311,
+                "net": 870,
+                "area": 231,
+                "samples": 4,
+                "range": 1000,
+                "updated": 1564758896
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.416138,
+                    37.781425
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 312,
+                "net": 530,
+                "area": 231,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1583547566
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.4178,
+                    37.780718
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 311,
+                "net": 870,
+                "area": 231,
+                "samples": 2,
+                "range": 1000,
+                "updated": 1564759021
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.411089,
+                    37.782497
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 120,
+                "area": 231,
+                "samples": 4,
+                "range": 1000,
+                "updated": 1581741176
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41481,
+                    37.778736
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 311,
+                "net": 490,
+                "area": 231,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1560273368
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.413528,
+                    37.777897
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 311,
+                "net": 490,
+                "area": 231,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1560273202
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.421254,
+                    37.78156
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 120,
+                "area": 231,
+                "samples": 7,
+                "range": 2632,
+                "updated": 1555812179
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.420059,
+                    37.780163
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 312,
+                "net": 530,
+                "area": 231,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1583549754
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.416008,
+                    37.78072
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 312,
+                "net": 530,
+                "area": 231,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1583548172
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.416008,
+                    37.78072
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 312,
+                "net": 530,
+                "area": 231,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1583548067
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.418587,
+                    37.782333
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 120,
+                "area": 231,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1575519816
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.417259,
+                    37.781836
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 120,
+                "area": 231,
+                "samples": 2,
+                "range": 1000,
+                "updated": 1547755304
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.429175,
+                    37.776378
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 120,
+                "area": 231,
+                "samples": 4,
+                "range": 1000,
+                "updated": 1555782499
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.419571,
+                    37.774868
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 120,
+                "area": 231,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1562403000
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41996765137,
+                    37.778549194336
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 311,
+                "net": 40,
+                "area": 7,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1454191749
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42134094238,
+                    37.778549194336
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 311,
+                "net": 40,
+                "area": 7,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1454191749
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.419282,
+                    37.778378
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 6044,
+                "samples": 8,
+                "range": 1791,
+                "updated": 1471537279
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41127,
+                    37.781525
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 6044,
+                "samples": 6,
+                "range": 1000,
+                "updated": 1278010794
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41035461426,
+                    37.782669067383
+                ]
+            },
+            "properties": {
+                "radio": "GSM",
+                "mcc": 310,
+                "net": 260,
+                "area": 6044,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1463819528
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.411041,
+                    37.781982
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 6044,
+                "samples": 2,
+                "range": 1000,
+                "updated": 1465323399
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.417221,
+                    37.780952
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 6044,
+                "samples": 4,
+                "range": 1000,
+                "updated": 1277952721
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.418777,
+                    37.779617
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 6044,
+                "samples": 45,
+                "range": 1000,
+                "updated": 1278073292
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.420048,
+                    37.778468
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 6044,
+                "samples": 17,
+                "range": 1000,
+                "updated": 1278073303
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42134094238,
+                    37.782669067383
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 6044,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1223247145
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.419968,
+                    37.780172
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 6044,
+                "samples": 11,
+                "range": 1000,
+                "updated": 1223247145
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.413445,
+                    37.779922
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 6044,
+                "samples": 4,
+                "range": 1000,
+                "updated": 1465911537
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.424088,
+                    37.782865
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 6029,
+                "samples": 7,
+                "range": 1000,
+                "updated": 1238917000
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.428207,
+                    37.779236
+                ]
+            },
+            "properties": {
+                "radio": "GSM",
+                "mcc": 310,
+                "net": 410,
+                "area": 6029,
+                "samples": 2,
+                "range": 1000,
+                "updated": 1460228426
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.409235,
+                    37.775565
+                ]
+            },
+            "properties": {
+                "radio": "GSM",
+                "mcc": 310,
+                "net": 260,
+                "area": 258,
+                "samples": 101,
+                "range": 1448,
+                "updated": 1675026780
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41172790527,
+                    37.781295776367
+                ]
+            },
+            "properties": {
+                "radio": "GSM",
+                "mcc": 310,
+                "net": 260,
+                "area": 258,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1424787001
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41996765137,
+                    37.779922485352
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 260,
+                "area": 40497,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1325438778
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.424547,
+                    37.777635
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 260,
+                "area": 40497,
+                "samples": 3,
+                "range": 2489,
+                "updated": 1344202583
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42958068848,
+                    37.781295776367
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 26,
+                "area": 253,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1239185815
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.424496,
+                    37.778191
+                ]
+            },
+            "properties": {
+                "radio": "GSM",
+                "mcc": 310,
+                "net": 260,
+                "area": 253,
+                "samples": 2,
+                "range": 1000,
+                "updated": 1505318928
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42820739746,
+                    37.77717590332
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 260,
+                "area": 40497,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1383164171
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42820739746,
+                    37.77717590332
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 260,
+                "area": 40497,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1362886104
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.424088,
+                    37.777276
+                ]
+            },
+            "properties": {
+                "radio": "GSM",
+                "mcc": 310,
+                "net": 260,
+                "area": 258,
+                "samples": 41,
+                "range": 1000,
+                "updated": 1481546713
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.412437,
+                    37.781354
+                ]
+            },
+            "properties": {
+                "radio": "GSM",
+                "mcc": 310,
+                "net": 260,
+                "area": 258,
+                "samples": 71,
+                "range": 1000,
+                "updated": 1669329785
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.416386,
+                    37.78144
+                ]
+            },
+            "properties": {
+                "radio": "GSM",
+                "mcc": 310,
+                "net": 260,
+                "area": 258,
+                "samples": 18,
+                "range": 1095,
+                "updated": 1667490178
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.418173,
+                    37.776971
+                ]
+            },
+            "properties": {
+                "radio": "GSM",
+                "mcc": 310,
+                "net": 260,
+                "area": 258,
+                "samples": 58,
+                "range": 1000,
+                "updated": 1492189418
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.4227142334,
+                    37.775802612305
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 260,
+                "area": 240,
+                "samples": 16,
+                "range": 1000,
+                "updated": 1223358331
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.424856,
+                    37.775327
+                ]
+            },
+            "properties": {
+                "radio": "GSM",
+                "mcc": 310,
+                "net": 260,
+                "area": 253,
+                "samples": 39,
+                "range": 1000,
+                "updated": 1669331245
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41996765137,
+                    37.781295776367
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1361800164
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41172790527,
+                    37.781295776367
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1343949217
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.4144744873,
+                    37.778549194336
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1353343885
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.413788,
+                    37.777863
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 2,
+                "range": 1000,
+                "updated": 1361652282
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41722106934,
+                    37.775802612305
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1382479384
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.4144744873,
+                    37.775802612305
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 260,
+                "area": 40497,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1408433818
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42546081543,
+                    37.775802612305
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 260,
+                "area": 40482,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1436055293
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.4227142334,
+                    37.782669067383
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 6029,
+                "samples": 3,
+                "range": 1000,
+                "updated": 1238884739
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.422714,
+                    37.780952
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 6029,
+                "samples": 4,
+                "range": 1000,
+                "updated": 1238917000
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.413015,
+                    37.780094
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 6044,
+                "samples": 16,
+                "range": 1000,
+                "updated": 1278010874
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.413886,
+                    37.775803
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 6029,
+                "samples": 14,
+                "range": 1000,
+                "updated": 1277952681
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41172790527,
+                    37.77717590332
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 6029,
+                "samples": 3,
+                "range": 1000,
+                "updated": 1223247137
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42134094238,
+                    37.782669067383
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 6044,
+                "samples": 3,
+                "range": 1000,
+                "updated": 1278073182
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.410824,
+                    37.780092
+                ]
+            },
+            "properties": {
+                "radio": "GSM",
+                "mcc": 310,
+                "net": 260,
+                "area": 258,
+                "samples": 9,
+                "range": 2496,
+                "updated": 1718237643
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42134094238,
+                    37.778549194336
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1343223763
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42134094238,
+                    37.778549194336
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1350479966
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.415665,
+                    37.778
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 6029,
+                "samples": 15,
+                "range": 1000,
+                "updated": 1278010949
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42546081543,
+                    37.782669067383
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 260,
+                "area": 253,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1334446157
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.409189,
+                    37.778198
+                ]
+            },
+            "properties": {
+                "radio": "GSM",
+                "mcc": 310,
+                "net": 260,
+                "area": 258,
+                "samples": 55,
+                "range": 1000,
+                "updated": 1675034830
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41035461426,
+                    37.782669067383
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 6044,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1470749695
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42958068848,
+                    37.781295776367
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 56967,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1341693981
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.422714,
+                    37.781982
+                ]
+            },
+            "properties": {
+                "radio": "GSM",
+                "mcc": 310,
+                "net": 410,
+                "area": 6029,
+                "samples": 2,
+                "range": 1000,
+                "updated": 1460228426
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41722106934,
+                    37.782669067383
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1350510939
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42134094238,
+                    37.782669067383
+                ]
+            },
+            "properties": {
+                "radio": "GSM",
+                "mcc": 310,
+                "net": 410,
+                "area": 6044,
+                "samples": 3,
+                "range": 1000,
+                "updated": 1464977366
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41996765137,
+                    37.77717590332
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1358609153
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.4144744873,
+                    37.778549194336
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 6029,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1349364710
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.4144744873,
+                    37.77717590332
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1383097262
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.413788,
+                    37.777863
+                ]
+            },
+            "properties": {
+                "radio": "CDMA",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 2,
+                "range": 1000,
+                "updated": 1349831458
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.416077,
+                    37.777405
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 6029,
+                "samples": 6,
+                "range": 1000,
+                "updated": 1467228364
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.409134,
+                    37.77626
+                ]
+            },
+            "properties": {
+                "radio": "GSM",
+                "mcc": 310,
+                "net": 410,
+                "area": 6029,
+                "samples": 18,
+                "range": 1000,
+                "updated": 1482344034
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41035461426,
+                    37.782669067383
+                ]
+            },
+            "properties": {
+                "radio": "GSM",
+                "mcc": 310,
+                "net": 410,
+                "area": 6044,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1450261840
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.418251,
+                    37.781982
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56999,
+                "samples": 8,
+                "range": 1000,
+                "updated": 1238897289
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.423199,
+                    37.778611
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56999,
+                "samples": 201,
+                "range": 1008,
+                "updated": 1238911482
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.413643,
+                    37.776027
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56999,
+                "samples": 104,
+                "range": 1000,
+                "updated": 1238897288
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.425194,
+                    37.780811
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56999,
+                "samples": 645,
+                "range": 1000,
+                "updated": 1238911650
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.410355,
+                    37.782211
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56999,
+                "samples": 9,
+                "range": 1000,
+                "updated": 1238909257
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.418869,
+                    37.778578
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56999,
+                "samples": 95,
+                "range": 1000,
+                "updated": 1238897288
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41722106934,
+                    37.781295776367
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56999,
+                "samples": 2,
+                "range": 1000,
+                "updated": 1238350575
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41859436035,
+                    37.775802612305
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56969,
+                "samples": 2,
+                "range": 1000,
+                "updated": 1399911658
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42546081543,
+                    37.779922485352
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56967,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1465735243
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42134094238,
+                    37.778549194336
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1468783342
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41996765137,
+                    37.781295776367
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1462616558
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.4227142334,
+                    37.781295776367
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1462654032
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42134094238,
+                    37.781295776367
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1463914575
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41310119629,
+                    37.779922485352
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 120,
+                "area": 7680,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1418955119
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41722106934,
+                    37.775802612305
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 120,
+                "area": 7680,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1425662109
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41172790527,
+                    37.781295776367
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 120,
+                "area": 7680,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1421603950
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.409256,
+                    37.780197
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 260,
+                "area": 14410,
+                "samples": 5,
+                "range": 1000,
+                "updated": 1411857031
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.410355,
+                    37.779726
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 260,
+                "area": 14410,
+                "samples": 7,
+                "range": 1000,
+                "updated": 1411857031
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.411903,
+                    37.780272
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 260,
+                "area": 14450,
+                "samples": 55,
+                "range": 1000,
+                "updated": 1411857326
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.4144744873,
+                    37.779922485352
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 120,
+                "area": 2602,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1429020432
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42683410645,
+                    37.775802612305
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1442064580
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41172790527,
+                    37.779922485352
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1449589457
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.4144744873,
+                    37.775802612305
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 260,
+                "area": 40497,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1378572715
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41584777832,
+                    37.775802612305
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 260,
+                "area": 40497,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1340747377
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.4144744873,
+                    37.77717590332
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56989,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1325167775
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41859436035,
+                    37.775802612305
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56984,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1408433818
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42134094238,
+                    37.775802612305
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1466101697
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41859436035,
+                    37.775802612305
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56969,
+                "samples": 9,
+                "range": 1000,
+                "updated": 1473488743
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.425461,
+                    37.777863
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56969,
+                "samples": 2,
+                "range": 1000,
+                "updated": 1465756359
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42820739746,
+                    37.775802612305
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56969,
+                "samples": 2,
+                "range": 1000,
+                "updated": 1471015241
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42683410645,
+                    37.775802612305
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1446500013
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42408752441,
+                    37.775802612305
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56969,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1435954018
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42683410645,
+                    37.775802612305
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56969,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1435954018
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.417908,
+                    37.775803
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56969,
+                "samples": 2,
+                "range": 1000,
+                "updated": 1437592267
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.426834,
+                    37.775116
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56969,
+                "samples": 2,
+                "range": 1000,
+                "updated": 1436066826
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41584777832,
+                    37.775802612305
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1445615509
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42601,
+                    37.777725
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56969,
+                "samples": 5,
+                "range": 1000,
+                "updated": 1472970030
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42820739746,
+                    37.775802612305
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56969,
+                "samples": 2,
+                "range": 1000,
+                "updated": 1472214960
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42546081543,
+                    37.775802612305
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56969,
+                "samples": 9,
+                "range": 1000,
+                "updated": 1474112580
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.425461,
+                    37.778893
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56969,
+                "samples": 4,
+                "range": 1000,
+                "updated": 1473023052
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.429123,
+                    37.775803
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56969,
+                "samples": 3,
+                "range": 1000,
+                "updated": 1472970030
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.426682,
+                    37.77565
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56969,
+                "samples": 9,
+                "range": 1000,
+                "updated": 1474112580
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42546081543,
+                    37.778549194336
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 410,
+                "area": 35632,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1429375158
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.429718,
+                    37.781296
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56967,
+                "samples": 20,
+                "range": 1000,
+                "updated": 1488391469
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42683410645,
+                    37.782669067383
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1456684219
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41310119629,
+                    37.77717590332
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1432811164
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.423414,
+                    37.775414
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56967,
+                "samples": 18,
+                "range": 1620,
+                "updated": 1533595013
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.4275,
+                    37.775655
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 410,
+                "area": 56967,
+                "samples": 2,
+                "range": 1724,
+                "updated": 1538683375
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.425185,
+                    37.776078
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56967,
+                "samples": 5,
+                "range": 2098,
+                "updated": 1435957617
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.426386,
+                    37.776664
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56967,
+                "samples": 21,
+                "range": 1000,
+                "updated": 1505442274
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.415504,
+                    37.782669
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 4,
+                "range": 1000,
+                "updated": 1466392050
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41722106934,
+                    37.781295776367
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 410,
+                "area": 35632,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1441535278
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.4144744873,
+                    37.782669067383
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1458415921
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41584777832,
+                    37.781295776367
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 410,
+                "area": 35632,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1432320939
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.416613,
+                    37.781822
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 56,
+                "range": 1000,
+                "updated": 1548199413
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.414505,
+                    37.782318
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 5,
+                "range": 1000,
+                "updated": 1505937370
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41035461426,
+                    37.77717590332
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56964,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1435072157
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41137,
+                    37.777091
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 9,
+                "range": 1000,
+                "updated": 1516384112
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41172790527,
+                    37.779922485352
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 2,
+                "range": 1000,
+                "updated": 1471051704
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.412141,
+                    37.778522
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 29,
+                "range": 1000,
+                "updated": 1516381734
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.410165,
+                    37.779045
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 12,
+                "range": 1000,
+                "updated": 1487627983
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41310119629,
+                    37.779922485352
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 410,
+                "area": 35632,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1450843044
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.411728,
+                    37.779203
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 21,
+                "range": 1000,
+                "updated": 1490152823
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41172790527,
+                    37.778549194336
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 4,
+                "range": 1000,
+                "updated": 1481459790
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41996765137,
+                    37.781295776367
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1436695468
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42134094238,
+                    37.781295776367
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1429485434
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41996765137,
+                    37.779922485352
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1428894737
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41722106934,
+                    37.781295776367
+                ]
+            },
+            "properties": {
+                "radio": "LTE",
+                "mcc": 310,
+                "net": 410,
+                "area": 35632,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1430062601
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.419749,
+                    37.781997
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 39,
+                "range": 1000,
+                "updated": 1489753779
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.420207,
+                    37.779716
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 19,
+                "range": 1000,
+                "updated": 1510264755
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.412246,
+                    37.775142
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 30,
+                "range": 1261,
+                "updated": 1516379750
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41172790527,
+                    37.782669067383
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1456587035
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41310119629,
+                    37.779922485352
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 5,
+                "range": 1000,
+                "updated": 1468857260
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41035461426,
+                    37.781295776367
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1458182409
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.41172790527,
+                    37.782669067383
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 12,
+                "range": 1000,
+                "updated": 1492186424
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.412357,
+                    37.780436
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 42,
+                "range": 1000,
+                "updated": 1505400765
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.410248,
+                    37.782084
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 32,
+                "range": 1000,
+                "updated": 1516156299
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.4227142334,
+                    37.782669067383
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1434311375
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.425461,
+                    37.779236
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 4,
+                "range": 1000,
+                "updated": 1435957587
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42134094238,
+                    37.781295776367
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56965,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1435854872
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.42820739746,
+                    37.781295776367
+                ]
+            },
+            "properties": {
+                "radio": "UMTS",
+                "mcc": 310,
+                "net": 410,
+                "area": 56967,
+                "samples": 1,
+                "range": 1000,
+                "updated": 1471826021
+            }
+        }
+    ]
+}

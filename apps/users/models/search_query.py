@@ -5,7 +5,7 @@ from apps.users.models.user import User
 
 
 class SearchQuery(BaseTimeModel):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='searches')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL , null=True, blank=True, related_name='searches')
     user_query = models.CharField(max_length=255)
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     longitude = models.DecimalField(max_digits=9, decimal_places=6)

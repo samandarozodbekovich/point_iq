@@ -6,7 +6,7 @@ from apps.users.models import User
 
 
 class CompetitorReview(models.Model):
-    competitor = models.ForeignKey(Competitor, on_delete=models.CASCADE, related_name='reviews')
+    competitor = models.ForeignKey(Competitor, on_delete=models.SET_NULL , null=True, blank=True, related_name='reviews')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
     rating = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(5)], null=True, blank=True)
     comment = models.TextField(null=True,blank=True)

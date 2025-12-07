@@ -14,6 +14,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 FOURSQUARE_API_KEY = os.getenv("FOURSQUARE_API_KEY")
 YANDEX_GEOCODE_KEY=os.getenv("YANDEX_GEOCODE_KEY")
+OPENCELLID_KEY=config("OPENCELLID_KEY")
+
+OPENAI_API_KEY=config("OPENAI_API_KEY")
+OPENROUTER_API_KEY=config("OPENROUTER_API_KEY")
+
+OPENCELLID_RATE_LIMIT = {
+    'requests_per_second': 0.5,  # 1 request every 2 seconds
+    'max_requests_per_day': 10000,
+}
+
+# Logging configuration
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {"console": {"class": "logging.StreamHandler"}},
+    "root": {"handlers": ["console"], "level": "INFO"},
+}
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
@@ -54,6 +71,8 @@ INSTALLED_APPS = [
     'drf_yasg',
     'hitcount',
     'corsheaders',
+    "django_json_widget",
+
 
 
     # local apps
@@ -66,6 +85,8 @@ INSTALLED_APPS = [
     'apps.competitors',
     'apps.property',
     'apps.government_bodies',
+    'apps.networks',
+    "apps.ai",
 
 ]
 

@@ -38,7 +38,6 @@ class RelationshipStatusPopulationSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        data['population'] = instance.population.population_density if instance.population else None
         data['relationship_status'] = instance.relationship_status.name_uz if instance.relationship_status else None
         return data
 

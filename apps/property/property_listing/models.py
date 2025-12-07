@@ -11,7 +11,7 @@ class PropertyListing(BaseTimeModel):
         ("EUR",'Euro'),
     )
 
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL , null=True, blank=True)
     property_type = models.CharField(max_length=50)
     title = models.CharField(max_length=255)
     description = models.TextField()

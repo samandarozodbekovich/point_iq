@@ -31,6 +31,8 @@ urlpatterns = [
         path('competitors/', include('apps.competitors.urls')),
         path("property/", include('apps.property.urls')),
         path('government/', include('apps.government_bodies.urls')),
+        path('networks/', include('apps.networks.urls')),
+        path('ai/', include('apps.ai.urls')),
     ])),
 
         path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

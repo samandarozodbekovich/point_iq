@@ -8,7 +8,7 @@ from apps.shared.models import BaseNameModel, BaseTimeModel
 
 
 class Competitor(BaseNameModel, BaseTimeModel):
-    category = models.ForeignKey(CompetitorCategory, on_delete=models.CASCADE)
+    category = models.ForeignKey(CompetitorCategory, on_delete=models.SET_NULL , null=True, blank=True)
     address = models.CharField(max_length=120)
     longitude = models.FloatField(null=True, blank=True)
     latitude = models.FloatField(null=True, blank=True)

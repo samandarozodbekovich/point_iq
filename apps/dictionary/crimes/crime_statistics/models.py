@@ -7,8 +7,8 @@ from apps.shared.models import BaseTimeModel
 
 
 class CrimeStatistics(BaseTimeModel):
-    district = models.ForeignKey(District, on_delete=models.CASCADE)
-    crime = models.ForeignKey(CrimeTypes, on_delete=models.CASCADE)
+    district = models.ForeignKey(District, on_delete=models.SET_NULL , null=True, blank=True)
+    crime = models.ForeignKey(CrimeTypes, on_delete=models.SET_NULL , null=True, blank=True)
     address = models.TextField(null=True, blank=True)
     rating = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(10)], null=True, blank=True)
 
