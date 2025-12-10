@@ -4,7 +4,6 @@ import json
 import logging
 from django.core.cache import cache
 from apps.ai.models import QueryHistory
-from ..library.models_loader import get_model_and_index
 from openai import OpenAI
 
 from ..services import detect_intent, get_region_stats, score_location
@@ -19,7 +18,6 @@ if not OPENAI_KEY:
 client = OpenAI(api_key=OPENAI_KEY)
 
 
-# Simple RAG retrieval
 def rag_retrieve(query: str, region_docs=None, top_k=5) -> list:
     """OpenAI yordamida sodda RAG retrieval"""
     try:
@@ -72,7 +70,6 @@ Javobda FAQAT relevantsii hujjatlarni ro'yxat shaklida qaytaring (hech qanday iz
 
 # Business type detect
 def detect_business_type(query: str) -> str:
-    """Biznes turini aniqlash"""
     q = query.lower()
     business_keywords = {
         "market": ["market", "supermarket", "do'kon", "savdo"],

@@ -31,7 +31,7 @@ def detect_intent(query: str) -> str:
 def extract_region_and_business(query):
     return "Mirobod", "kafe"
 
-#  RAG retrieval - ✅ TUZATILDI
+#  RAG retrieval - TUZATILDI
 def rag_retrieve(query, top_k=5):
     try:
         region_docs = [

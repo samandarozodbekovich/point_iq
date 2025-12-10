@@ -25,7 +25,7 @@ services:
     networks:
       - get_place_network
 
-  web:
+  api:
     build: .
     ports:
       - "8000:8000"

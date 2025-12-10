@@ -55,5 +55,4 @@ scikit-learn
 joblib
 django_json_widget
 
-# Optional: Visualization va Analysis (ixtiyoriy)
 seaborn
