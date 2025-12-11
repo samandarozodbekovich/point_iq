@@ -12,6 +12,7 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
+TWO_GIS_API_KEY = os.getenv('TWO_GIS_API_KEY')
 FOURSQUARE_API_KEY = os.getenv("FOURSQUARE_API_KEY")
 YANDEX_GEOCODE_KEY=os.getenv("YANDEX_GEOCODE_KEY")
 OPENCELLID_KEY=config("OPENCELLID_KEY")

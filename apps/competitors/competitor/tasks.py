@@ -1,39 +1,25 @@
-
 from celery import shared_task
-from .models import Competitor
-from ..utils import search_places_with_geocode
-from django.db import transaction
+from apps.competitors.utils.search_place_2gis import search_place_2gis
+from apps.ai.logger import logger
 
 
-@shared_task
-def fetch_and_update_competitors(city, category_name):
-    places = search_places_with_geocode(city, category_name)
-    if not places:
-        print(f"[No results] {city}, {category_name}")
-        return
+@shared_task(bind=True, max_retries=3)
+def fetch_and_update_competitors_2gis(self, query, category_name):
+    try:
+        created = search_place_2gis(
+            query=query,
+            category_name=category_name,
+            fetch_details=True
+        )
+        logger.info(
+            f"[2GIS Task] completed: query={query}, category={category_name}, created={created}"
+        )
+        return {"status": "success", "created": created}
 
-    existing_map = {
-        (c.name_uz, c.address): c
-        for c in Competitor.objects.filter(category__name_uz=category_name)
-    }
-
-    new_objs, update_objs = [], []
-
-    for item in places:
-        key = (item["name_uz"], item["address"])
-        if key in existing_map:
-            comp = existing_map[key]
-            comp.latitude = item["latitude"]
-            comp.longitude = item["longitude"]
-            update_objs.append(comp)
-        else:
-            new_objs.append(Competitor(**item))
-
-    with transaction.atomic():
-        if new_objs:
-            Competitor.objects.bulk_create(new_objs, ignore_conflicts=True)
-        if update_objs:
-            Competitor.objects.bulk_update(update_objs, ["latitude", "longitude"])
-
-    print(f"[Celery] {len(new_objs)} new, {len(update_objs)} updated for {city} - {category_name}")
+    except Exception as e:
+        logger.exception(
+            f"[2GIS Task] failed: query={query}, category={category_name}, error={e}"
+        )
+        # 3 marta qayta urinish
+        raise self.retry(exc=e, countdown=60)
 

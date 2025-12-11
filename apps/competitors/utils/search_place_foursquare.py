@@ -1,68 +1,32 @@
 import requests
-from math import radians, cos, sin, asin, sqrt
 from django.conf import settings
-
 from apps.competitors.competitor_categories.models import CompetitorCategory
+from apps.competitors.utils.geocode_nominatim import geocode_nominatim, is_inside_uzbekistan
 
 FOURSQUARE_API_KEY = settings.FOURSQUARE_API_KEY
 API_VERSION_HEADER = "2025-06-17"
 FOURSQUARE_API_URL = "https://places-api.foursquare.com/places/search"
 
 
-def haversine(lat1, lon1, lat2, lon2):
-    R = 6371
-    if not all([lat1, lon1, lat2, lon2]):
-        return 9999
-    lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
-    d_lat = lat2 - lat1
-    d_lon = lon2 - lon1
-    a = sin(d_lat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(d_lon / 2) ** 2
-    c = 2 * asin(sqrt(a))
-    return R * c
-
-
-def is_inside_uzbekistan(lat, lon):
-    return 37.0 <= lat <= 46.0 and 56.0 <= lon <= 74.0
-
-
-def geocode_nominatim(address: str):
-    if not address:
-        return None, None
-
-    try:
-        resp = requests.get(
-            "https://nominatim.openstreetmap.org/search",
-            params={"q": address, "format": "json", "limit": 1},
-            headers={"User-Agent": "get_place_app"},
-            timeout=10
-        )
-        data = resp.json()
-        if data:
-            return float(data[0]["lat"]), float(data[0]["lon"])
-    except Exception as e:
-        print(f"[Nominatim Error] {address}: {e}")
-
-    return None, None
-
-
-def search_places_with_geocode(query: str, category_name: str):
-    if not query or not category_name:
+def search_places_with_geocode(query: str, category: str):
+    if not query or not category:
         return []
 
-    category = CompetitorCategory.objects.filter(name_uz=category_name).first()
+    category = CompetitorCategory.objects.filter(name_uz=category).first()
     if not category:
-        print(f"[Category Not Found] {category_name}")
+        print(f"[Category Not Found] {category}")
         return []
 
     headers = {
         "Accept": "application/json",
         "Authorization": f"Bearer {FOURSQUARE_API_KEY}",
-        "X-Places-API-Version": API_VERSION_HEADER,
+        "X-Places-API-Version": API_VERSION_HEADER
+  # to‘g‘ri format
     }
 
     params = {
         "near": query,
-        "query": category_name,
+        "query": category,
         "limit": 50
     }
 
@@ -71,7 +35,7 @@ def search_places_with_geocode(query: str, category_name: str):
         resp.raise_for_status()
         data = resp.json()
     except Exception as e:
-        print(f"[Foursquare API Error] {query}, {category_name}: {e}")
+        print(f"[Foursquare API Error] {query}, {category}: {e}")
         return []
 
     results = []
@@ -102,3 +66,4 @@ def search_places_with_geocode(query: str, category_name: str):
         })
 
     return results
+

@@ -56,3 +56,4 @@ joblib
 django_json_widget
 
 seaborn
+lightgbm

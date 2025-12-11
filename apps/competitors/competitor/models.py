@@ -10,8 +10,11 @@ from apps.shared.models import BaseNameModel, BaseTimeModel
 class Competitor(BaseNameModel, BaseTimeModel):
     category = models.ForeignKey(CompetitorCategory, on_delete=models.SET_NULL , null=True, blank=True)
     address = models.CharField(max_length=120)
+    external_id = models.BigIntegerField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
     latitude = models.FloatField(null=True, blank=True)
+    schedule_from=models.CharField(max_length=50, null=True, blank=True)
+    schedule_to=models.CharField(max_length=50, null=True, blank=True)
 
     average_rating = models.FloatField(null=True, blank=True)
     footfall_estimate = models.IntegerField(default=0)

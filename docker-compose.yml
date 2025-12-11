@@ -29,12 +29,14 @@ services:
     build: .
     ports:
       - "8000:8000"
-    container_name: get_place_web
+    container_name: get_place_api
     command: >
       sh -c "python manage.py migrate &&
              python manage.py collectstatic --noinput &&
              gunicorn get_place.wsgi:application --bind 0.0.0.0:8000"
     volumes:
+      - .:/app                 # butun loyiha konteynerga mount qilinadi
+      - ./data:/app/data
       - ./static:/app/staticfiles
       - ./media:/app/media
     env_file:

@@ -1,12 +1,12 @@
-FROM python:3.12-bullseye AS base
+FROM python:3.13-slim AS base
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    gdal-bin \
-    libgdal-dev \
-    libproj-dev \
-    libgeos-dev \
-    libpq-dev \
+    libssl-dev \
+    libffi-dev \
+    cmake \
+    libglib2.0-0 \
+    libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app

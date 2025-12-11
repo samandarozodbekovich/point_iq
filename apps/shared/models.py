@@ -23,7 +23,7 @@ class BaseTimeModel(models.Model):
 
 
 class BaseNameModel(models.Model):
-    name_uz = models.CharField(max_length=100)
+    name_uz = models.CharField(max_length=100, null=True, blank=True)
     name_ru = models.CharField(max_length=100, null=True, blank=True)
     name_cyr = models.CharField(max_length=100, null=True, blank=True)
 

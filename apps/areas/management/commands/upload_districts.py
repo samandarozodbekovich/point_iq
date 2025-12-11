@@ -1,4 +1,4 @@
-# management/commands/load_districts.py
+
 import json
 from django.core.management.base import BaseCommand
 from apps.areas.districts.models import District
@@ -6,7 +6,7 @@ from apps.areas.cities.models import City
 
 
 class Command(BaseCommand):
-    help = 'Load district boundaries from GeoJSON files'
+    help = 'upload district boundaries from GeoJSON files'
 
     def add_arguments(self, parser):
         parser.add_argument('geojson_file', type=str, help='Path to GeoJSON file')
@@ -22,10 +22,10 @@ class Command(BaseCommand):
             with open(file_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
         except FileNotFoundError:
-            self.stdout.write(self.style.ERROR(f'❌ Fayl topilmadi: {file_path}'))
+            self.stdout.write(self.style.ERROR(f'Fayl topilmadi: {file_path}'))
             return
         except json.JSONDecodeError as e:
-            self.stdout.write(self.style.ERROR(f'❌ JSON formatida xatolik: {e}'))
+            self.stdout.write(self.style.ERROR(f'JSON formatida xatolik: {e}'))
             return
 
         # City ni topish yoki yaratish
@@ -36,7 +36,7 @@ class Command(BaseCommand):
                 defaults={'name_ru': city_name, 'name_cyr': city_name}
             )
             if created:
-                self.stdout.write(self.style.SUCCESS(f'✅ Shahar yaratildi: {city_name}'))
+                self.stdout.write(self.style.SUCCESS(f'Shahar yaratildi: {city_name}'))
 
         loaded_count = 0
         for feature in data.get('features', []):
@@ -52,7 +52,7 @@ class Command(BaseCommand):
                 name_ru = props.get('name:ru', '')
 
                 if not name_uz:
-                    self.stdout.write(self.style.WARNING('⚠️  Name topilmadi, o\'tkazib yuborildi'))
+                    self.stdout.write(self.style.WARNING('Name topilmadi, o\'tkazib yuborildi'))
                     continue
 
                 # District yaratish yoki yangilash
@@ -66,7 +66,7 @@ class Command(BaseCommand):
                     }
                 )
 
-                action = "✅ Yaratildi" if created else "🔄 Yangilandi"
+                action = "Yaratildi" if created else "Yangilandi"
                 self.stdout.write(f'{action}: {district.name_uz} ({len(coords)} nuqta)')
                 loaded_count += 1
 
