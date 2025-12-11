@@ -127,7 +127,8 @@ class UniversalAIView(APIView):
 
         except ValidationError as e:
             logger.warning(f"Validation error: {str(e)}")
-            return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
+            raise ValidationError({"query": "Savol bo'sh bo'lishi mumkin emas"})
+
         except Exception as e:
             logger.error(f"UniversalAIView xatosi: {str(e)}")
             return Response(

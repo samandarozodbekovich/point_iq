@@ -8,13 +8,15 @@ from ..models import QueryHistory
 from ..serializers import QueryHistorySerializer
 
 class UserHistoryView(ListAPIView, RetrieveAPIView):
-    """Foydalanuvchining o'z so'rovlari"""
-    permission_classes = [IsAuthenticated]
+
+    permission_classes = [IsAuthenticated,]
     serializer_class = QueryHistorySerializer
     queryset = QueryHistory.objects.all().order_by("-created_at")
 
     def get_queryset(self):
-        return self.queryset.filter(user=self.request.user)
+        if getattr(self, 'swagger_fake_view', False):
+            return QueryHistory.objects.none()  # bo‘sh queryset qaytarish
+        return QueryHistory.objects.filter(user=self.request.user)
 
     def retrieve(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
