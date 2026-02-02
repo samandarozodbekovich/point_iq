@@ -19,11 +19,7 @@ client = OpenAI(api_key=OPENAI_KEY)
 
 #  Intent aniqlash
 def detect_intent(query: str) -> str:
-<<<<<<< HEAD
-    """Foydalanuvchining niyatini aniqlash"""
-=======
 
->>>>>>> 7cb6155 (Initial clean commit)
     q = query.lower()
     if any(word in q for word in ["cafe", "business", "biznes", "ochmoq", "oching"]):
         return "business_advice"

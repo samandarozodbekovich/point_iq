@@ -5,11 +5,7 @@ YANDEX_GEOCODER_URL = "https://geocode-maps.yandex.ru/1.x/"
 
 
 def save(self, *args, **kwargs):
-<<<<<<< HEAD
-    # Agar latitude/longitude bo‘sh bo‘lsa — manzildan aniqlaymiz
-=======
     # Agar latitude/longitude bo‘sh bo‘lsa —
->>>>>>> 7cb6155 (Initial clean commit)
     if not self.latitude or not self.longitude:
         address = f"{self.street} {self.house_number or ''}"
         lat, lon = self.get_coordinates_from_address(address)
@@ -20,11 +16,7 @@ def save(self, *args, **kwargs):
 
 def get_coordinates_from_address(address):
     """
-<<<<<<< HEAD
-    Manzildan koordinata olish (Geocoding)
-=======
     getting koordinates from address(Geocoding)
->>>>>>> 7cb6155 (Initial clean commit)
     """
     params = {
         "apikey": settings.YANDEX_API_KEY,

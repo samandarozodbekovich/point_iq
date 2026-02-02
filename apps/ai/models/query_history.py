@@ -24,10 +24,6 @@ class QueryHistory(models.Model):
     region = models.CharField(max_length=100, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
 
-<<<<<<< HEAD
-    # Bu yerda to'g'ri JSONField ishlatiladi
-=======
->>>>>>> 7cb6155 (Initial clean commit)
     response_json = models.JSONField(default=dict, blank=True)
 
     status = models.CharField(

@@ -1,14 +1,9 @@
 from openai import OpenAI
 
-<<<<<<< HEAD
-client = OpenAI(
-  api_key="***REMOVED***"
-=======
 from django.conf import settings
 
 client = OpenAI(
   api_key=settings.OPENAI_API_KEY
->>>>>>> 7cb6155 (Initial clean commit)
 )
 
 response = client.responses.create(
@@ -20,18 +15,10 @@ response = client.responses.create(
 print(response.output_text)
 
 import requests
-<<<<<<< HEAD
-import json
-import time
-import logging
-from django.conf import settings
-from typing import List, Tuple, Dict, Optional
-=======
 import time
 import logging
 from django.conf import settings
 from typing import List, Tuple, Dict
->>>>>>> 7cb6155 (Initial clean commit)
 
 logger = logging.getLogger(__name__)
 

@@ -9,11 +9,7 @@ from ..serializers import QueryHistorySerializer
 
 
 class AdminHistoryViewSet(GenericViewSet, ListModelMixin, DestroyModelMixin):
-<<<<<<< HEAD
-    """Admin uchun barcha so'rovlarni ko'rish va o'chirish"""
-=======
 
->>>>>>> 7cb6155 (Initial clean commit)
     permission_classes = [IsAdminUser]
     serializer_class = QueryHistorySerializer
     queryset = QueryHistory.objects.all().order_by("-created_at")
@@ -22,19 +18,11 @@ class AdminHistoryViewSet(GenericViewSet, ListModelMixin, DestroyModelMixin):
         instance = self.get_object()
         instance.delete()
         return Response(
-<<<<<<< HEAD
-            {"detail": "Query o'chirildi"},
-=======
             {"detail": "deleted query"},
->>>>>>> 7cb6155 (Initial clean commit)
             status=status.HTTP_204_NO_CONTENT
         )
 
     def list(self, request, *args, **kwargs):
-<<<<<<< HEAD
-        """Barcha querylar (filter, search qo'shilgan)"""
-=======
->>>>>>> 7cb6155 (Initial clean commit)
         queryset = self.get_queryset()
 
         # Filter by status

@@ -11,8 +11,4 @@ class PeopleConsume(BaseTimeModel):
     bus_station = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-<<<<<<< HEAD
-        return f'people of {self.district__name_uz} in {self.month} of {self.year}'
-=======
         return f'people of {self.district} in {self.month} of {self.year}'
->>>>>>> 7cb6155 (Initial clean commit)

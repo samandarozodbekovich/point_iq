@@ -17,9 +17,4 @@ class Population(BaseTimeModel):
 
 
     def __str__(self):
-<<<<<<< HEAD
-        return f"population density: {self.population_density} in {self.district.name_uz}"
-=======
         return f"population in {self.district.name_uz}"
->>>>>>> 7cb6155 (Initial clean commit)
-

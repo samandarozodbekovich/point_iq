@@ -3,10 +3,6 @@ from apps.ai.logger import logger
 
 
 def ask_chatbot_response(query: str, context_docs: list = None) -> str:
-<<<<<<< HEAD
-    """Oddiy chatbot javobini OpenAI dan olish"""
-=======
->>>>>>> 7cb6155 (Initial clean commit)
     try:
         if context_docs:
             docs_text = "\n".join([d.get("text", "") for d in context_docs])

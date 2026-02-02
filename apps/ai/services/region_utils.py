@@ -9,11 +9,7 @@ def get_region_coordinates(region: str):
     try:
         loc = geolocator.geocode(region)
         if loc:
-<<<<<<< HEAD
-            return (loc.latitude, loc.longitude)
-=======
             return loc.latitude, loc.longitude
->>>>>>> 7cb6155 (Initial clean commit)
     except:
         pass
     return None

@@ -10,21 +10,11 @@ logger = logging.getLogger(__name__)
 @shared_task
 def async_agent_chat(query, business_type, region, region_stats, intent, history_id):
     try:
-<<<<<<< HEAD
-        # Region koordinatalari
-        region_coords = region_stats.get("coordinates") if region_stats else None
-
-        # Real OpenAI tavsiya olish
-        ai_json = ask_ai_real(query, region_coords)
-
-        # ✅ TUZATILDI: Error handling qo'shildi
-=======
         region_coord = region_stats.get("coordinates") if region_stats else None
 
         # Real OpenAI for getting real advice
         ai_json = ask_ai_real(query, region_coord)
 
->>>>>>> 7cb6155 (Initial clean commit)
         if ai_json.get("error"):
             raise Exception(f"AI Error: {ai_json.get('error')}")
 
@@ -49,11 +39,7 @@ def async_agent_chat(query, business_type, region, region_stats, intent, history
             "context_docs": ai_json.get("context_docs", []),
         }
 
-<<<<<<< HEAD
-        # QueryHistory yangilash
-=======
         # update QueryHistory
->>>>>>> 7cb6155 (Initial clean commit)
         history = QueryHistory.objects.get(id=history_id)
         history.response_json = response_json
         history.status = "done"
@@ -64,11 +50,7 @@ def async_agent_chat(query, business_type, region, region_stats, intent, history
     except QueryHistory.DoesNotExist:
         logger.error(f"QueryHistory not found with id: {history_id}")
     except Exception as e:
-<<<<<<< HEAD
-        logger.error(f"async_agent_chat xatosi: {str(e)}")
-=======
         logger.error(f"async_agent_chat error: {str(e)}")
->>>>>>> 7cb6155 (Initial clean commit)
         try:
             history = QueryHistory.objects.get(id=history_id)
             history.response_json = {"error": str(e)}

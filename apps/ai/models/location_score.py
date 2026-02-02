@@ -2,11 +2,7 @@ from apps.ai.logger import logger
 
 
 def score_location(region_stats: dict) -> float:
-<<<<<<< HEAD
-    """Lokatsiyani bahoslash (0-10)"""
-=======
 
->>>>>>> 7cb6155 (Initial clean commit)
     try:
         if not region_stats:
             return 0.0
@@ -28,9 +24,5 @@ def score_location(region_stats: dict) -> float:
 
         return round(max(0, min(total_score, 10)), 2)
     except Exception as e:
-<<<<<<< HEAD
-        logger.error(f"score_location xatosi: {str(e)}")
-=======
         logger.error(f"score_location error: {str(e)}")
->>>>>>> 7cb6155 (Initial clean commit)
         return 0.0

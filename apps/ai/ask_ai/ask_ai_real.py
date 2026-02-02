@@ -19,11 +19,7 @@ client = OpenAI(api_key=OPENAI_KEY)
 
 
 def rag_retrieve(query: str, region_docs=None, top_k=5) -> list:
-<<<<<<< HEAD
-    """OpenAI yordamida sodda RAG retrieval"""
-=======
 
->>>>>>> 7cb6155 (Initial clean commit)
     try:
         if region_docs is None:
             region_docs = [
@@ -89,30 +85,18 @@ def detect_business_type(query: str) -> str:
     return "umumiy biznes"
 
 
-<<<<<<< HEAD
-# AI tavsiya olish
-=======
 # get advice from AI
->>>>>>> 7cb6155 (Initial clean commit)
 def ask_ai_real(user_query: str, region_coords=None, business_type=None) -> dict:
     """
     Asosiy AI funksiyasi - OpenAI + RAG + Statistics
     """
     try:
-<<<<<<< HEAD
-        # Intent va Business Type aniqlash
-=======
         # check type Intent va Business
->>>>>>> 7cb6155 (Initial clean commit)
         intent = detect_intent(user_query)
         if not business_type:
             business_type = detect_business_type(user_query)
 
-<<<<<<< HEAD
-        # Cache tekshirish
-=======
         # checking Cache
->>>>>>> 7cb6155 (Initial clean commit)
         cache_key = hashlib.md5(f"{user_query}-{region_coords}-{business_type}".encode()).hexdigest()
         cached = cache.get(cache_key)
         if cached:
@@ -233,11 +217,7 @@ Iltimos, FAQAT JSON formatda javobini bering:
                 status="done"
             )
         except Exception as e:
-<<<<<<< HEAD
-            logger.error(f"Database save xatosi: {str(e)}")
-=======
             logger.error(f"Database save's error: {str(e)}")
->>>>>>> 7cb6155 (Initial clean commit)
 
         cache.set(cache_key, ai_response, 3600)
         logger.info(f"AI response successfully generated")
@@ -251,9 +231,5 @@ Iltimos, FAQAT JSON formatda javobini bering:
             "sources": [],
             "context_docs": [],
         }
-<<<<<<< HEAD
-        logger.error(f"ask_ai_real xatosi: {str(e)}")
-=======
         logger.error(f"ask_ai_real's error: {str(e)}")
->>>>>>> 7cb6155 (Initial clean commit)
         return error_response

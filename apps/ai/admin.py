@@ -23,10 +23,7 @@ class QueryHistoryAdmin(admin.ModelAdmin):
     search_fields = ("user__phone_number", "user_query", "region")
     ordering = ("-created_at",)
 
-
-    # JSONField ni chiroyli editor bilan ochish
     # open JSONField comfortably by editor
-
     formfield_overrides = {
         JSONField: {"widget": JSONEditorWidget},
     }

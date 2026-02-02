@@ -15,11 +15,7 @@ class UserHistoryView(ListAPIView, RetrieveAPIView):
 
     def get_queryset(self):
         if getattr(self, 'swagger_fake_view', False):
-<<<<<<< HEAD
-            return QueryHistory.objects.none()  # bo‘sh queryset qaytarish
-=======
             return QueryHistory.objects.none()  # response empty queryset
->>>>>>> 7cb6155 (Initial clean commit)
         return QueryHistory.objects.filter(user=self.request.user)
 
     def retrieve(self, request, *args, **kwargs):

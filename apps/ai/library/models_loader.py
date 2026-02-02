@@ -12,29 +12,12 @@ client = OpenAI(api_key=OPENAI_KEY)
 
 
 def get_model_and_index(docs):
-<<<<<<< HEAD
-    """
-    Sodda RAG retrieval - OpenAI embedding dan foydalanish
-    FAISS va SentenceTransformer o'chirildi
 
-    Args:
-        docs (list): Qidiruv uchun hujjatlar ro'yxati
-
-    Returns:
-        tuple: (client, docs) - OpenAI client va hujjatlar
-    """
-=======
-
->>>>>>> 7cb6155 (Initial clean commit)
     try:
         logger.info("OpenAI model loaded successfully")
         return client, None, docs
     except Exception as e:
-<<<<<<< HEAD
-        logger.error(f"Model loading xatosi: {str(e)}")
-=======
         logger.error(f"Model loading error: {str(e)}")
->>>>>>> 7cb6155 (Initial clean commit)
         raise
 
 
