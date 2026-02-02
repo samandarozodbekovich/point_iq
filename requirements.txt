@@ -1,0 +1,61 @@
+Django
+djangorestframework
+drf-yasg
+drf-nested-routers
+python-dotenv
+python-decouple
+
+# Authentication
+djangorestframework_simplejwt
+social-auth-app-django
+social-auth-core
+PyJWT
+
+# Database
+psycopg2-binary
+Pillow
+
+# Task Queue va Cache
+celery
+redis
+django-hitcount
+django-tablib
+
+# HTTP va Utilities
+requests
+urllib3
+
+# Time Zone
+pytz
+tzdata
+sqlparse
+
+# Geo va Mapping
+geopandas
+shapely
+pyproj
+
+# Server
+gunicorn
+
+# SMS
+twilio
+
+# Geocoding
+geopy
+
+# CORS
+django-cors-headers
+
+# AI - OpenAI ONLY
+openai
+xgboost
+numpy
+scikit-learn
+joblib
+django_json_widget
+
+seaborn
+lightgbm
+matplotlib
+scipy

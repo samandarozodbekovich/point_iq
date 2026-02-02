@@ -1,0 +1,8 @@
+from apps.areas.cities import models as cities_models
+from apps.areas.districts import models as districts_models
+
+
+__all__ = [
+    'cities_models',
+    'districts_models',
+]
