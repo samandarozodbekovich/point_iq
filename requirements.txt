@@ -1,3 +1,4 @@
+# Core Django
 Django
 djangorestframework
 drf-yasg
@@ -48,14 +49,10 @@ geopy
 django-cors-headers
 
 # AI - OpenAI ONLY
-openai
+openai>=1.0,<2.0
 xgboost
 numpy
-scikit-learn
 joblib
 django_json_widget
-
-seaborn
 lightgbm
-matplotlib
 scipy

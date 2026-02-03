@@ -25,5 +25,3 @@ RUN mkdir -p /app/staticfiles /app/media
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1
-
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

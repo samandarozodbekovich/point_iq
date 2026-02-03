@@ -35,12 +35,15 @@ services:
              python manage.py collectstatic --noinput &&
              gunicorn get_place.wsgi:application --bind 0.0.0.0:8000"
     volumes:
-      - .:/app                 # whole project make mount in one container if project
+      - .:/app
       - ./data:/app/data
       - ./static:/app/staticfiles
       - ./media:/app/media
     env_file:
       - .env
+    environment:
+      # Eski protsessorlar uchun NumPy cheklovlarini olib tashlash
+      - NPY_DISABLE_CPU_FEATURES=AVX512F,AVX512_SKX,AVX2,AVX,SSE4_2,SSSE3,SSE3,SSE2,SSE
     networks:
       - get_place_network
     depends_on:
@@ -53,6 +56,8 @@ services:
     command: celery -A get_place worker -l info
     env_file:
       - .env
+    environment:
+      - NPY_DISABLE_CPU_FEATURES=AVX512F,AVX512_SKX,AVX2,AVX,SSE4_2,SSSE3,SSE3,SSE2,SSE
     networks:
       - get_place_network
     depends_on:
@@ -65,6 +70,8 @@ services:
     command: celery -A get_place beat -l info
     env_file:
       - .env
+    environment:
+      - NPY_DISABLE_CPU_FEATURES=AVX512F,AVX512_SKX,AVX2,AVX,SSE4_2,SSSE3,SSE3,SSE2,SSE
     networks:
       - get_place_network
     depends_on:
