@@ -22,4 +22,7 @@ class UserConfirmation(models.Model):
         return timezone.now() > self.expiration_time
 
     def __str__(self):
-        return f"{self.user.phone_number} - {self.code}"
+        if self.user and self.user.phone_number:
+            return self.user.phone_number
+        return "UserConfirmation (no user)"
+

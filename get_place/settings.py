@@ -117,8 +117,15 @@ REST_FRAMEWORK = {
 }
 
 SWAGGER_SETTINGS = {
-    'USE_SESSION_AUTH': False,  # sessiya login talab qilinmaydi
-    'SECURITY_DEFINITIONS': None,
+    'USE_SESSION_AUTH': False,
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+            'description': 'JWT Authorization header. Example: "Bearer <access_token>"',
+        }
+    },
 }
 
 

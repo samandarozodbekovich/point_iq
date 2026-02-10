@@ -3,7 +3,7 @@ from django.core.mail import EmailMessage
 
 
 @shared_task
-def send_registration_email(email, code):
+def send_registration_email(phone_number, code):
     subject = "Activate your account"
     body = f"<p>Sizning tasdiqlash kodingiz: <b>{code}</b></p>"
 
@@ -12,7 +12,7 @@ def send_registration_email(email, code):
         subject=subject,
         body=body,
         from_email="webmaster@localhost",
-        to=[email],
+        to=[phone_number],
     )
     msg.content_subtype = "html"
     msg.send()

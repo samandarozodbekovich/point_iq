@@ -1,3 +1,6 @@
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+
 from rest_framework.exceptions import ValidationError
 from django.utils import timezone
 from rest_framework.permissions import IsAuthenticated
@@ -5,13 +8,28 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 
+from apps.users.serializers.verify import VerifySerializer
+
 class VerifyAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(
+        request_body=VerifySerializer,
+        responses={
+            200: openapi.Response(description="Verification successful"),
+            400: "Validation error",
+            401: "Unauthorized",
+        }
+    )
     def post(self, request, *args, **kwargs):
+        serializer = VerifySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
         user = request.user
-        code = request.data.get('code')
+        code = serializer.validated_data['code']
+
         self.check_verify(user, code)
+
         tokens = user.token()
         return Response({
             'success': True,
@@ -19,6 +37,7 @@ class VerifyAPIView(APIView):
             'access': tokens.get('access'),
             'refresh': tokens.get('refresh'),
         })
+
 
 
     @staticmethod

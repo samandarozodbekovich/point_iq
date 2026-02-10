@@ -1,9 +1,8 @@
-from rest_framework.authentication import TokenAuthentication
+
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from apps.users.serializers.resend_code import ResendCodeSerializer
-from apps.users.tasks import send_registration_email
 
 class ResendCodeView(APIView):
     permission_classes = [AllowAny,]
@@ -18,4 +17,3 @@ class ResendCodeView(APIView):
             "message": "Code sent successfully",
             "auth_status": user.auth_status,
         })
-

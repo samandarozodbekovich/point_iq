@@ -135,5 +135,5 @@ class UniversalAIView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
-    def get(self, request):
-        return self.post(request)
+    # def get(self, request):
+    #     return self.post(request)

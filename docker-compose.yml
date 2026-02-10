@@ -36,14 +36,14 @@ services:
              gunicorn get_place.wsgi:application --bind 0.0.0.0:8000"
     volumes:
       - .:/app
+      - /home/get_place/staticfiles:/app/staticfiles
+      - /home/get_place/media:/app/media
       - ./data:/app/data
-      - ./static:/app/staticfiles
-      - ./media:/app/media
     env_file:
       - .env
     environment:
       # Eski protsessorlar uchun NumPy cheklovlarini olib tashlash
-      - NPY_DISABLE_CPU_FEATURES=AVX512F,AVX512_SKX,AVX2,AVX,SSE4_2,SSSE3,SSE3,SSE2,SSE
+      - NPY_DISABLE_CPU_FEATURES=AVX512F,AVX512_SKX,AVX2,AVX,SSE4_2,SSSE3
     networks:
       - get_place_network
     depends_on:
@@ -57,7 +57,7 @@ services:
     env_file:
       - .env
     environment:
-      - NPY_DISABLE_CPU_FEATURES=AVX512F,AVX512_SKX,AVX2,AVX,SSE4_2,SSSE3,SSE3,SSE2,SSE
+      - NPY_DISABLE_CPU_FEATURES=AVX512F,AVX512_SKX,AVX2,AVX,SSE4_2,SSSE3
     networks:
       - get_place_network
     depends_on:
@@ -71,9 +71,9 @@ services:
     env_file:
       - .env
     environment:
-      - NPY_DISABLE_CPU_FEATURES=AVX512F,AVX512_SKX,AVX2,AVX,SSE4_2,SSSE3,SSE3,SSE2,SSE
+      - NPY_DISABLE_CPU_FEATURES=AVX512F,AVX512_SKX,AVX2,AVX,SSE4_2,SSSE3
     networks:
-      - get_place_network
+       - get_place_network
     depends_on:
       - db
       - redis

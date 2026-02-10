@@ -6,3 +6,4 @@ from apps.users.serializers.logout import LogoutSerializer
 from apps.users.serializers.login_refresh import LoginRefreshSerializer
 from apps.users.serializers.resend_code import ResendCodeSerializer
 from apps.users.serializers.reset_password import ResetPasswordSerializer
+from apps.users.serializers.verify import VerifySerializer
