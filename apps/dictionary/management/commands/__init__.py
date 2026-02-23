@@ -1,0 +1,1 @@
+from .fetch_tashkent_data import Command

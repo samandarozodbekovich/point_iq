@@ -1,13 +1,13 @@
-
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework import status
 
 from .models import CellTower
 from .serializers import CellTowerSerializer
-from apps.ai.ai_utils import build_vector_db, query_ai
 from ..shared.views.base_view_set import BaseModelViewSet
 
-index, tower_ids, peopleconsume_data, peopleeducation_data = None, None, None, None
+# Yangi servisni import qilamiz
+from apps.ai.services.ai_engine import BusinessAgent
 
 class CellTowerViewSet(BaseModelViewSet):
     model = CellTower
@@ -18,26 +18,22 @@ class CellTowerViewSet(BaseModelViewSet):
     def ai_query(self, request):
         """
         GET /networks/ai_query/?query=<so'rov>
+        Yangi BusinessAgent servisi orqali tahlil qilish.
         """
-        global index, tower_ids, peopleconsume_data, peopleeducation_data
+        query = request.query_params.get('query', '').strip()
 
-        # Query parametrini tekshirish
-        query = request.query_params.get('query', None)
         if not query:
-            return Response({"error": "query parameter required"}, status=400)
+            return Response(
+                {"error": "query parametri yuborilmadi"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-        # Vector DB yaratish (agar hali yo'q bo'lsa)
-        if index is None or tower_ids is None:
-            try:
-                index, tower_ids, peopleconsume_data, peopleeducation_data = build_vector_db()
-            except Exception as e:
-                return Response({"error": f"Vector DB yaratishda xatolik: {e}"}, status=500)
+        # Barcha mantiq (Geocode, Stats, AI, History) bitta servisda
+        # BusinessAgent ichida allaqachon extract_context va geocoding bor
+        ai_response = BusinessAgent.ask_ai(
+            query=query,
+            user=request.user
+        )
 
-        # AI so‘rovini qaytarish
-        answer = query_ai(query, index, tower_ids, peopleconsume_data, peopleeducation_data)
-        return Response({"query": query, "answer": answer})
-
-
-
-
-
+        # Yakuniy natija
+        return Response(ai_response, status=status.HTTP_200_OK)

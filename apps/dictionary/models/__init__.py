@@ -8,6 +8,10 @@ from apps.dictionary.cars.registered_cars import models as registered_cars_model
 from apps.dictionary.devices.device_data import models as device_data_models
 from apps.dictionary.devices.footfall_event import models as footfall_event_models
 
+from apps.dictionary.population_traffic.models import traffic_note
+from apps.dictionary.population_traffic.models import traffic_segment
+from apps.dictionary.population_traffic.models import point_of_interest
+
 
 __all__ = [
     'crime_types_model',
@@ -19,5 +23,9 @@ __all__ = [
 
     'device_data_models',
     'footfall_event_models',
+
+    'traffic_note',
+    'traffic_segment',
+    'point_of_interest',
 
 ]

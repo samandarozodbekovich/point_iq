@@ -2,7 +2,7 @@ import requests
 import time
 
 def is_inside_uzbekistan(lat, lon):
-    """Berilgan koordinatalar O‘zbekiston hududida ekanligini tekshiradi"""
+
     return 37.0 <= lat <= 46.0 and 56.0 <= lon <= 74.0
 
 def geocode_nominatim(address: str):

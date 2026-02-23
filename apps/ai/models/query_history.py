@@ -19,7 +19,7 @@ class QueryHistory(models.Model):
         blank=True,
         related_name='query_histories'
     )
-    user_query = models.TextField()
+    user_query = models.TextField(db_index=True)
     business_type = models.CharField(max_length=100, blank=True)
     region = models.CharField(max_length=100, blank=True)
     created_at = models.DateTimeField(default=timezone.now)

@@ -22,6 +22,7 @@ class CompetitorSerializer(serializers.ModelSerializer):
             "longitude",
             "latitude",
             'external_id',
+            'google_place_id',
             'schedule_from',
             'schedule_to',
             "category",
@@ -39,7 +40,7 @@ class CompetitorSerializer(serializers.ModelSerializer):
                 "name_uz": obj.category.name_uz,
                 "name_ru": obj.category.name_ru,
                 "name_cyr": obj.category.name_cyr,
-                "external_id": obj.category.external_id,
+                "google_type": getattr(obj.category, 'google_type', None),
             }
         return None
 
@@ -50,3 +51,11 @@ class CompetitorSerializer(serializers.ModelSerializer):
     def get_hits(self, obj):
         hitcount = HitCount.objects.get_for_object(obj)
         return hitcount.hits
+
+
+class CompetitorAnalysisSerializer(serializers.Serializer):
+    category_id = serializers.IntegerField(required=True)
+    lat = serializers.FloatField(help_text="Latitude", min_value=-90, max_value=90)
+    long = serializers.FloatField(help_text="Longitude", min_value=-180, max_value=180)
+    radius = serializers.ChoiceField(choices=[300, 500, 1000], default=300)
+

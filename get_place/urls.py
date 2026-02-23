@@ -13,10 +13,10 @@ schema_view = get_schema_view(
     openapi.Info(
         title="Share API",
         default_version='v1',
-        description="Get place project",
-        terms_of_service='getplace.com',
+        description="PointIq project",
+        terms_of_service='pointiq.com',
         contact=openapi.Contact(email="nosirovsamandar110@gmail.com"),
-        license=openapi.License(name="getplace licence")
+        license=openapi.License(name="pointiq licence")
     ),
     public=True,
     permission_classes=[permissions.AllowAny, ],
@@ -33,6 +33,7 @@ urlpatterns = [
         path('government/', include('apps.government_bodies.urls')),
         path('networks/', include('apps.networks.urls')),
         path('ai/', include('apps.ai.urls')),
+        path('statistics/', include('apps.dictionary.urls'))
     ])),
 
         path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

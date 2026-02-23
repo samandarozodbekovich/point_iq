@@ -11,6 +11,13 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+OSGEO4W_ROOT = r"C:\OSGeo4W"
+os.environ['PATH'] = os.path.join(OSGEO4W_ROOT, 'bin') + os.pathsep + os.environ['PATH']
+
+GDAL_LIBRARY_PATH = os.path.join(OSGEO4W_ROOT, 'bin', 'gdal312.dll')
+GEOS_LIBRARY_PATH = os.path.join(OSGEO4W_ROOT, 'bin', 'geos_c.dll')
+
+
 SECRET_KEY = config('SECRET_KEY')
 TWO_GIS_API_KEY = os.getenv('TWO_GIS_API_KEY')
 FOURSQUARE_API_KEY = os.getenv("FOURSQUARE_API_KEY")
@@ -19,6 +26,7 @@ OPENCELLID_KEY=config("OPENCELLID_KEY")
 
 OPENAI_API_KEY=config("OPENAI_API_KEY")
 OPENROUTER_API_KEY=config("OPENROUTER_API_KEY")
+GOOGLE_MAP_API_KEY=config("GOOGLE_MAP_API_KEY")
 
 OPENCELLID_RATE_LIMIT = {
     'requests_per_second': 0.5,  # 1 request every 2 seconds
@@ -48,6 +56,9 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     '45.138.159.84',
     'api.getplace.uz',
+    'api.pointiq.uz',
+    'pointiq.uz',
+    'www.api.pointiq.uz',
 ]
 # HTTPS va proxy headers
 USE_X_FORWARDED_HOST = True
@@ -64,8 +75,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
+    'django.contrib.gis',
+
     # installed packages
     'rest_framework',
+    'rest_framework_gis',
     'rest_framework_simplejwt',
     'twilio',
     'celery',
@@ -73,6 +87,7 @@ INSTALLED_APPS = [
     'hitcount',
     'corsheaders',
     "django_json_widget",
+    'leaflet',
 
 
 
@@ -171,6 +186,22 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
 
+
+LEAFLET_CONFIG = {
+    'DEFAULT_CENTER': (41.2995, 69.2401), # Toshkent koordinatalari
+    'DEFAULT_ZOOM': 12,
+    'MIN_ZOOM': 5,
+    'MAX_ZOOM': 18,
+    'TILES': [
+        ('satellite', 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+         {'attribution': '&copy; OpenStreetMap contributors'}),
+        # Agar Google xaritasini xohlasangiz:
+        ('Google Maps', 'http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}',
+         {'attribution': 'Google'}),
+    ],
+}
+
+
 ROOT_URLCONF = "get_place.urls"
 
 TEMPLATES = [
@@ -193,7 +224,7 @@ WSGI_APPLICATION = "get_place.wsgi.application"
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': config('DB_NAME'),
         'USER': config('DB_USER'),
         'PASSWORD': config('DB_PASSWORD'),

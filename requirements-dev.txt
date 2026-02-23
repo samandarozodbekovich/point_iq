@@ -1,4 +1,0 @@
-# Data visualization and analytics
-seaborn
-matplotlib
-scikit-learn

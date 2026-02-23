@@ -4,17 +4,23 @@ from hitcount.models import HitCount
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 from .models import Competitor
 from apps.areas.districts.models import District
-from .serializers import CompetitorSerializer
-from ...core.views import BaseBulkMethods
-from ...shared.functions import get_nearby_objects, hit_count
+from .serializers import CompetitorSerializer, CompetitorAnalysisSerializer
+from ..competitor_categories.models import CompetitorCategory
+
+
+from ...shared.functions import hit_count
 from ...shared.views.base_view_set import BaseModelViewSet
-from .tasks import fetch_and_update_competitors_2gis
+from .tasks import fetch_google_competitors_task, fetch_and_update_competitors_2gis
+from .services import fetch_and_save_nearby_competitors
 
 
-class CompetitorViewSet(BaseModelViewSet, BaseBulkMethods):
+class CompetitorViewSet(BaseModelViewSet):
     model = Competitor
     serializer_class = CompetitorSerializer
     lookup_field = 'pk'
@@ -22,7 +28,7 @@ class CompetitorViewSet(BaseModelViewSet, BaseBulkMethods):
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         content_type = ContentType.objects.get_for_model(instance)
-        hit_count_obj, created = HitCount.objects.get_or_create(
+        hit_count_obj, _ = HitCount.objects.get_or_create(
             content_type=content_type,
             object_pk=instance.pk
         )
@@ -30,248 +36,164 @@ class CompetitorViewSet(BaseModelViewSet, BaseBulkMethods):
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
+    @swagger_auto_schema(manual_parameters=[
+        openapi.Parameter('category', openapi.IN_QUERY, type=openapi.TYPE_STRING, description="Kategoriya nomi (uz yoki ru)"),
+        openapi.Parameter('district_id', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description="Tuman ID raqami"),
+        openapi.Parameter('query', openapi.IN_QUERY, type=openapi.TYPE_STRING, description="Nomi yoki manzili bo'yicha qidiruv"),
+    ])
     def list(self, request):
-
-        query = request.query_params.get("query")
-        category = request.query_params.get("category")
+        category_name = request.query_params.get("category")
         district_id = request.query_params.get("district_id")
+        query = request.query_params.get("query")
 
-        if not category:
-            return Response(
-                {"error": "category required"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+        if not category_name:
+            return Response({"error": "Category is required"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # District bo'yicha filter
         if district_id:
-            return self.filter_by_district(district_id, category)
+            return self.filter_by_district(district_id, category_name)
 
-        # Oddiy qidiruv
-        if not query:
-            return Response(
-                {"error": "query or district_id required"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        # Database'dan qidiruv
-        competitors = Competitor.objects.filter(
-            Q(category__name_uz__icontains=category),
-            Q(Q(address__icontains=query) | Q(name_uz__icontains=query))
+        queryset = Competitor.objects.filter(
+            Q(category__name_uz__icontains=category_name) |
+            Q(category__name_ru__icontains=category_name)
         )
 
-        results = self._prepare_results(competitors)
+        if query:
+            queryset = queryset.filter(
+                Q(address__icontains=query) |
+                Q(name_uz__icontains=query) |
+                Q(name_ru__icontains=query)
+            )
 
-        # MUHIM: Agar database'da ma'lumot bo'lmasa, background'da API dan yukla
-        if not competitors.exists():
-            # Category ni Russian nomiga o'zgartiramiz (2GIS uchun)
-            try:
-                category_obj = Competitor.objects.filter(
-                    category__name_uz__icontains=category
-                ).first()
-                category_name_ru = category_obj.category.name_ru if category_obj else category
-            except:
-                category_name_ru = category
+        if not queryset.exists() and query:
+            cat_obj = CompetitorCategory.objects.filter(
+                Q(name_uz__icontains=category_name) | Q(name_ru__icontains=category_name)
+            ).first()
 
-            # Background task
-            fetch_and_update_competitors_2gis.delay(query, category_name_ru)
+            target_category_ru = cat_obj.name_ru if cat_obj else category_name
+
+            fetch_and_update_competitors_2gis.delay(query, target_category_ru)
 
             return Response({
-                "query": query,
-                "category": category,
-                "count": 0,
-                "results": [],
                 "status": "loading",
-                "message": "No data in database. Fetching from 2GIS... Please refresh in a few seconds"
+                "message": "Ma'lumotlar bazada topilmadi. 2GIS'dan yuklanmoqda...",
+                "count": 0,
+                "results": []
             }, status=status.HTTP_202_ACCEPTED)
 
         return Response({
-            "query": query,
-            "category": category,
-            "count": competitors.count(),
-            "results": results,
-            "status": "success"
+            "status": "success",
+            "count": queryset.count(),
+            "results": self.get_serializer(queryset, many=True).data
         })
 
-    @action(detail=False, methods=['post'], url_path='search-2gis')
-    def search_2gis(self, request):
-
+    @swagger_auto_schema(
+        method='post',
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            required=['query'],
+            properties={
+                'query': openapi.Schema(type=openapi.TYPE_STRING, description="Qidiruv so'zi (Manzil, shahar yoki brend)"),
+                'category_name': openapi.Schema(type=openapi.TYPE_STRING, description="Filtrlash uchun kategoriya (RU tilda)"),
+            }
+        ),
+        operation_description="2GIS orqali matnli qidiruv va fonda bazaga yuklash"
+    )
+    @action(detail=False, methods=['post'], url_path='sync-2gis')
+    def sync_2gis(self, request):
         query = request.data.get("query")
         category_name = request.data.get("category_name")
 
-        if not query or not category_name:
-            return Response(
-                {"error": "query and category_name required"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+        if not query:
+            return Response({"error": "Query is required"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Background task
         task = fetch_and_update_competitors_2gis.delay(query, category_name)
-
         return Response({
-            "status": "Task started",
+            "status": "2GIS sync started",
             "task_id": task.id,
-            "query": query,
-            "category_name": category_name,
-            "message": "Data is being fetched. Check back soon."
+            "message": f"'{query}' bo'yicha ma'lumotlar fonda yuklanmoqda."
+        }, status=status.HTTP_202_ACCEPTED)
+
+    @swagger_auto_schema(
+        method='post',
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            required=['lat', 'lng', 'category_id'],
+            properties={
+                'lat': openapi.Schema(type=openapi.TYPE_NUMBER),
+                'lng': openapi.Schema(type=openapi.TYPE_NUMBER),
+                'radius': openapi.Schema(type=openapi.TYPE_INTEGER, default=500),
+                'category_id': openapi.Schema(type=openapi.TYPE_INTEGER, description="Bazadagi kategoriya ID-si"),
+            }
+        ),
+        operation_description="Google orqali radius bo'yicha fonda bazaga yuklash"
+    )
+    @action(detail=False, methods=['post'], url_path='sync-google')
+    def sync_google(self, request):
+        """Google orqali radius bo'yicha qidiruv (Celery task)"""
+        lat = request.data.get("lat")
+        lng = request.data.get("lng")
+        radius = request.data.get("radius", 500)
+        category_id = request.data.get("category_id")
+
+        if not lat or not lng or not category_id:
+            return Response({"error": "lat, lng and category_id are required"}, status=400)
+
+        # Google API types mapping (View ichidagi map_to_google_type'ga o'xshash mantiq Task ichida bo'lishi kerak)
+        task = fetch_google_competitors_task.delay(lat, lng, radius, category_id)
+        return Response({
+            "status": "Google sync started",
+            "task_id": task.id,
+            "message": "Belgilangan hudud bo'yicha Google ma'lumotlari fonda yuklanmoqda."
         }, status=status.HTTP_202_ACCEPTED)
 
     def filter_by_district(self, district_id, category):
+        """Tuman chegarasi bo'yicha bazadan filterlash"""
         try:
             district = District.objects.get(id=district_id)
         except District.DoesNotExist:
-            return Response(
-                {"error": f"Tuman topilmadi: ID={district_id}"},
-                status=status.HTTP_404_NOT_FOUND
-            )
+            return Response({"error": "Tuman topilmadi"}, status=404)
 
-        if not district.boundary_json:
-            return Response(
-                {"error": f"Bu tumanning boundary ma'lumotlari yo'q: {district.name_uz}"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        all_competitors = Competitor.objects.filter(
-            category__name_uz__icontains=category,
-            latitude__isnull=False,
-            longitude__isnull=False
+        competitors = Competitor.objects.filter(
+            Q(category__name_uz__icontains=category) | Q(category__name_ru__icontains=category)
         )
-
-        competitors_in_district = [
-            comp for comp in all_competitors
-            if district.is_point_inside(comp.latitude, comp.longitude)
-        ]
-
-        results = self._prepare_results(competitors_in_district)
+        # Point in Polygon filter
+        results = [c for c in competitors if district.is_point_inside(c.latitude, c.longitude)]
 
         return Response({
             "status": "success",
-            "district": {
-                "id": district.id,
-                "name_uz": district.name_uz,
-                "name_ru": district.name_ru,
-                "city": district.city.name_uz if district.city else None
-            },
-            "category": category,
-            "count": len(competitors_in_district),
-            "results": results
+            "district": district.name_uz,
+            "results": self.get_serializer(results, many=True).data
         })
 
-    @action(detail=False, methods=['get'], url_path='by-district')
-    def by_district(self, request):
-        district_id = request.query_params.get("district_id")
-        category = request.query_params.get("category")
 
-        if not district_id or not category:
-            return Response(
-                {"error": "district_id va category parametrlari kerak"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+class CompetitorAnalysisAPI(APIView):
 
-        return self.filter_by_district(district_id, category)
+    @swagger_auto_schema(query_serializer=CompetitorAnalysisSerializer)
+    def get(self, request):
+        serializer = CompetitorAnalysisSerializer(data=request.query_params)
+        serializer.is_valid(raise_exception=True)
 
-    @action(detail=False, methods=['get'], url_path='districts')
-    def list_districts(self, request):
-        city_id = request.query_params.get("city_id")
+        lat = serializer.validated_data['lat']
+        lng = serializer.validated_data['long']
+        radius = serializer.validated_data['radius']
+        category_id = serializer.validated_data.get('category_id')
 
-        districts = District.objects.select_related('city').all()
-        if city_id:
-            districts = districts.filter(city_id=city_id)
-
-        data = [{
-            "id": d.id,
-            "name_uz": d.name_uz,
-            "name_ru": d.name_ru,
-            "name_cyr": d.name_cyr,
-            "city": d.city.name_uz if d.city else None,
-            "has_boundary": d.boundary_json is not None
-        } for d in districts]
-
-        return Response({"count": len(data), "results": data})
-
-    @action(detail=False, methods=['post'], url_path='check-point')
-    def check_point(self, request):
-        latitude = request.data.get("latitude")
-        longitude = request.data.get("longitude")
-
-        if not latitude or not longitude:
-            return Response(
-                {"error": "latitude va longitude kerak"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        districts = District.objects.exclude(boundary_json__isnull=True)
-
-        found_districts = [
-            {
-                "id": d.id,
-                "name_uz": d.name_uz,
-                "name_ru": d.name_ru,
-                "city": d.city.name_uz if d.city else None
-            }
-            for d in districts
-            if d.is_point_inside(latitude, longitude)
-        ]
-
-        return Response({
-            "latitude": float(latitude),
-            "longitude": float(longitude),
-            "found_districts": found_districts,
-            "count": len(found_districts)
-        })
-
-    def _prepare_results(self, competitors):
-        """Natijalarni tayyorlash"""
-        results = []
-        competitor_list = list(competitors) if not isinstance(competitors, list) else competitors
-
-        for comp in competitor_list:
-            serializer = self.get_serializer(comp)
-            content_type = ContentType.objects.get_for_model(comp)
-            hit_count_obj, _ = HitCount.objects.get_or_create(
-                content_type=content_type,
-                object_pk=comp.pk
-            )
-
-            comp_data = serializer.data
-            comp_data.update({
-                "total_hits": hit_count_obj.hits,
-                "average_rating": comp.average_rating,
-                "review_count": comp.review_count
-            })
-            results.append(comp_data)
-
-        return results
-
-    @action(detail=True, methods=['get'])
-    def nearby(self, request, pk=None):
-        comp = self.get_object()
-        if not comp.latitude or not comp.longitude:
-            return Response({"error": "No coordinates available"}, status=400)
-
-        nearby_objs = get_nearby_objects(comp.latitude, comp.longitude, model=Competitor)
-        serializer = self.get_serializer(nearby_objs, many=True)
-
-        return Response({
-            "center": {"latitude": comp.latitude, "longitude": comp.longitude},
-            "radius_km": 5,
-            "count": len(nearby_objs),
-            "results": serializer.data
-        })
-
-    @action(detail=False, methods=['get'], url_path='nearby-location')
-    def nearby_location(self, request):
         try:
-            lat = float(request.query_params.get("lat"))
-            long = float(request.query_params.get("long"))
-        except:
-            return Response({"error": "long and lat are required"}, status=400)
+            category_obj = CompetitorCategory.objects.get(id=category_id)
+            google_type_id = category_obj.id
+        except CompetitorCategory.DoesNotExist:
+            return Response({"error": "Category not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        nearby_objs = get_nearby_objects(lat, long, model=Competitor)
-        serializer = self.get_serializer(nearby_objs, many=True)
+        analysis = fetch_and_save_nearby_competitors(lat, lng, radius, google_type_id)
+
+        if "error" in analysis:
+            return Response(analysis, status=status.HTTP_400_BAD_REQUEST)
 
         return Response({
-            "center": {"latitude": lat, "longitude": long},
-            "radius_km": 5,
-            "count": len(nearby_objs),
-            "results": serializer.data
+            "summary": {
+                "category": category_obj.name_uz,
+                "total_found": analysis.get("total_found"),
+                "new_added": analysis.get("created_count")
+            },
+            "results": analysis.get("data", {}).get("places", [])
         })

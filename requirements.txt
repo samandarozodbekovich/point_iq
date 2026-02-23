@@ -35,6 +35,8 @@ sqlparse
 geopandas
 shapely
 pyproj
+django-leaflet
+djangorestframework-gis
 
 # Server
 gunicorn
@@ -45,14 +47,6 @@ twilio
 # Geocoding
 geopy
 
-# CORS
-django-cors-headers
-
 # AI - OpenAI ONLY
 openai>=1.0,<2.0
-xgboost
-numpy
-joblib
 django_json_widget
-lightgbm
-scipy
