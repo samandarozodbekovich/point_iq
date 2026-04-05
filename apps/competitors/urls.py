@@ -6,7 +6,7 @@ from rest_framework.routers import DefaultRouter
 from apps.competitors.competitor.views import CompetitorViewSet
 from apps.competitors.competitor_categories.views import CompetitorCategoryViewSet
 from apps.competitors.competitor_review.views import CompetitorReviewViewSet
-from apps.competitors.competitor.views import CompetitorAnalysisAPI
+from apps.competitors.competitor.views import CompetitorAnalysisAPI, PointIQScoreView
 
 
 
@@ -22,4 +22,5 @@ urlpatterns = [
     path('', include(router.urls)),
     path('', include(competitor_router.urls)),
     path('analysis/', CompetitorAnalysisAPI.as_view()),
+    path('get-score/', PointIQScoreView.as_view()),
 ]

@@ -10,9 +10,9 @@ from drf_yasg import openapi
 
 from .models import Competitor
 from apps.areas.districts.models import District
-from .serializers import CompetitorSerializer, CompetitorAnalysisSerializer
+from .serializers import CompetitorSerializer, CompetitorAnalysisSerializer, LocationScoreSerializer
 from ..competitor_categories.models import CompetitorCategory
-
+from ..utils.calculate_location_score import calculate_location_score, get_poi_counts_in_radius
 
 from ...shared.functions import hit_count
 from ...shared.views.base_view_set import BaseModelViewSet
@@ -197,3 +197,38 @@ class CompetitorAnalysisAPI(APIView):
             },
             "results": analysis.get("data", {}).get("places", [])
         })
+
+
+
+class PointIQScoreView(APIView):
+
+    def get(self, request):
+        serializer = LocationScoreSerializer(data=request.query_params)
+
+        if serializer.is_valid():
+            lat = serializer.validated_data['lat']
+            lon = serializer.validated_data['lon']
+            rent = serializer.validated_data.get('potential_rent')
+
+            # 1. Skoringni hisoblaymiz
+            score = calculate_location_score(lat, lon, potential_rent=rent)
+
+            # 2. Qo'shimcha tahliliy ma'lumotlarni yig'amiz (Frontend uchun)
+            poi_summary = get_poi_counts_in_radius(lat, lon)
+
+            # 3. Biznes tavsiyasi
+            recommendation = "Highly Recommended" if score > 75 else "Needs Review" if score > 50 else "Not Recommended"
+
+            return Response({
+                "status": "success",
+                "coordinate": {"lat": lat, "lon": lon},
+                "final_score": score,
+                "recommendation": recommendation,
+                "analysis_details": {
+                    "competitor_count": poi_summary.get('fast_food', 0),
+                    "nearby_universities": poi_summary.get('university', 0),
+                    "metro_access": poi_summary.get('metro_station', 0) > 0,
+                }
+            }, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

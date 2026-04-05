@@ -37,6 +37,7 @@ shapely
 pyproj
 django-leaflet
 djangorestframework-gis
+django-cors-headers
 
 # Server
 gunicorn

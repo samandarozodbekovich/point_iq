@@ -59,3 +59,9 @@ class CompetitorAnalysisSerializer(serializers.Serializer):
     long = serializers.FloatField(help_text="Longitude", min_value=-180, max_value=180)
     radius = serializers.ChoiceField(choices=[300, 500, 1000], default=300)
 
+
+
+class LocationScoreSerializer(serializers.Serializer):
+    lat = serializers.FloatField(min_value=-90, max_value=90)
+    lon = serializers.FloatField(min_value=-180, max_value=180)
+    potential_rent = serializers.FloatField(required=False, allow_null=True)
