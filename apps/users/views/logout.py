@@ -1,8 +1,9 @@
-from rest_framework import permissions
+from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.exceptions import TokenError
+from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.views import TokenObtainPairView
 
 from apps.users.serializers.logout import LogoutSerializer
 
@@ -15,18 +16,21 @@ class LogoutView(APIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
+        invalid = Response(
+            {'success': False, 'message': 'Invalid or expired refresh token.'},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+        # Only token errors are expected here; anything else is a real bug
+        # and should surface as one instead of a quiet 200.
         try:
-            refresh_token = self.request.data["refresh"]
-            token = RefreshToken(refresh_token)
-            token.blacklist()
-            data = {
-                'success': True,
-                'message': 'Successfully logged out',
-            }
-            return Response(data)
-        except Exception as e:
-            data = {
-                'success': False,
-                'message': str(e),
-            }
-            return Response(data)
+            token = RefreshToken(serializer.validated_data['refresh'])
+        except TokenError:
+            return invalid
+
+        # A user may only end their own session.
+        if str(token.get(api_settings.USER_ID_CLAIM)) != str(request.user.pk):
+            return invalid
+
+        token.blacklist()
+        return Response({'success': True, 'message': 'Successfully logged out'})
