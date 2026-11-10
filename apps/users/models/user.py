@@ -55,6 +55,20 @@ class User(AbstractBaseUser, PermissionsMixin, BaseTimeModel):
         UserConfirmation.objects.create(user=self, code=code)
         return code
 
+    def revoke_tokens(self):
+        """Blacklist every refresh token issued to this user (log out all sessions).
+
+        Access tokens are cut off separately by SIMPLE_JWT CHECK_REVOKE_TOKEN
+        when the password changes; this makes the refresh endpoint refuse
+        the old refresh tokens as well.
+        """
+        from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
+
+        outstanding = OutstandingToken.objects.filter(user=self, blacklistedtoken__isnull=True)
+        BlacklistedToken.objects.bulk_create(
+            [BlacklistedToken(token=t) for t in outstanding], ignore_conflicts=True
+        )
+
     def token(self):
         refresh = RefreshToken.for_user(self)
         return {

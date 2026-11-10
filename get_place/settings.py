@@ -1,4 +1,5 @@
 import os
+from celery.schedules import crontab
 from decouple import config, Csv
 from datetime import timedelta
 from pathlib import Path
@@ -81,6 +82,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_gis',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     'twilio',
     'celery',
     'drf_yasg',
@@ -164,6 +166,11 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
     "UPDATE_LAST_LOGIN": False,
+
+    # Tokens carry a hash of the user's password; once the password changes,
+    # every access token issued before it is rejected immediately. Blacklisting
+    # alone can't do that: access tokens are never looked up in the database.
+    "CHECK_REVOKE_TOKEN": True,
 
     "ALGORITHM": "HS256",
     "SIGNING_KEY": SECRET_KEY,
@@ -326,6 +333,15 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = config('CELERY_TIMEZONE', default='Asia/Tashkent')
+
+CELERY_BEAT_SCHEDULE = {
+    # The token blacklist keeps a row for every refresh token ever issued;
+    # drop the ones that have expired anyway.
+    'flush-expired-tokens': {
+        'task': 'apps.users.tasks.flush_expired_tokens',
+        'schedule': crontab(hour=3, minute=0),
+    },
+}
 
 CHANNEL_LAYERS = {
     "default": {

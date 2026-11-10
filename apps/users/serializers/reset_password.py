@@ -1,4 +1,5 @@
 from django.contrib.auth.password_validation import validate_password
+from django.db import transaction
 from rest_framework import serializers
 
 from apps.users.models.user import DONE, OTP_LENGTH, User
@@ -33,6 +34,9 @@ class ResetPasswordSerializer(serializers.Serializer):
 
     def save(self, **kwargs):
         user = self.validated_data['user']
-        user.set_password(self.validated_data['password'])
-        user.save()
+        with transaction.atomic():
+            user.set_password(self.validated_data['password'])
+            user.save()
+            # Whoever had the old password may still hold tokens; end those sessions.
+            user.revoke_tokens()
         return user
