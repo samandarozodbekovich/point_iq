@@ -6,7 +6,7 @@ from rest_framework.response import Response
 
 from apps.competitors.competitor.models import Competitor
 from apps.dictionary.population_traffic.models.point_of_interest import PointOfInterestModel
-from apps.dictionary.population_traffic.models.traffic_note import TrafficNoteModel
+from apps.dictionary.population_traffic.models.traffic_node import TrafficNodeModel
 from apps.dictionary.population_traffic.models.traffic_segment import TrafficSegmentModel
 
 
@@ -42,7 +42,7 @@ class TrafficHeatmapView(APIView):
 
         # NODES (Transport bog'lamalari)
         if 'all' in layers or 'node' in layers:
-            qs = TrafficNoteModel.objects.all()
+            qs = TrafficNodeModel.objects.all()
             qs = qs.filter(location__contained=bbox_polygon)
             for n in limited(qs):
                 features.append(self._to_geojson(n.location, {

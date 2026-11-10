@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from apps.competitors.competitor.models import Competitor
 from apps.dictionary.population_traffic.models.point_of_interest import PointOfInterestModel
 from apps.dictionary.population_traffic.models.traffic_segment import TrafficSegmentModel
-from apps.dictionary.population_traffic.models.traffic_note import TrafficNoteModel
+from apps.dictionary.population_traffic.models.traffic_node import TrafficNodeModel
 
 from apps.citizens.population.models import Population
 from apps.citizens.age_groups.models import AgeGroupPopulation
@@ -44,7 +44,7 @@ class BusinessIntelligenceView(APIView):
         avg_rating = comp_qs.aggregate(Avg('average_rating'))['average_rating__avg'] or 0
 
         poi_count = PointOfInterestModel.objects.filter(location__distance_lte=(user_point, D(m=radius))).count()
-        transit_count = TrafficNoteModel.objects.filter(
+        transit_count = TrafficNodeModel.objects.filter(
             location__distance_lte=(user_point, D(m=radius)), node_type="transit"
         ).count()
 

@@ -11,7 +11,7 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Share API",
+        title="PointIQ API",
         default_version='v1',
         description="PointIq project",
         terms_of_service='pointiq.com',

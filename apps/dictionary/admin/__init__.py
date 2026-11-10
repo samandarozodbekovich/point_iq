@@ -6,5 +6,5 @@ from apps.dictionary.admin.device_data import *
 from apps.dictionary.admin.footfall_event import *
 from apps.dictionary.admin.registered_cars import *
 from .point_of_interest import PointOfInterestModelAdmin
-from .traffic_note import TrafficNoteAdmin
+from .traffic_node import TrafficNodeAdmin
 from .traffic_segment import TrafficSegmentAdmin

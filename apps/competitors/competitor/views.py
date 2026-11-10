@@ -215,11 +215,11 @@ class CompetitorAnalysisAPI(APIView):
 
         try:
             category_obj = CompetitorCategory.objects.get(id=category_id)
-            google_type_id = category_obj.id
         except CompetitorCategory.DoesNotExist:
             return Response({"error": "Category not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        analysis = fetch_and_save_nearby_competitors(lat, lng, radius, google_type_id)
+        # The service takes the category id and reads google_type itself.
+        analysis = fetch_and_save_nearby_competitors(lat, lng, radius, category_obj.id)
 
         if "error" in analysis:
             return Response(analysis, status=status.HTTP_400_BAD_REQUEST)

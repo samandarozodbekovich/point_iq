@@ -4,7 +4,7 @@ from django.db import transaction
 
 from apps.ai.logger import logger
 from apps.dictionary.population_traffic.models.point_of_interest import PointOfInterestModel
-from apps.dictionary.population_traffic.models.traffic_note import TrafficNoteModel
+from apps.dictionary.population_traffic.models.traffic_node import TrafficNodeModel
 from apps.dictionary.population_traffic.models.traffic_segment import TrafficSegmentModel
 
 OVERPASS_URL = "https://overpass.kumi.systems/api/interpreter"
@@ -58,9 +58,9 @@ def save_elements(data):
     for el in data.get('elements', []):
         tags = el.get('tags', {})
 
-        # 1. Transport bog'lamalari (TrafficNoteModel)
+        # 1. Transport bog'lamalari (TrafficNodeModel)
         if tags.get("amenity") == "bus_station" or tags.get("railway") == "station":
-            TrafficNoteModel.objects.update_or_create(
+            TrafficNodeModel.objects.update_or_create(
                 external_id=f"node/{el['id']}",
                 defaults={
                     'name': tags.get('name', f"Station {el['id']}"),

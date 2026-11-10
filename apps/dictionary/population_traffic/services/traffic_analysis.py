@@ -4,7 +4,7 @@ from django.contrib.gis.db.models.functions import Distance
 
 from apps.competitors.competitor.models import Competitor
 from ..models.point_of_interest import PointOfInterestModel
-from ..models.traffic_note import TrafficNoteModel
+from ..models.traffic_node import TrafficNodeModel
 from ..models.traffic_segment import TrafficSegmentModel
 
 
@@ -12,7 +12,7 @@ class TrafficAnalysis:
     @staticmethod
     def get_location_score(point, radius=500):
         # 1. Traffic Nodes & POIs (Attraction Force)
-        nodes = TrafficNoteModel.objects.filter(
+        nodes = TrafficNodeModel.objects.filter(
             location__distance_lte=(point, D(m=radius))
         ).annotate(distance=Distance("location", point))
 
