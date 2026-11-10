@@ -1,3 +1,5 @@
+import importlib
+from unittest import mock
 from django.db import connection
 from django.test import TestCase, override_settings
 from django.test.utils import CaptureQueriesContext
@@ -72,3 +74,57 @@ class CompetitorListQueryCountTests(TestCase):
         self.assertEqual(row["average_rating"], 4.0)
         self.assertEqual(row["review_count"], 3)
         self.assertEqual(len(row["reviews"]), 3)
+
+
+@override_settings(CACHES=LOCMEM)
+class CompetitorPaginationTests(TestCase):
+    def test_list_is_paginated(self):
+        cat = CompetitorCategory.objects.create(name_uz="Kafe", name_ru="Кафе")
+        Competitor.objects.bulk_create(
+            [Competitor(category=cat, name_uz=f"K{i}", name_ru="К") for i in range(60)])
+        client = APIClient()
+        first = client.get("/api/competitors/competitor/", {"category": "Kafe"}).data
+        self.assertEqual((first["status"], first["count"], len(first["results"])), ("success", 60, 50))
+        self.assertIsNotNone(first["next"])
+        second = client.get(first["next"]).data
+        self.assertEqual(len(second["results"]), 10)
+        self.assertIsNone(second["next"])
+        ids = [r["id"] for r in first["results"] + second["results"]]
+        self.assertEqual(len(set(ids)), 60, "pages overlap or skip rows")
+
+
+class TwoGisSearchTests(TestCase):
+    """Network is mocked; the database writes are real."""
+
+    def page(self, ids, total):
+        items = [{"id": f"{i}_x", "name": f"Kafe {i}", "full_name": "Toshkent", "purpose_name": "Кафе",
+                  "point": {"lat": 41.3, "lon": 69.2}} for i in ids]
+        resp = mock.Mock(status_code=200)
+        resp.json.return_value = {"result": {"items": items, "total": total}}
+        return resp
+
+    def test_stops_at_total_requests_fields_and_skips_byid(self):
+        s = importlib.import_module("apps.competitors.utils.search_place_2gis")
+        CompetitorCategory.objects.create(name_uz="Kafe", name_ru="Кафе")
+        pages = [self.page(range(0, 10), 15), self.page(range(10, 15), 15), self.page(range(99, 109), 15)]
+        with mock.patch.object(s.requests, "get", side_effect=pages) as get, \
+             mock.patch.object(s, "fetch_item_details") as byid, mock.patch.object(s.time, "sleep"):
+            created = s.search_place_2gis("kafe")
+        self.assertEqual(get.call_count, 2, "kept paging after reaching total")
+        self.assertIn("fields", get.call_args.kwargs["params"])
+        self.assertFalse(byid.called)
+        self.assertEqual(created, 15)
+
+        # Same results again: nothing new (string ids now match the stored ones).
+        with mock.patch.object(s.requests, "get", side_effect=[self.page(range(0, 10), 10)]), \
+             mock.patch.object(s.time, "sleep"):
+            self.assertEqual(s.search_place_2gis("kafe"), 0)
+        self.assertEqual(Competitor.objects.count(), 15)
+
+    def test_page_cap(self):
+        s = importlib.import_module("apps.competitors.utils.search_place_2gis")
+        CompetitorCategory.objects.create(name_uz="Kafe", name_ru="Кафе")
+        endless = (self.page(range(n * 10, n * 10 + 10), 10_000) for n in range(1000))
+        with mock.patch.object(s.requests, "get", side_effect=endless) as get, mock.patch.object(s.time, "sleep"):
+            s.search_place_2gis("kafe")
+        self.assertEqual(get.call_count, s.MAX_PAGES)

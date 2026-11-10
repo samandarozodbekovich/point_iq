@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from apps.property.property_listing.models import PropertyListing
 from apps.property.property_listing.serializers import PropertyListingSerializer
 from apps.shared.functions import get_nearby_objects, parse_lat_lng
+from apps.shared.pagination import paginate
 from apps.shared.views.base_deleted_items_view_set import BaseDeletedItemsViewSet
 
 
@@ -18,13 +19,8 @@ class PropertyListingViewSet(BaseDeletedItemsViewSet):
         properties = self.get_queryset()
         if address:
             properties = properties.filter(address__icontains=address)
-        serializer = self.get_serializer(properties, many=True)
-        return Response({
-            "status": "fetch_started",
-            "address": address,
-            "count": properties.count(),
-            "results": serializer.data
-        })
+        return Response(paginate(self, request, properties, self.get_serializer_class(),
+                                 status="fetch_started", address=address))
 
     @action(methods=['get'], detail=True)
     def nearby(self, request, pk=None):

@@ -17,6 +17,7 @@ from ..competitor_categories.models import CompetitorCategory
 from ..utils.calculate_location_score import calculate_location_score, get_poi_counts_in_radius
 
 from ...shared.functions import hit_count
+from ...shared.pagination import paginate
 from ...shared.throttles import GoogleApiThrottle, TwoGisApiThrottle, allow_paid_call
 from ...shared.views.base_view_set import BaseModelViewSet
 from .tasks import fetch_google_competitors_task, fetch_and_update_competitors_2gis
@@ -112,11 +113,9 @@ class CompetitorViewSet(BaseModelViewSet):
                 "results": []
             }, status=status.HTTP_202_ACCEPTED)
 
-        return Response({
-            "status": "success",
-            "count": queryset.count(),
-            "results": self.get_serializer(queryset, many=True).data
-        })
+        # Paginated: a broad category used to return every competitor at once.
+        return Response(paginate(self, request, queryset.order_by('id'), self.get_serializer_class(),
+                                 status="success"))
 
     @swagger_auto_schema(
         method='post',
@@ -195,11 +194,8 @@ class CompetitorViewSet(BaseModelViewSet):
                 location__within=district.boundary,
             )
 
-        return Response({
-            "status": "success",
-            "district": district.name_uz,
-            "results": self.get_serializer(results, many=True).data
-        })
+        return Response(paginate(self, self.request, results.order_by('id'), self.get_serializer_class(),
+                                 status="success", district=district.name_uz))
 
 
 class CompetitorAnalysisAPI(APIView):

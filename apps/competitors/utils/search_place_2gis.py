@@ -13,6 +13,12 @@ logger = logging.getLogger(__name__)
 TWO_GIS_API_KEY = settings.TWO_GIS_API_KEY
 CITY_ID = "70030076171122914"
 PAGE_SIZE = 10
+# Upper bound on search pages per query. The loop used to run until an
+# empty page came back, however many paid requests that took.
+MAX_PAGES = 10
+# Ask the search endpoint for these directly instead of one byid request
+# per item.
+SEARCH_FIELDS = "items.point,items.full_name,items.schedule,items.org,items.contact_groups,items.rating"
 
 
 def safe_get_schedule(item, weekday="Mon"):
@@ -96,6 +102,7 @@ def search_place_2gis(query: str = None, category_name: str = None, fetch_detail
             "city_id": CITY_ID,
             "page_size": PAGE_SIZE,
             "page": page,
+            "fields": SEARCH_FIELDS,
             "key": TWO_GIS_API_KEY
         }
         try:
@@ -112,11 +119,15 @@ def search_place_2gis(query: str = None, category_name: str = None, fetch_detail
             logger.exception(f"2GIS API error: {e}")
             break
 
-        items = data.get("result", {}).get("items", [])
+        result = data.get("result", {})
+        items = result.get("items", [])
         if not items:
             break
 
         all_items.extend(items)
+        total = result.get("total")
+        if (total is not None and len(all_items) >= total) or page >= MAX_PAGES:
+            break
         page += 1
         time.sleep(0.1)
 
@@ -147,7 +158,9 @@ def search_place_2gis(query: str = None, category_name: str = None, fetch_detail
                 continue
             existing_ids.add(external_id)  # also skip repeats within this batch
 
-            if fetch_details:
+            # Search already returned the details; fall back to byid only
+            # when it came back without coordinates.
+            if fetch_details and not item.get("point"):
                 details = fetch_item_details(
                     item_id,
                     fields=[
