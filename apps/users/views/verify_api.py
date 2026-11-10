@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 
+from apps.users.models.user import CODE_VERIFIED, NEW
 from apps.users.serializers.verify import VerifySerializer
 
 class VerifyAPIView(APIView):
@@ -56,7 +57,7 @@ class VerifyAPIView(APIView):
 
         verifies.update(is_confirmed=True)
 
-        if user.auth_status == "NEW":
-            user.auth_status = "CODE_VERIFIED"
+        if user.auth_status == NEW:
+            user.auth_status = CODE_VERIFIED
             user.is_verified = True
             user.save()

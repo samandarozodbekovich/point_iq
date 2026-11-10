@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import PermissionDenied, ValidationError
 from django.contrib.auth.password_validation import validate_password
 
-from apps.users.models.user import CODE_VERIFIED, DONE, NEW
+from apps.users.models.user import CODE_VERIFIED, DONE
 
 class ChangeUserInformation(serializers.Serializer):
     first_name = serializers.CharField(write_only=True, required=True)
@@ -11,6 +11,9 @@ class ChangeUserInformation(serializers.Serializer):
     confirm_password = serializers.CharField(write_only=True, required=True)
 
     def validate(self, data):
+        # Registration can only be completed after the phone code is confirmed.
+        if self.instance is None or self.instance.auth_status != CODE_VERIFIED:
+            raise PermissionDenied("Verify your phone number before completing registration.")
         if data['password'] != data['confirm_password']:
             raise ValidationError("Passwords do not match.")
         validate_password(data['password'])
@@ -20,7 +23,6 @@ class ChangeUserInformation(serializers.Serializer):
         instance.first_name = validated_data.get('first_name')
         instance.last_name = validated_data.get('last_name')
         instance.set_password(validated_data.get('password'))
-        if instance.auth_status in [NEW, CODE_VERIFIED]:
-            instance.auth_status = DONE
+        instance.auth_status = DONE
         instance.save()
         return instance

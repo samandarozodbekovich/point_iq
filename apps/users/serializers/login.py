@@ -3,6 +3,8 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError, PermissionDenied
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+from apps.users.models.user import DONE
+
 
 class LoginSerializer(TokenObtainPairSerializer):
     phone_number = serializers.CharField(required=True)
@@ -16,7 +18,7 @@ class LoginSerializer(TokenObtainPairSerializer):
         if not user:
             raise ValidationError("Phone number or password is incorrect.")
 
-        if user.auth_status != 'done':
+        if user.auth_status != DONE:
             raise PermissionDenied("You are not authorized to log in yet.")
 
         token_data = user.token()
