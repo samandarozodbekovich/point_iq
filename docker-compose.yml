@@ -30,7 +30,9 @@ services:
   api:
     build: .
     ports:
-      - "8000:8000"
+      # Only the reverse proxy on this host may reach gunicorn. Exposed
+      # publicly, clients could bypass the proxy and fake X-Forwarded-For.
+      - "127.0.0.1:8000:8000"
     container_name: get_place_api
     command: >
       sh -c "python manage.py migrate &&
