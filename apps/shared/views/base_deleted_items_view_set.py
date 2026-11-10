@@ -9,7 +9,21 @@ from ..permissions import IsOwnerOrAdmin
 class BaseDeletedItemsViewSet(viewsets.ModelViewSet):
     model = None
     serializer_class = None
-    permission_classes = [permissions.AllowAny, IsOwnerOrAdmin]
+    # Anonymous users may read; creating needs an account (the object gets an
+    # owner); changing an object needs to be its owner or staff.
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrAdmin]
+
+    # Write actions that touch many objects at once. has_object_permission
+    # never runs for them, so ownership can't be checked: admin only.
+    LIST_WRITE_ACTIONS = ('bulk_create', 'bulk_update')
+
+    def get_permissions(self):
+        if self.action in self.LIST_WRITE_ACTIONS:
+            return [permissions.IsAdminUser()]
+        return super().get_permissions()
+
+    def get_owner_id(self, obj):
+        return obj.owner_id
 
     def get_queryset(self):
         return self.model.objects.filter(is_deleted=False).order_by("-created_at")

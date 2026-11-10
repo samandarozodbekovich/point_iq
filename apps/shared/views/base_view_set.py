@@ -16,10 +16,13 @@ class BaseModelViewSet(viewsets.ModelViewSet):
         return self.model.objects.none()
 
     def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update', 'destroy']:
-            permission_classes = [permissions.IsAdminUser]
-        else:
+        # Deny by default: reads are public, every write is admin-only.
+        # Listing write actions by name missed extra ones such as
+        # BaseBulkMethods.bulk_create/bulk_update, which were left open.
+        if self.request.method in permissions.SAFE_METHODS:
             permission_classes = [permissions.AllowAny]
+        else:
+            permission_classes = [permissions.IsAdminUser]
         return [permission() for permission in permission_classes]
 
     
