@@ -84,7 +84,7 @@ class BusinessIntelligenceView(APIView):
 
                 # Ta'lim va Iste'mol
                 edu = PeopleEducation.objects.filter(district=target_district).first()
-                consume = PeopleConsume.objects.filter(district=target_district).order_by('-year', '-month').first()
+                consume = PeopleConsume.latest_for_district(target_district)
 
                 demographics_data = {
                     "district_name": target_district.name_uz,

@@ -13,9 +13,11 @@ class PropertyListingViewSet(BaseDeletedItemsViewSet):
 
     def list(self, request):
         address = request.query_params.get("address")
-        properties = PropertyListing.objects.filter(
-            address__icontains=address
-        )
+        # get_queryset() skips soft-deleted listings; filter by address only
+        # when one was given (icontains=None matched nothing).
+        properties = self.get_queryset()
+        if address:
+            properties = properties.filter(address__icontains=address)
         serializer = self.get_serializer(properties, many=True)
         return Response({
             "status": "fetch_started",

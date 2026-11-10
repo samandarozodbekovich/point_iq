@@ -1,6 +1,6 @@
 import json
 
-from django.core.management import BaseCommand
+from django.core.management import BaseCommand, CommandError
 from django.db import transaction
 
 from apps.areas.districts.models import District
@@ -14,13 +14,16 @@ class Command(BaseCommand):
         file_path = options['people_consume']
         self.stdout.write(f"reading {file_path}")
 
+        # Stop on a bad file: printing and carrying on hit a NameError on
+        # `data` below. utf-8 explicitly, since the file holds Uzbek text and
+        # the platform default (cp1251/cp1252 on Windows) would garble it.
         try:
-            with open(file_path) as f:
+            with open(file_path, encoding='utf-8') as f:
                 data = json.load(f)
         except FileNotFoundError:
-            self.stdout.write("file not found")
+            raise CommandError(f"file not found: {file_path}")
         except json.JSONDecodeError as e:
-            self.stdout.write(f"error: {e}")
+            raise CommandError(f"invalid json: {e}")
 
         bulk_data = []
         skipped_count = 0

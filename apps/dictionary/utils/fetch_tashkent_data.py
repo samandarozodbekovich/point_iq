@@ -39,6 +39,7 @@ def fetch_overpass(lat, lng, radius):
             [out:json][timeout:60];
             (
               node["amenity"~"bus_station|cafe|restaurant|fast_food|bank"](around:{radius},{lat},{lng});
+              node["railway"="station"](around:{radius},{lat},{lng});
               node["shop"~"supermarket|convenience|pharmacy"](around:{radius},{lat},{lng});
               way["highway"~"primary|secondary|tertiary|residential"](around:{radius},{lat},{lng});
             );

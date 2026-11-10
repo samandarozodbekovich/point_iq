@@ -124,9 +124,12 @@ def search_place_2gis(query: str = None, category_name: str = None, fetch_detail
     if not all_items:
         return 0
 
+    # external_id is a TextField: compare strings. Converting to int made
+    # every "is it already saved?" check miss (123 != "123"), and an id
+    # that wasn't a plain number crashed the whole import here.
     existing_ids = set(
         Competitor.objects.filter(
-            external_id__in=[int(it.get("id")) for it in all_items if it.get("id")]
+            external_id__in=[str(it.get("id")).strip() for it in all_items if it.get("id")]
         ).values_list("external_id", flat=True)
     )
 
@@ -138,10 +141,11 @@ def search_place_2gis(query: str = None, category_name: str = None, fetch_detail
             if not item_id:
                 continue
 
-            external_id = int(item_id)
+            external_id = str(item_id).strip()
 
             if external_id in existing_ids:
                 continue
+            existing_ids.add(external_id)  # also skip repeats within this batch
 
             if fetch_details:
                 details = fetch_item_details(

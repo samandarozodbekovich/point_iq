@@ -4,6 +4,7 @@ from .views import (
     AdminHistoryViewSet,
     UniversalAIView,
     UserHistoryView,
+    UserHistoryDetailView,
     UserDeleteHistoryView
 )
 
@@ -19,6 +20,6 @@ urlpatterns = [
     # User routes
     path('chat/', UniversalAIView.as_view(), name='chat'),
     path('history/', UserHistoryView.as_view(), name='history_list'),
-    path('history/<int:pk>/', UserHistoryView.as_view(), name='history_detail'),
+    path('history/<int:pk>/', UserHistoryDetailView.as_view(), name='history_detail'),
     path('history/<int:pk>/delete/', UserDeleteHistoryView.as_view(), name='history_delete'),
 ]

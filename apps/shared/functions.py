@@ -43,13 +43,30 @@ def get_nearby_objects(center_lat, center_lon, radius_km=5, model=None):
     return nearby_objs
 
 def hit_count(request, hitcount):
+    """Count one view per IP.
+
+    The uniqueness check looks at Hit rows, so a Hit has to be recorded:
+    calling hitcount.increase() alone left no Hit, every request from the
+    same IP passed the check, and each one was counted. Hit.save() itself
+    increments the counter on creation.
+    """
+    # Imported here: this module is imported by District's models module,
+    # and pulling another app's models in at that point depends on load order.
+    from hitcount.models import Hit
+
     ip = get_ip(request)
+    if hitcount.hit_set.filter(ip=ip).exists():
+        return
 
-    if not hitcount.hits:
-        hitcount.hits = 0
-
-    if not hitcount.hit_set.filter(ip=ip).exists():
-        hitcount.increase()
+    user = getattr(request, 'user', None)
+    session = getattr(request, 'session', None)
+    Hit(
+        hitcount=hitcount,
+        ip=ip,
+        session=(session.session_key if session else None) or '',
+        user_agent=request.META.get('HTTP_USER_AGENT', '')[:255],
+        user=user if user is not None and user.is_authenticated else None,
+    ).save()
 
 
 @action(methods=['post'], detail=False, url_path='bulk-create')
