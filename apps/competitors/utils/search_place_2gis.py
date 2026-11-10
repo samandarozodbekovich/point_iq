@@ -2,7 +2,6 @@ import time
 import logging
 import requests
 from django.conf import settings
-from django.contrib.gis.geos import Point
 from django.db import transaction
 from apps.competitors.competitor.models import Competitor
 from apps.competitors.competitor_categories.models import CompetitorCategory
@@ -226,7 +225,6 @@ def search_place_2gis(query: str = None, category_name: str = None, fetch_detail
                 name_cyr=None,
                 latitude=lat,
                 longitude=lon,
-                location=Point(float(lon), float(lat), srid=4326),
                 schedule_from=sch_from,
                 schedule_to=sch_to,
             )
