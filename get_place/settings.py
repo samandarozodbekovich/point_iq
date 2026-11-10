@@ -137,7 +137,12 @@ REST_FRAMEWORK = {
         # OTP: codes sent / codes checked, per phone number.
         'otp_send': '5/hour',
         'otp_verify': '10/hour',
+        'signup': '10/hour',
     },
+    # Number of reverse proxies in front of gunicorn. DRF takes the client IP
+    # from that position in X-Forwarded-For; unset, it trusts the whole
+    # header and anyone can fake their IP to dodge IP-based throttles.
+    'NUM_PROXIES': config('NUM_PROXIES', default=1, cast=int),
 }
 
 SWAGGER_SETTINGS = {

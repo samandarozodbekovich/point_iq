@@ -4,7 +4,7 @@ Each provider has its own scope, so every endpoint that hits the same
 provider draws from the same per-user budget. Rates live in
 REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"].
 """
-from rest_framework.throttling import SimpleRateThrottle, UserRateThrottle
+from rest_framework.throttling import AnonRateThrottle, SimpleRateThrottle, UserRateThrottle
 
 
 class AIThrottle(UserRateThrottle):
@@ -44,6 +44,15 @@ class OTPSendThrottle(PhoneNumberThrottle):
 class OTPVerifyThrottle(PhoneNumberThrottle):
     """How many codes may be checked for one number (verify and reset share it)."""
     scope = "otp_verify"
+
+
+class SignupThrottle(AnonRateThrottle):
+    """Per client IP. Every signup uses a new number, so a phone key can't help here.
+
+    The real client IP comes from X-Forwarded-For, so REST_FRAMEWORK's
+    NUM_PROXIES must match the number of proxies in front of the app.
+    """
+    scope = "signup"
 
 
 def allow_paid_call(throttle_class, request, view):
