@@ -1,5 +1,5 @@
 from django.contrib.contenttypes.models import ContentType
-from django.db.models import Q
+from django.db.models import Prefetch, Q
 from hitcount.models import HitCount
 from rest_framework import status
 from rest_framework.decorators import action
@@ -10,6 +10,7 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
 from .models import Competitor
+from ..competitor_review.models import CompetitorReview
 from apps.areas.districts.models import District
 from .serializers import CompetitorSerializer, CompetitorAnalysisSerializer, LocationScoreSerializer
 from ..competitor_categories.models import CompetitorCategory
@@ -33,6 +34,14 @@ class CompetitorViewSet(BaseModelViewSet):
         'sync_google': GoogleApiThrottle,
     }
 
+    def get_queryset(self):
+        # Everything CompetitorSerializer reads, loaded in a fixed number of
+        # queries instead of several per competitor.
+        return Competitor.objects.select_related('category').prefetch_related(
+            Prefetch('reviews', queryset=CompetitorReview.objects.select_related('user')),
+            'hit_count_generic',
+        )
+
     def get_permissions(self):
         # BaseModelViewSet.get_permissions ignores permission_classes, so an
         # @action(permission_classes=...) argument would have no effect here.
@@ -54,6 +63,8 @@ class CompetitorViewSet(BaseModelViewSet):
             object_pk=instance.pk
         )
         hit_count(request, hit_count_obj)
+        # The prefetched count predates this view; let the serializer reload it.
+        getattr(instance, '_prefetched_objects_cache', {}).pop('hit_count_generic', None)
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
@@ -73,7 +84,7 @@ class CompetitorViewSet(BaseModelViewSet):
         if district_id:
             return self.filter_by_district(district_id, category_name)
 
-        queryset = Competitor.objects.filter(
+        queryset = self.get_queryset().filter(
             Q(category__name_uz__icontains=category_name) |
             Q(category__name_ru__icontains=category_name)
         )
@@ -174,7 +185,7 @@ class CompetitorViewSet(BaseModelViewSet):
         except District.DoesNotExist:
             return Response({"error": "Tuman topilmadi"}, status=404)
 
-        competitors = Competitor.objects.filter(
+        competitors = self.get_queryset().filter(
             Q(category__name_uz__icontains=category) | Q(category__name_ru__icontains=category)
         )
         # Point in Polygon filter

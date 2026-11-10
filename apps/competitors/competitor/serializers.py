@@ -1,13 +1,15 @@
-from django.db import models
-from hitcount.models import HitCount
 from rest_framework import serializers
 from .models import Competitor
 from ..competitor_review.serializers import CompetitorReviewSerializer
 
 
 class CompetitorSerializer(serializers.ModelSerializer):
+    """Expects CompetitorViewSet.get_queryset(): category, reviews (with
+    users) and hit counts are loaded up front, so no field queries per row.
+    average_rating and review_count are the stored fields that the review
+    signal keeps up to date.
+    """
     reviews = CompetitorReviewSerializer(many=True, read_only=True)
-    average_rating = serializers.SerializerMethodField()
     hits = serializers.SerializerMethodField()
     category = serializers.SerializerMethodField(read_only=True)
 
@@ -44,13 +46,12 @@ class CompetitorSerializer(serializers.ModelSerializer):
             }
         return None
 
-    def get_average_rating(self, obj):
-        avg = obj.reviews.aggregate(models.Avg('rating'))['rating__avg']
-        return round(avg, 2) if avg else None
-
     def get_hits(self, obj):
-        hitcount = HitCount.objects.get_for_object(obj)
-        return hitcount.hits
+        # Read through the prefetched relation. HitCount.get_for_object()
+        # cost a query per row and created a row when missing, so merely
+        # listing competitors wrote to the database.
+        hitcount = next(iter(obj.hit_count_generic.all()), None)
+        return hitcount.hits if hitcount else 0
 
 
 class CompetitorAnalysisSerializer(serializers.Serializer):
