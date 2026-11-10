@@ -18,7 +18,11 @@ services:
     networks:
       - get_place_network
     ports:
-      - "5432:5432"
+      # Reachable only from this host (SSH tunnel for admin tools). The other
+      # containers use the internal network and don't need this mapping.
+      # Docker writes its own iptables rules, so ufw does not block a
+      # published port: binding to 127.0.0.1 is what actually closes it.
+      - "127.0.0.1:5432:5432"
 
   redis:
     image: redis:7-alpine # redis:8 hali beta bo'lishi mumkin, 7 barqaror
