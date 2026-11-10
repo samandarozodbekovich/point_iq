@@ -1,4 +1,5 @@
-import os, json, logging
+import json, logging
+from django.conf import settings
 from openai import OpenAI
 from geopy.geocoders import Nominatim
 from ..models import QueryHistory
@@ -9,7 +10,9 @@ from apps.competitors.competitor.models import Competitor
 from apps.government_bodies.models import GovernmentBody
 
 logger = logging.getLogger(__name__)
-client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+# From settings (decouple reads .env); os.environ only had it while
+# python-dotenv was loaded in settings.
+client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
 
 class BusinessAgent:

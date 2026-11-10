@@ -3,11 +3,10 @@ from celery.schedules import crontab
 from decouple import config, Csv
 from datetime import timedelta
 from pathlib import Path
-from dotenv import load_dotenv
 
-
-
-load_dotenv()
+# All settings come from python-decouple's config(), which reads the
+# environment first and then .env. python-dotenv was also loaded here, so
+# some keys were read one way and some the other.
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,9 +19,9 @@ if os.name == 'nt':
 
 
 SECRET_KEY = config('SECRET_KEY')
-TWO_GIS_API_KEY = os.getenv('TWO_GIS_API_KEY')
-FOURSQUARE_API_KEY = os.getenv("FOURSQUARE_API_KEY")
-YANDEX_GEOCODE_KEY=os.getenv("YANDEX_GEOCODE_KEY")
+TWO_GIS_API_KEY = config('TWO_GIS_API_KEY', default=None)
+FOURSQUARE_API_KEY = config("FOURSQUARE_API_KEY", default=None)
+YANDEX_GEOCODE_KEY = config("YANDEX_GEOCODE_KEY", default=None)
 OPENCELLID_KEY=config("OPENCELLID_KEY")
 
 OPENAI_API_KEY=config("OPENAI_API_KEY")
