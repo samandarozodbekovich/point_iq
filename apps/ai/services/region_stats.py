@@ -20,7 +20,12 @@ def get_region_stats(region_coord=None, radius=0.2):
             longitude__lte=lon + radius
         )
 
-        nearest = list(towers.values("id", "latitude", "longitude", "operator_name"))
+        # operator_name is a property derived from mnc, not a column, so it
+        # can't go through .values().
+        nearest = [
+            {"id": t.id, "latitude": t.latitude, "longitude": t.longitude, "operator_name": t.operator_name}
+            for t in towers.only("id", "latitude", "longitude", "mnc")
+        ]
 
         return {
             "coordinates": region_coord,

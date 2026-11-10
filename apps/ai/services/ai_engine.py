@@ -2,7 +2,9 @@ import os, json, logging
 from openai import OpenAI
 from geopy.geocoders import Nominatim
 from ..models import QueryHistory
+from apps.areas.districts.models import District
 from apps.citizens.people_education.models import PeopleEducation
+from apps.citizens.population.models import Population
 from apps.competitors.competitor.models import Competitor
 from apps.government_bodies.models import GovernmentBody
 
@@ -35,15 +37,47 @@ class BusinessAgent:
             return None
         lat, lon = coords
         r = 0.01  # ~1.1 km radius
-        return {
+        stats = {
             "competitors": Competitor.objects.filter(latitude__range=(lat - r, lat + r),
                                                      longitude__range=(lon - r, lon + r)).count(),
-            "education": PeopleEducation.objects.filter(latitude__range=(lat - r, lat + r),
-                                                        longitude__range=(lon - r, lon + r)).count(),
             "gov_bodies": GovernmentBody.objects.filter(latitude__range=(lat - r, lat + r),
                                                         longitude__range=(lon - r, lon + r)).count(),
-            "population_estimate": 15000
         }
+
+        # Education and population are stored per district, not per point,
+        # so look them up through the district that contains the point.
+        # A missing figure is left out rather than guessed: the prompt tells
+        # the model these are real numbers from our database.
+        district = BusinessAgent.find_district(lat, lon)
+        if district is None:
+            return stats
+        stats["district"] = district.name_uz
+
+        education = PeopleEducation.objects.filter(district=district).first()
+        if education:
+            stats["education"] = {
+                "schools": education.regional_school,
+                "kindergartens": education.regional_kindergarten,
+                "teachers": education.regional_teachers,
+                "students": education.regional_students,
+            }
+
+        population = Population.objects.filter(district=district).first()
+        if population:
+            stats["population"] = {
+                "total": round(population.count_male + population.count_female),
+                "density": population.population_density,
+                "average_income": population.average_income,
+                "unemployment_rate": population.unemployment_rate,
+            }
+        return stats
+
+    @staticmethod
+    def find_district(lat, lon):
+        for district in District.objects.exclude(boundary_json__isnull=True):
+            if district.is_point_inside(lat, lon):
+                return district
+        return None
 
     @classmethod
     def ask_ai(cls, query, user=None):
@@ -71,12 +105,14 @@ class BusinessAgent:
             "Siz 'Get Place' tahlilchisisiz. Sizning maqsadingiz — bazadagi ma'lumotlar asosida "
             "foydalanuvchiga eng to'g'ri joyni ko'rsatish.\n"
             "YO'RIQNOMA:\n"
-            "1. Agar 'current_stats' ichida raqamlar bo'lsa, ularni tahlil qiling. "
+            "1. Agar 'stats' ichida raqamlar bo'lsa, ularni tahlil qiling. "
             "Masalan: 'Ushbu nuqtada 10 ta raqobatchi bor, bu raqobat ancha kuchli ekanini ko'rsatadi'.\n"
-            "2. Agar 'education' ob'ektlari ko'p bo'lsa, bu o'quv markazi uchun katta plyus ekanini ayting.\n"
-            "3. Har doim 'Bazadagi ma'lumotlarimizga ko'ra...' yoki 'Bizning tahlillarimiz shuni ko'rsatadiki...' "
-            "deb javob bering, bu ishonchni oshiradi.\n"
-            "4. Takroriy salomlashmang. FAQAT JSON formatda qaytaring."
+            "2. 'education' va 'population' butun tuman ('district') bo'yicha statistika. "
+            "Maktab va bog'chalar ko'p bo'lsa, bu o'quv markazi uchun katta plyus ekanini ayting.\n"
+            "3. FAQAT 'stats' ichidagi raqamlardan foydalaning. U yerda yo'q ko'rsatkichni o'ylab topmang; "
+            "bunday holatda bu bo'yicha ma'lumot yo'qligini ayting.\n"
+            "4. Raqamlarga tayanganda 'Bazadagi ma'lumotlarimizga ko'ra...' deb javob bering.\n"
+            "5. Takroriy salomlashmang. FAQAT JSON formatda qaytaring."
         )
 
         messages = [{"role": "system", "content": system_prompt}]

@@ -3,6 +3,17 @@ from django.db import models
 from apps.shared.models import BaseTimeModel
 from apps.areas.districts.models import District
 
+# Uzbekistan (MCC 434) mobile network codes. Integer keys: OpenCellID and
+# the mnc column hold numbers, so the old '01'-style string keys never matched.
+OPERATORS_BY_MNC = {
+    1: 'Beeline',
+    2: 'Ucell',
+    4: 'Beeline',  # Ba'zi hududlarda
+    5: 'Ucell',
+    7: 'Mobiuz (UMS)',
+    99: 'Uztelecom (Uzmobile)',
+}
+
 
 class LocationScore(models.Model):
     district = models.OneToOneField(District, on_delete=models.SET_NULL , null=True, blank=True)
@@ -26,6 +37,12 @@ class CellTower(BaseTimeModel):
 
     class Meta:
         db_table = "cell_towers"
+
+    @property
+    def operator_name(self):
+        # Derived from the MNC instead of stored: it can never go stale or
+        # disagree with mnc.
+        return OPERATORS_BY_MNC.get(self.mnc, "Noma'lum")
 
 
 

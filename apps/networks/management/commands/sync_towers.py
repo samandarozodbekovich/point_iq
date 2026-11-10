@@ -48,10 +48,11 @@ class Command(BaseCommand):
                     mnc=cell.get('mnc'),
                     lac=cell.get('lac') or cell.get('tac'),
                     cellid=cell.get('cellid') or cell.get('cid'),
+                    # The operator is derived from mnc (CellTower.operator_name),
+                    # there is no column for it.
                     defaults={
                         'latitude': cell.get('lat'),
                         'longitude': cell.get('lon'),
-                        'operator_name': self.guess_operator(cell.get('mnc')),
                     }
                 )
 
@@ -66,15 +67,3 @@ class Command(BaseCommand):
 
         except Exception as e:
             self.stdout.write(self.style.ERROR(f"Xatolik yuz berdi: {str(e)}"))
-
-    def guess_operator(self, mnc):
-        """MNC kodiga qarab operator nomini taxmin qilish (O'zbekiston uchun)"""
-        operators = {
-            '01': 'Beeline',
-            '02': 'Ucell',
-            '04': 'Beeline',  # Ba'zi hududlarda
-            '05': 'Ucell',
-            '07': 'Mobiuz (UMS)',
-            '99': 'Uztelecom (Uzmobile)'
-        }
-        return operators.get(str(mnc), "Noma'lum")
