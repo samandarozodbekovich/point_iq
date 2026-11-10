@@ -13,5 +13,9 @@ class GovernmentBody(BaseNameModel, BaseTimeModel):
     longitude = models.FloatField(max_length=50, null=True, blank=True)
     latitude = models.FloatField(max_length=50, null=True, blank=True)
 
+    class Meta:
+        # For get_nearby_objects' bounding-box query.
+        indexes = [models.Index(fields=['latitude', 'longitude'], name='govbody_lat_lng_idx')]
+
     def __str__(self):
         return f"{self.name_uz} is located at {self.address}"

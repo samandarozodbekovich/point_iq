@@ -74,10 +74,7 @@ class BusinessAgent:
 
     @staticmethod
     def find_district(lat, lon):
-        for district in District.objects.exclude(boundary_json__isnull=True):
-            if district.is_point_inside(lat, lon):
-                return district
-        return None
+        return District.find_containing(lat, lon)
 
     @classmethod
     def ask_ai(cls, query, user=None):

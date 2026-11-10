@@ -32,15 +32,31 @@ def parse_lat_lng(query_params):
     return lat, lng
 
 
+KM_PER_DEGREE_LAT = 111.32
+
+
 def get_nearby_objects(center_lat, center_lon, radius_km=5, model=None):
-    nearby_objs = []
-    for object in model.objects.all():
-        if not object.latitude or not object.longitude:
-            continue
-        distance = haversine(center_lat, center_lon, object.latitude, object.longitude)
+    """Objects of `model` within radius_km, nearest first.
+
+    The database narrows rows to the bounding box around the circle (using
+    the latitude/longitude index); the exact distance is computed only for
+    those. This used to load the whole table into Python.
+    """
+    center_lat, center_lon = float(center_lat), float(center_lon)
+    d_lat = radius_km / KM_PER_DEGREE_LAT
+    d_lon = radius_km / (KM_PER_DEGREE_LAT * max(cos(radians(center_lat)), 0.01))
+
+    candidates = model.objects.filter(
+        latitude__range=(center_lat - d_lat, center_lat + d_lat),
+        longitude__range=(center_lon - d_lon, center_lon + d_lon),
+    )
+    nearby = []
+    for obj in candidates:
+        distance = haversine(center_lat, center_lon, float(obj.latitude), float(obj.longitude))
         if distance <= radius_km:
-            nearby_objs.append(object)
-    return nearby_objs
+            nearby.append((distance, obj))
+    nearby.sort(key=lambda pair: pair[0])
+    return [obj for _, obj in nearby]
 
 def hit_count(request, hitcount):
     """Count one view per IP.
@@ -89,26 +105,3 @@ def create(request, self, *args, **kwargs):
             created_objects = all_objects
 
     return Response(self.get_serializer(created_objects, many=True).data, status=status.HTTP_201_CREATED)
-
-
-def point_in_polygon(lat, lon, polygon_coords):
-    """
-    Berilgan nuqta polygon ichida bo'lsa True qaytaradi
-    """
-    x, y = lon, lat
-    n = len(polygon_coords)
-    inside = False
-
-    p1x, p1y = polygon_coords[0]
-    for i in range(1, n + 1):
-        p2x, p2y = polygon_coords[i % n]
-        if y > min(p1y, p2y):
-            if y <= max(p1y, p2y):
-                if x <= max(p1x, p2x):
-                    if p1y != p2y:
-                        xinters = (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x
-                    if p1x == p2x or x <= xinters:
-                        inside = not inside
-        p1x, p1y = p2x, p2y
-
-    return inside

@@ -185,11 +185,15 @@ class CompetitorViewSet(BaseModelViewSet):
         except District.DoesNotExist:
             return Response({"error": "Tuman topilmadi"}, status=404)
 
-        competitors = self.get_queryset().filter(
-            Q(category__name_uz__icontains=category) | Q(category__name_ru__icontains=category)
-        )
-        # Point in Polygon filter
-        results = [c for c in competitors if district.is_point_inside(c.latitude, c.longitude)]
+        if district.boundary is None:
+            results = self.get_queryset().none()
+        else:
+            # Point-in-polygon in the database, using the spatial index on
+            # Competitor.location, instead of loading every match into Python.
+            results = self.get_queryset().filter(
+                Q(category__name_uz__icontains=category) | Q(category__name_ru__icontains=category),
+                location__within=district.boundary,
+            )
 
         return Response({
             "status": "success",

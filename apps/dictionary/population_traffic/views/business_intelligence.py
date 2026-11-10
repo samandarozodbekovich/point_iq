@@ -58,12 +58,8 @@ class BusinessIntelligenceView(APIView):
         pop_density = 0
         avg_income = 0
 
-        # is_point_inside metodidan foydalanib tumanni topamiz
-        target_district = None
-        for district in District.objects.all():
-            if district.is_point_inside(lat, lng):
-                target_district = district
-                break
+        # One indexed query instead of testing every district in Python.
+        target_district = District.find_containing(lat, lng)
 
         if target_district:
             # Aholi va Daromad

@@ -33,5 +33,9 @@ class PropertyListing(BaseTimeModel):
     objects = SoftDeleteManager()  # faqat o‘chirilmaganlar
     all_objects = models.Manager()
 
+    class Meta:
+        # For get_nearby_objects' bounding-box query.
+        indexes = [models.Index(fields=['latitude', 'longitude'], name='listing_lat_lng_idx')]
+
     def __str__(self):
         return self.title

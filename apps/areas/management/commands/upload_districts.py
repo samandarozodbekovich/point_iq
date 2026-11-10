@@ -1,4 +1,5 @@
 import json
+from django.contrib.gis.geos import GEOSGeometry, MultiPolygon
 from django.core.management.base import BaseCommand
 from apps.areas.districts.models import District
 from apps.areas.cities.models import City
@@ -65,6 +66,17 @@ class Command(BaseCommand):
             else:
                 continue
 
+            # The full geometry, every part of a MultiPolygon included.
+            # boundary_json above keeps only the first ring, which dropped
+            # the second part of Mirzo Ulug'bek.
+            boundary = GEOSGeometry(json.dumps(geometry), srid=4326)
+            if boundary.geom_type == 'Polygon':
+                boundary = MultiPolygon(boundary, srid=4326)
+            if not boundary.valid:
+                boundary = boundary.buffer(0)  # repair self-intersections
+                if boundary.geom_type == 'Polygon':
+                    boundary = MultiPolygon(boundary, srid=4326)
+
             # --- Properties ---
             props = feature.get('properties', {})
 
@@ -92,6 +104,7 @@ class Command(BaseCommand):
                     'name_ru': name_ru or name_uz,
                     'name_cyr': name_cyr or name_uz,
                     'boundary_json': coord,
+                    'boundary': boundary,
                 }
             )
 
