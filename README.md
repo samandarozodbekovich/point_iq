@@ -1,93 +1,189 @@
-# get_place
+# PointIQ (get_place) — backend
 
+Biznes uchun joy tanlashga yordam beradigan API: berilgan nuqta atrofidagi
+raqobatchilar, aholi va demografiya, transport va yo'l oqimi, mobil minoralar
+bo'yicha ma'lumot yig'adi, joyni baholaydi va AI orqali tavsiya beradi.
+Hozircha Toshkent shahri uchun.
 
+## Texnologiyalar
 
-## Getting started
+| Qism | Nima |
+|---|---|
+| Til / framework | Python 3.12, Django 6.1, Django REST Framework |
+| Baza | PostgreSQL 16 + PostGIS |
+| Fon vazifalar | Celery (worker + beat), Redis (broker, kesh, rate limit) |
+| Autentifikatsiya | JWT (SimpleJWT), telefon + SMS kod |
+| Tashqi xizmatlar | OpenAI, Google Places, 2GIS, Overpass (OpenStreetMap), OpenCellID, Nominatim |
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+## Loyiha tuzilmasi
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/get_place/get_place.git
-git branch -M main
-git push -uf origin main
+get_place/        settings, urls, celery
+apps/
+  users/          ro'yxatdan o'tish, SMS kod (OTP), login, parolni tiklash
+  areas/          shaharlar va tumanlar (chegaralari PostGIS'da)
+  citizens/       aholi, ta'lim, iste'mol — tuman bo'yicha statistika
+  competitors/    raqobatchilar, kategoriyalar, sharhlar, Google/2GIS importi
+  dictionary/     transport tugunlari, POI, yo'llar, heatmap, joy tahlili
+  government_bodies/  davlat organlari va xodimlar
+  property/       ko'chmas mulk e'lonlari va rasmlari
+  networks/       mobil minoralar (OpenCellID)
+  ai/             AI chat va so'rovlar tarixi
+  shared/         umumiy viewset'lar, ruxsatlar, throttle, pagination
+data/             boshlang'ich ma'lumotlar (tumanlar GeoJSON, kategoriyalar, ...)
 ```
 
-## Integrate with your tools
+## Lokal ishga tushirish
 
-- [ ] [Set up project integrations](https://gitlab.com/get_place/get_place/-/settings/integrations)
+Kerak: Python 3.12, PostgreSQL 16 + PostGIS, Redis, GDAL/GEOS.
+Windows'da GDAL [OSGeo4W](https://trac.osgeo.org/osgeo4w/) orqali
+`C:\OSGeo4W` ga o'rnatilgan bo'lishi kerak (yo'li `settings.py` da).
 
-## Collaborate with your team
+```bash
+python -m venv venv
+venv\Scripts\activate            # Linux/macOS: source venv/bin/activate
+pip install -r requirements.txt
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+cp .env.example .env             # qiymatlarni to'ldiring (pastga qarang)
 
-## Test and Deploy
+# PostgreSQL'da baza va PostGIS
+createdb get_place_db
+psql get_place_db -c "CREATE EXTENSION postgis;"
 
-Use the built-in continuous integration in GitLab.
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+# alohida terminallarda
+celery -A get_place worker -l info
+celery -A get_place beat -l info
+```
 
-***
+## Docker bilan
 
-# Editing this README
+```bash
+cp .env.example .env             # DB_HOST=db, REDIS_HOST=redis
+docker compose up -d --build
+```
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+Servislar: `db` (PostGIS), `redis`, `api` (gunicorn, `migrate` va
+`collectstatic` ni o'zi bajaradi), `celery`, `celery-beat`.
 
-## Suggestions for a good README
+`api` va `db` portlari faqat `127.0.0.1` da ochiq: tashqaridan so'rovlar
+shu serverdagi reverse proxy (nginx va h.k.) orqali keladi. Proxy boshqa
+mashinada bo'lsa, `docker-compose.yml` dagi `ports` ni moslang.
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+## Muhit o'zgaruvchilari (`.env`)
 
-## Name
-Choose a self-explaining name for your project.
+Ro'yxat `.env.example` da. `.env` hech qachon git'ga qo'shilmaydi.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+| O'zgaruvchi | Vazifasi |
+|---|---|
+| `SECRET_KEY`, `DEBUG` | Django |
+| `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT` | PostgreSQL |
+| `REDIS_HOST`, `REDIS_PORT`, `CELERY_*` | Redis va Celery |
+| `OPENAI_API_KEY` | AI chat |
+| `GOOGLE_MAP_API_KEY` | Google Places (raqobatchilar tahlili) |
+| `TWO_GIS_API_KEY` | 2GIS qidiruv va import |
+| `OPENCELLID_KEY` | mobil minoralar |
+| `ESKIZ_EMAIL`, `ESKIZ_PASSWORD` | SMS (Eskiz) |
+| `NUM_PROXIES` | server oldidagi proxy'lar soni; rate limit uchun mijoz IP'si shundan aniqlanadi (odatda `1`) |
+| `CORS_ALLOWED_ORIGINS` | API'ni chaqira oladigan frontend manzillari, vergul bilan |
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+`ALLOWED_HOSTS` hozircha `settings.py` ichida ro'yxat sifatida yozilgan.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+## Boshlang'ich ma'lumotlarni yuklash
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+```bash
+# Tumanlar (har bir fayl uchun; tashkent.geojson — butun shahar)
+python manage.py upload_districts data/districts/chilanzar.geojson
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+# Raqobatchi kategoriyalari — mavjud bazada avval --dry-run
+python manage.py upload_category data/competitors/competitor_category.json --dry-run
+python manage.py upload_category data/competitors/competitor_category.json
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+# Iste'mol statistikasi
+python manage.py upload_people_consume data/citizens/people_consume.json
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+# Mobil minoralar: fayldan yoki OpenCellID'dan
+python manage.py upload_cell_towers --file data/cell_towers/cell.geojson
+python manage.py sync_towers
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+# Transport tugunlari, POI va yo'llar (Overpass)
+python manage.py fetch_tashkent_data --lat 41.311 --lng 69.240 --radius 800
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+# JSON'dan import (dublikat tekshiruvi --unique-field bo'yicha, default name_uz)
+python manage.py import_competitors <fayl.json>
+python manage.py import_branch <fayl.json>
+```
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+## API
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+Barcha endpointlar `/api/` ostida. Hujjatlar: `/swagger/` va `/redoc/`.
 
-## License
-For open source projects, say how it is licensed.
+### Autentifikatsiya
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+1. `POST /api/users/signup/` — telefon raqam; javobda vaqtinchalik token.
+   Telefonga 6 xonali kod yuboriladi.
+2. `POST /api/users/verify/` — kod (token bilan).
+3. `PUT /api/users/change-info/` — ism va parol; ro'yxatdan o'tish shu bilan
+   tugaydi, javobda yangi tokenlar keladi.
+4. `POST /api/users/login/`, `POST /api/users/login-refresh/`,
+   `POST /api/users/logout/`.
+
+Parolni tiklash: `POST /api/users/forgot-password/` (kod yuboriladi), keyin
+`PUT /api/users/reset-password/` (`phone_number`, `code`, `password`,
+`confirm_password`). Parol o'zgarganda userning barcha eski sessiyalari
+yopiladi.
+
+Kod 5 marta noto'g'ri kiritilsa bloklanadi — yangi kod so'rash kerak.
+
+### Cheklovlar
+
+| Nima | Limit |
+|---|---|
+| AI chat | userga soatiga 20 |
+| Google Places | userga soatiga 10 |
+| 2GIS | userga soatiga 30 |
+| Kod yuborish | telefon raqamga soatiga 5 |
+| Kod tekshirish | telefon raqamga soatiga 10 |
+| Ro'yxatdan o'tish | IP'ga soatiga 10 |
+
+Qiymatlar `settings.py` dagi `REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]` da.
+Pullik tashqi API'larni chaqiradigan endpointlar login talab qiladi.
+
+### Ruxsatlar va sahifalash
+
+- Ma'lumotnomalar (tumanlar, aholi, davlat organlari, ...) hamma uchun o'qish
+  uchun ochiq, yozish faqat admin uchun.
+- E'lonlar va ularning rasmlarini login qilgan user yaratadi; o'zgartirish —
+  faqat egasi yoki admin.
+- Raqobatchilar va e'lonlar ro'yxati sahifalanadi: 50 tadan,
+  `?page=` va `?page_size=` (200 gacha); javobda `next` / `previous`.
+- Heatmap (`/api/statistics/heatmap/`) uchun `in_bbox=xmin,ymin,xmax,ymax`
+  majburiy (har tomoni 0.5° gacha).
+
+## Testlar
+
+Har bir ilovaning testlari `apps/<ilova>/tests/` da, har bir API yoki klass
+uchun alohida fayl (masalan `apps/users/tests/test_password_reset.py`).
+Umumiy yordamchilar: `apps/shared/testing.py`.
+
+```bash
+python manage.py test
+```
+
+Testlar haqiqiy PostgreSQL + PostGIS bilan ishlaydi: `.env` dagi
+foydalanuvchi test bazasini yarata olishi kerak. Tashqi xizmatlar
+(OpenAI, Google, 2GIS, Celery) testlarda mock qilinadi.
+
+## Deploy
+
+```bash
+git pull
+docker compose up -d --build     # migrate api konteynerida bajariladi
+```
+
+Yangi migratsiyalar kelganda ma'lumot yuklash buyruqlari ham kerak bo'lishi
+mumkin — commit xabarlariga qarang (masalan, tumanlar chegarasi uchun
+`upload_districts` ni qayta ishga tushirish).
