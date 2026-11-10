@@ -11,7 +11,7 @@ class Command(BaseCommand):
     help = "OpenCellID orqali Toshkent hududidagi mobil minoralarni bazaga yuklash"
 
     # API va Koordinata sozlamalari
-    OPENCELLID_KEY = getattr(settings, 'OPENCELLID_KEY', '***REMOVED***')
+    OPENCELLID_KEY = settings.OPENCELLID_KEY  # from .env; no fallback key in code
     TASHKENT_BBOX = "41.2,69.1,41.4,69.3"  # minLat,minLon,maxLat,maxLon
 
     def handle(self, *args, **options):
