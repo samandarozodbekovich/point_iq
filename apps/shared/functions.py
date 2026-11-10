@@ -1,10 +1,6 @@
 from math import radians, cos, sin, asin, sqrt
 
-from django.db import transaction
 from hitcount.utils import get_ip
-from rest_framework import status
-from rest_framework.decorators import action
-from rest_framework.response import Response
 
 
 def haversine(lat1, lon1, lat2, lon2):
@@ -83,25 +79,3 @@ def hit_count(request, hitcount):
         user_agent=request.META.get('HTTP_USER_AGENT', '')[:255],
         user=user if user is not None and user.is_authenticated else None,
     ).save()
-
-
-@action(methods=['post'], detail=False, url_path='bulk-create')
-def create(request, self, *args, **kwargs):
-    serializer = self.get_serializer(data=request.data)
-    serializer.is_valid(raise_exception=True)
-    model = self.get_queryset().model
-
-    all_objects = []
-    created_objects = []
-
-    with transaction.atomic():
-        for item in serializer.validated_data:
-            for li in self.get_lang_data(item):
-                obj = model(**li)
-                all_objects.append(obj)
-
-        if all_objects:
-            model.objects.bulk_create(all_objects, ignore_conflicts=True)
-            created_objects = all_objects
-
-    return Response(self.get_serializer(created_objects, many=True).data, status=status.HTTP_201_CREATED)
