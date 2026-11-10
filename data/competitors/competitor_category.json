@@ -1,104 +1,104 @@
 [
   {
-  "external_id": "4f4528bc4b90abdf24c9de85",
-  "name_uz": "Sport zal",
-  "name_ru": "Тренажерный зал",
-  "name_cyr": "Спорт зал"
+    "name_uz": "Sport zal",
+    "name_ru": "Тренажерный зал",
+    "name_cyr": "Спорт зал",
+    "google_type": "gym"
   },
-{
-"external_id": "4bf58dd8d48988d16d941735",
-"name_uz": "Kafe",
-"name_ru": "Кафе",
-"name_cyr": "Кафе"
-},
-{
-"external_id": "4bf58dd8d48988d1f1931735",
-"name_uz": "Savdo markazi",
-"name_ru": "Торговый центр",
-"name_cyr": "Савдо маркази"
-},
-{
-"external_id": "4bf58dd8d48988d1e0931735",
-"name_uz": "Mehmonxona",
-"name_ru": "Отель",
-"name_cyr": "Меҳмонхона"
-},
-{
-"external_id": "4bf58dd8d48988d10a951735",
-"name_uz": "Bank",
-"name_ru": "Банк",
-"name_cyr": "Банк"
-},
-{
-"external_id": "52f2ab2ebcbc57f1066b8b56",
-"name_uz": "Bankomat",
-"name_ru": "Банкомат",
-"name_cyr": "Банкomat"
-},
-{
-"external_id": "52f2ab2ebcbc57f1066b8b46",
-"name_uz": "Supermarket",
-"name_ru": "Супермаркет",
-"name_cyr": "Супермаркет"
-},
-{
-"external_id": "4bf58dd8d48988d18f941735",
-"name_uz": "San’at muzeyi",
-"name_ru": "Художественный музей",
-"name_cyr": "Санъат музейи"
-},
-{
-"external_id": "4bf58dd8d48988d181941735",
-"name_uz": "Muzey",
-"name_ru": "Музей",
-"name_cyr": "Музей"
-},
-{
-"external_id": "4bf58dd8d48988d196941735",
-"name_uz": "Shifoxona",
-"name_ru": "Больница",
-"name_cyr": "Шифохона"
-},
-{
-"external_id": "4bf58dd8d48988d1ed941735",
-"name_uz": "SPA markazi",
-"name_ru": "СПА центр",
-"name_cyr": "СПА маркази"
-},
-{
-"external_id": "4f04aa0c2fb6e1c99f3db0b8",
-"name_uz": "Manikur salon",
-"name_ru": "Салон маникюра",
-"name_cyr": "Маникюр салон"
-},
-{
-"external_id": "4bf58dd8d48988d110951735",
-"name_uz": "Soch salon",
-"name_ru": "Салон красоты",
-"name_cyr": "Соч салон"
-},
-{
-"external_id": "63be6904847c3692a84b9b49",
-"name_uz": "Sartaroshxona",
-"name_ru": "Барбершоп",
-"name_cyr": "Сартарошхона"
-},
-{
-"external_id": "52f2ab2ebcbc57f1066b8b44",
-"name_uz": "Avtomobil ta’mirlash",
-"name_ru": "Автосервис",
-"name_cyr": "Автомобиль таъмирлаш"
-},
-{
-"external_id": "4bf58dd8d48988d113951735",
-"name_uz": "Benzin stansiyasi",
-"name_ru": "АЗС",
-"name_cyr": "Бензин станцияси"
-},
-{
-"external_id": "4bf58dd8d48988d16e941735",
-"name_uz": "Fast food",
-"name_ru": "Фастфуд",
-"name_cyr": "Фаст фуд"
-}
+  {
+    "name_uz": "Kafe",
+    "name_ru": "Кафе",
+    "name_cyr": "Кафе",
+    "google_type": "cafe"
+  },
+  {
+    "name_uz": "Savdo markazi",
+    "name_ru": "Торговый центр",
+    "name_cyr": "Савдо маркази",
+    "google_type": "shopping_mall"
+  },
+  {
+    "name_uz": "Mehmonxona",
+    "name_ru": "Отель",
+    "name_cyr": "Меҳмонхона",
+    "google_type": "hotel"
+  },
+  {
+    "name_uz": "Bank",
+    "name_ru": "Банк",
+    "name_cyr": "Банк",
+    "google_type": "bank"
+  },
+  {
+    "name_uz": "Bankomat",
+    "name_ru": "Банкомат",
+    "name_cyr": "Банкomat",
+    "google_type": "atm"
+  },
+  {
+    "name_uz": "Supermarket",
+    "name_ru": "Супермаркет",
+    "name_cyr": "Супермаркет",
+    "google_type": "supermarket"
+  },
+  {
+    "name_uz": "San’at muzeyi",
+    "name_ru": "Художественный музей",
+    "name_cyr": "Санъат музейи",
+    "google_type": "art_gallery"
+  },
+  {
+    "name_uz": "Muzey",
+    "name_ru": "Музей",
+    "name_cyr": "Музей",
+    "google_type": "museum"
+  },
+  {
+    "name_uz": "Shifoxona",
+    "name_ru": "Больница",
+    "name_cyr": "Шифохона",
+    "google_type": "hospital"
+  },
+  {
+    "name_uz": "SPA markazi",
+    "name_ru": "СПА центр",
+    "name_cyr": "СПА маркази",
+    "google_type": "spa"
+  },
+  {
+    "name_uz": "Manikur salon",
+    "name_ru": "Салон маникюра",
+    "name_cyr": "Маникюр салон",
+    "google_type": "nail_salon"
+  },
+  {
+    "name_uz": "Soch salon",
+    "name_ru": "Салон красоты",
+    "name_cyr": "Соч салон",
+    "google_type": "beauty_salon"
+  },
+  {
+    "name_uz": "Sartaroshxona",
+    "name_ru": "Барбершоп",
+    "name_cyr": "Сартарошхона",
+    "google_type": "barber_shop"
+  },
+  {
+    "name_uz": "Avtomobil ta’mirlash",
+    "name_ru": "Автосервис",
+    "name_cyr": "Автомобиль таъмирлаш",
+    "google_type": "car_repair"
+  },
+  {
+    "name_uz": "Benzin stansiyasi",
+    "name_ru": "АЗС",
+    "name_cyr": "Бензин станцияси",
+    "google_type": "gas_station"
+  },
+  {
+    "name_uz": "Fast food",
+    "name_ru": "Фастфуд",
+    "name_cyr": "Фаст фуд",
+    "google_type": "fast_food_restaurant"
+  }
 ]

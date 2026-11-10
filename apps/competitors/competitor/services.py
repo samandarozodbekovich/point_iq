@@ -41,6 +41,11 @@ def fetch_and_save_nearby_competitors(lat, long, radius, category_id):
     except CompetitorCategory.DoesNotExist:
         return {"error": "Competitor Category does not exist"}
 
+    # Without a type Google gets includedTypes=[None]: a paid call that
+    # can't return anything useful.
+    if not google_type:
+        return {"error": "This category has no google_type set"}
+
     raw_data = get_nearby_places_new(lat, long, radius, google_type)
     if "error" in raw_data:
         return raw_data
