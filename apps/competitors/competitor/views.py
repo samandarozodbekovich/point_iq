@@ -3,6 +3,7 @@ from django.db.models import Q
 from hitcount.models import HitCount
 from rest_framework import status
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from drf_yasg.utils import swagger_auto_schema
@@ -15,6 +16,7 @@ from ..competitor_categories.models import CompetitorCategory
 from ..utils.calculate_location_score import calculate_location_score, get_poi_counts_in_radius
 
 from ...shared.functions import hit_count
+from ...shared.throttles import GoogleApiThrottle, TwoGisApiThrottle, allow_paid_call
 from ...shared.views.base_view_set import BaseModelViewSet
 from .tasks import fetch_google_competitors_task, fetch_and_update_competitors_2gis
 from .services import fetch_and_save_nearby_competitors
@@ -24,6 +26,25 @@ class CompetitorViewSet(BaseModelViewSet):
     model = Competitor
     serializer_class = CompetitorSerializer
     lookup_field = 'pk'
+
+    # Actions that call paid external APIs, mapped to their provider's budget.
+    PAID_ACTION_THROTTLES = {
+        'sync_2gis': TwoGisApiThrottle,
+        'sync_google': GoogleApiThrottle,
+    }
+
+    def get_permissions(self):
+        # BaseModelViewSet.get_permissions ignores permission_classes, so an
+        # @action(permission_classes=...) argument would have no effect here.
+        if self.action in self.PAID_ACTION_THROTTLES:
+            return [IsAuthenticated()]
+        return super().get_permissions()
+
+    def get_throttles(self):
+        throttle_class = self.PAID_ACTION_THROTTLES.get(self.action)
+        if throttle_class:
+            return [throttle_class()]
+        return super().get_throttles()
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -64,7 +85,7 @@ class CompetitorViewSet(BaseModelViewSet):
                 Q(name_ru__icontains=query)
             )
 
-        if not queryset.exists() and query:
+        if not queryset.exists() and query and allow_paid_call(TwoGisApiThrottle, request, self):
             cat_obj = CompetitorCategory.objects.filter(
                 Q(name_uz__icontains=category_name) | Q(name_ru__icontains=category_name)
             ).first()
@@ -167,6 +188,9 @@ class CompetitorViewSet(BaseModelViewSet):
 
 
 class CompetitorAnalysisAPI(APIView):
+    # Calls Google Places synchronously on every request.
+    permission_classes = [IsAuthenticated]
+    throttle_classes = [GoogleApiThrottle]
 
     @swagger_auto_schema(query_serializer=CompetitorAnalysisSerializer)
     def get(self, request):

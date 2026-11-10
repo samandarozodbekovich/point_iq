@@ -18,6 +18,7 @@ from apps.citizens.people_education.models import PeopleEducation
 from apps.areas.districts.models import District
 
 from apps.competitors.competitor.tasks import fetch_and_update_competitors_2gis
+from apps.shared.throttles import TwoGisApiThrottle, allow_paid_call
 
 
 class BusinessIntelligenceView(APIView):
@@ -34,7 +35,7 @@ class BusinessIntelligenceView(APIView):
         user_point = Point(lng, lat, srid=4326)
 
         # 2. Ma'lumotlarni yig'ish (Background Task)
-        if query:
+        if query and allow_paid_call(TwoGisApiThrottle, request, self):
             fetch_and_update_competitors_2gis.delay(query=query, category_name=category_name)
 
         # 3. Tahlil: Raqobatchilar, POI va Transport

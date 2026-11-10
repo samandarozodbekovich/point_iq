@@ -129,6 +129,12 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    # Per-user budgets for paid external APIs (see apps/shared/throttles.py).
+    'DEFAULT_THROTTLE_RATES': {
+        'ai': '20/hour',
+        'google': '10/hour',
+        'twogis': '30/hour',
+    },
 }
 
 SWAGGER_SETTINGS = {
@@ -295,6 +301,16 @@ AUTH_USER_MODEL = 'users.User'
 # Redis konfiguratsiyasi
 REDIS_HOST = config("REDIS_HOST", default="127.0.0.1")
 REDIS_PORT = config("REDIS_PORT", default=6379, cast=int)
+
+# Shared cache: throttle counters must be shared by all gunicorn workers and
+# survive restarts, which the default per-process LocMemCache does not do.
+# DB 1 keeps it apart from the Celery broker on DB 0.
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": config("CACHE_URL", default=f"redis://{REDIS_HOST}:{REDIS_PORT}/1"),
+    }
+}
 
 CELERY_BROKER_URL = config('CELERY_BROKER_URL', default=f'redis://{REDIS_HOST}:{REDIS_PORT}/0')
 CELERY_RESULT_BACKEND = config('CELERY_RESULT_BACKEND', default=f'redis://{REDIS_HOST}:{REDIS_PORT}/0')
