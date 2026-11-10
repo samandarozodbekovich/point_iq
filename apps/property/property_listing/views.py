@@ -3,7 +3,7 @@ from rest_framework.response import Response
 
 from apps.property.property_listing.models import PropertyListing
 from apps.property.property_listing.serializers import PropertyListingSerializer
-from apps.shared.functions import get_nearby_objects
+from apps.shared.functions import get_nearby_objects, parse_lat_lng
 from apps.shared.views.base_deleted_items_view_set import BaseDeletedItemsViewSet
 
 
@@ -40,13 +40,14 @@ class PropertyListingViewSet(BaseDeletedItemsViewSet):
             "objects": serializer.data
         })
 
-    @action(methods=['get'], detail=True)
+    # detail=False: it works on ?lat=&lng=, not on an object. As a detail
+    # action the router passed a pk the method doesn't accept (500).
+    @action(methods=['get'], detail=False)
     def nearby_location(self, request):
-        try:
-            lat = request.query_params.get('lat')
-            lng = request.query_params.get('lng')
-        except:
-            return Response({"error": "No coordinates available"}, status=400)
+        coords = parse_lat_lng(request.query_params)
+        if coords is None:
+            return Response({"error": "Valid lat and lng query parameters are required"}, status=400)
+        lat, lng = coords
 
         nearby_objs = get_nearby_objects(lat, lng, model=PropertyListing)
         serializer = self.get_serializer(nearby_objs, many=True)

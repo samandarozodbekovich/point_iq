@@ -20,6 +20,18 @@ def haversine(lat1, lon1, lat2, lon2):
     return R * c
 
 
+def parse_lat_lng(query_params):
+    """Read lat/lng from query params as floats; None if missing or invalid."""
+    try:
+        lat = float(query_params.get('lat'))
+        lng = float(query_params.get('lng'))
+    except (TypeError, ValueError):
+        return None
+    if not (-90 <= lat <= 90 and -180 <= lng <= 180):
+        return None
+    return lat, lng
+
+
 def get_nearby_objects(center_lat, center_lon, radius_km=5, model=None):
     nearby_objs = []
     for object in model.objects.all():
