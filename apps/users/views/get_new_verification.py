@@ -1,17 +1,27 @@
-from datetime import datetime, timezone
-
+from django.db import transaction
+from django.utils import timezone
 from rest_framework.exceptions import ValidationError
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from apps.shared.throttles import OTPSendThrottle
+from apps.users.tasks import send_registration_email
+
 
 class GetNewVerificationView(APIView):
+    permission_classes = [IsAuthenticated]
+    throttle_classes = [OTPSendThrottle]
+
     def get(self, request, *args, **kwargs):
         user = self.request.user
         self.check_verification(user)
-        code = user.create_verify_code('phone_number')
+        code = user.create_verify_code()
+        # The code goes only to the phone; returning it here would let anyone
+        # holding a signup token skip phone verification.
+        transaction.on_commit(lambda: send_registration_email.delay(user.phone_number, code))
 
-        return Response({"code": code})
+        return Response({"success": True, "message": "Code sent successfully"})
 
     @staticmethod
     def check_verification(user):

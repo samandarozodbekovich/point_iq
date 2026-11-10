@@ -8,9 +8,11 @@ from apps.users.models import User
 
 class UserConfirmation(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL , null=True, blank=True, related_name='verify_codes')
-    code = models.CharField(max_length=4)
+    # Room for 6 digits so OTP_LENGTH can grow without another migration.
+    code = models.CharField(max_length=6)
     expiration_time = models.DateTimeField(blank=True, null=True)
     is_confirmed = models.BooleanField(default=False)
+    attempts = models.PositiveSmallIntegerField(default=0)
 
     def save(self, *args, **kwargs):
         if not self.pk:

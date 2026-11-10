@@ -1,26 +1,36 @@
-from django.core.exceptions import ObjectDoesNotExist
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions
-from rest_framework.exceptions import NotFound
-from rest_framework.generics import UpdateAPIView
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from apps.users.models import User
+from apps.shared.throttles import OTPVerifyThrottle
 from apps.users.serializers.reset_password import ResetPasswordSerializer
 
 
-class ResetPasswordView(UpdateAPIView):
+class ResetPasswordView(APIView):
+    """Step 2 of password reset (step 1 is forgot-password).
+
+    Anonymous on purpose: the user has no token yet. Possession of the phone
+    is proven by the code, which consume_code checks with attempt limits.
+    """
     permission_classes = (permissions.AllowAny,)
-    serializer_class = ResetPasswordSerializer
-    http_method_names = ['put', 'patch']
+    authentication_classes = []
+    throttle_classes = [OTPVerifyThrottle]
 
-    def update(self, request, *args, **kwargs):
-        response = super().update(request, *args, **kwargs)
-        user = self.get_object()
+    @swagger_auto_schema(request_body=ResetPasswordSerializer)
+    def put(self, request, *args, **kwargs):
+        serializer = ResetPasswordSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
 
+        tokens = user.token()
         return Response({
             'success': True,
             'message': "Password reset successful",
-            "access": user.token()['access'],
-            "refresh": user.token()['refresh'],
+            "access": tokens['access'],
+            "refresh": tokens['refresh'],
         })
 
+    @swagger_auto_schema(request_body=ResetPasswordSerializer)
+    def patch(self, request, *args, **kwargs):
+        return self.put(request, *args, **kwargs)

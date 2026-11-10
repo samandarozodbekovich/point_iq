@@ -134,6 +134,9 @@ REST_FRAMEWORK = {
         'ai': '20/hour',
         'google': '10/hour',
         'twogis': '30/hour',
+        # OTP: codes sent / codes checked, per phone number.
+        'otp_send': '5/hour',
+        'otp_verify': '10/hour',
     },
 }
 

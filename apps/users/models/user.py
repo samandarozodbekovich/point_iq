@@ -1,5 +1,6 @@
-import random
+import secrets
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -10,6 +11,9 @@ from apps.users.models.user_manager import UserManager
 
 USER, ADMIN = ('user', 'admin')
 NEW, CODE_VERIFIED, DONE = ('new', 'code_verified', 'done')
+
+OTP_LENGTH = 6
+OTP_MAX_ATTEMPTS = 5
 
 
 class User(AbstractBaseUser, PermissionsMixin, BaseTimeModel):
@@ -41,7 +45,13 @@ class User(AbstractBaseUser, PermissionsMixin, BaseTimeModel):
         if self.is_superuser:
             return None  # superuser uchun code yaratma
 
-        code = "".join([str(random.randint(0, 9)) for _ in range(4)])
+        code = f"{secrets.randbelow(10 ** OTP_LENGTH):0{OTP_LENGTH}d}"
+
+        # Only the newest code is valid: otherwise every resend would add
+        # another live code (and another set of attempts) to guess against.
+        now = timezone.now()
+        self.verify_codes.filter(is_confirmed=False, expiration_time__gt=now).update(expiration_time=now)
+
         UserConfirmation.objects.create(user=self, code=code)
         return code
 

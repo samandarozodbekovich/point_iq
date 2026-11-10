@@ -1,18 +1,19 @@
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
-from rest_framework.exceptions import ValidationError
-from django.utils import timezone
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 
+from apps.shared.throttles import OTPVerifyThrottle
 from apps.users.models.user import CODE_VERIFIED, NEW
+from apps.users.otp import consume_code
 from apps.users.serializers.verify import VerifySerializer
 
 class VerifyAPIView(APIView):
     permission_classes = [IsAuthenticated]
+    throttle_classes = [OTPVerifyThrottle]
 
     @swagger_auto_schema(
         request_body=VerifySerializer,
@@ -43,19 +44,7 @@ class VerifyAPIView(APIView):
 
     @staticmethod
     def check_verify(user, code):
-        verifies = user.verify_codes.filter(
-            expiration_time__gte=timezone.now(),
-            code=code,
-            is_confirmed=False
-        )
-
-        if not verifies.exists():
-            raise ValidationError({
-                "success": False,
-                "message": "Invalid or expired verification code."
-            })
-
-        verifies.update(is_confirmed=True)
+        consume_code(user, code)
 
         if user.auth_status == NEW:
             user.auth_status = CODE_VERIFIED
