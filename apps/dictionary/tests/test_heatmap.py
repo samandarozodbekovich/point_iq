@@ -1,3 +1,4 @@
+"""GET /api/statistics/heatmap/ (TrafficHeatmapView)."""
 from django.contrib.gis.geos import Point
 from django.test import TestCase
 from rest_framework.test import APIClient
