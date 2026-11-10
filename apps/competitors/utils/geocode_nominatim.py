@@ -10,7 +10,7 @@ def geocode_nominatim(address: str):
     if not address:
         return None, None
 
-    for _ in range(3):  # 3 marta urinish
+    for _ in range(3):  # up to 3 attempts
         try:
             resp = requests.get(
                 "https://nominatim.openstreetmap.org/search",

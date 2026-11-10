@@ -18,7 +18,7 @@ class QueryHistoryAdmin(admin.ModelAdmin):
         "created_at",
     )
 
-    # 2. Filtrlarni qulaylashtirish
+    # 2. Filters
     list_filter = ("status", "business_type", "created_at", "user")
 
     # 3. Search
@@ -77,5 +77,5 @@ class QueryHistoryAdmin(admin.ModelAdmin):
             color, obj.status
         )
 
-    # Sahifadagi elementlar soni
+    # rows per page
     list_per_page = 20

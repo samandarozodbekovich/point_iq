@@ -68,12 +68,12 @@ class BusinessIntelligenceView(APIView):
                 pop_density = pop.population_density
                 avg_income = pop.average_income
 
-                # Yosh guruhlari
+                # Age groups
                 age_stats = AgeGroupPopulation.objects.filter(population=pop).values(
                     'age_group__age_group'
                 ).annotate(total=Sum('count'))
 
-                # Oilaviy holat
+                # Relationship status
                 rel_stats = RelationshipStatusPopulation.objects.filter(population=pop).values(
                     'relationship_status__name_uz'
                 ).annotate(total=Sum('count'))
@@ -100,7 +100,7 @@ class BusinessIntelligenceView(APIView):
                     }
                 }
 
-        # 5. INTEGRAL SCORE (Murakkab ball hisoblash)
+        # 5. Combined score
         # Flow and infrastructure (POI + traffic + transit)
         flow_score = (poi_count * 1.5) + (high_traffic_roads * 8) + (transit_count * 5)
         # Demographic weight (density and income)
