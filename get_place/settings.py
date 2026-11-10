@@ -121,7 +121,13 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
+# Only these browser origins may call the API. Set per environment in .env,
+# e.g. CORS_ALLOWED_ORIGINS=https://pointiq.uz,http://localhost:3000
+CORS_ALLOWED_ORIGINS = config(
+    'CORS_ALLOWED_ORIGINS',
+    default='https://pointiq.uz,https://www.pointiq.uz',
+    cast=Csv(),
+)
 
 
 REST_FRAMEWORK = {
