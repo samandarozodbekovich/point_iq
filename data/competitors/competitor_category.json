@@ -45,7 +45,7 @@
     "name_uz": "San’at muzeyi",
     "name_ru": "Художественный музей",
     "name_cyr": "Санъат музейи",
-    "google_type": "art_gallery"
+    "google_type": "art_museum"
   },
   {
     "name_uz": "Muzey",
@@ -75,7 +75,7 @@
     "name_uz": "Soch salon",
     "name_ru": "Салон красоты",
     "name_cyr": "Соч салон",
-    "google_type": "beauty_salon"
+    "google_type": "hair_salon"
   },
   {
     "name_uz": "Sartaroshxona",
