@@ -1,0 +1,52 @@
+# Secrets: provided at runtime via env_file in docker-compose, never baked
+# into the image (anyone with the image could read them).
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Django
+*.db
+
+# Celery
+celerybeat-schedule*
+celerybeat-schedule.db
+celerybeat-schedule-shm
+celerybeat-schedule-wal
+
+# Git
+.git/
+.gitignore
+
+# Cache files
+*.log
+*.sqlite3
+
+# OS files
+.DS_Store
+Thumbs.db
+
+data/
+datasets/
+uploads/
+media/
+static/
+*.geojson
+*.csv
+*.shp
+*.tif
+notebooks/
+.ai/
+.ipynb_checkpoints/
+
+node_modules/

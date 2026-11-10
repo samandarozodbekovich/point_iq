@@ -22,7 +22,6 @@ Pillow==13.0.0
 celery==5.7.0
 redis==8.1.0
 django-hitcount==1.3.5
-django-tablib==3.2
 
 # HTTP va Utilities
 requests==2.34.2
@@ -34,6 +33,7 @@ tzdata==2026.6
 sqlparse==0.6.1
 
 # Geo va Mapping
+numpy==2.5.4
 geopandas==1.2.0
 shapely==2.2.0
 pyproj==3.8.0

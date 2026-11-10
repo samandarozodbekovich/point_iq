@@ -3,7 +3,6 @@
 __pycache__/
 media/
 .venv
-.dockerignore
 # Celery beat runtime state (rewritten by the beat process)
 celerybeat-schedule
 celerybeat-schedule.*

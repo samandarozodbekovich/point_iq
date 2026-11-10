@@ -1,4 +1,6 @@
-FROM python:3.11-slim AS base
+# 3.12: Django 6 and pyproj 3.8 (requirements.txt) need Python >= 3.12,
+# and it matches the version the project is developed and tested with.
+FROM python:3.12-slim AS base
 
 # Tizim kutubxonalarini o'rnatish
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -29,9 +31,9 @@ ENV GEOS_LIBRARY_PATH=/usr/lib/libgeos_c.so
 
 COPY requirements.txt .
 
-# Avval pip ni yangilaymiz, keyin muammoli NumPy-ni o'rnatamiz, keyin qolganlarini
+# numpy is pinned in requirements.txt. The old separate "numpy<2.0.0"
+# install conflicts with geopandas/pandas, which need numpy>=2.
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir "numpy<2.0.0" && \
     pip install --no-cache-dir -r requirements.txt
 
 COPY . .
