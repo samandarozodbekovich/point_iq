@@ -61,7 +61,7 @@ def check_proximity_to_feedup(lat, lon, min_dist=600):
     """
     with connection.cursor() as cursor:
         cursor.execute(query, [lon, lat, min_dist])
-        return cursor.fetchone()[0] # True yoki False qaytaradi
+        return cursor.fetchone()[0] # True or False
 
 
 
@@ -84,7 +84,7 @@ def calculate_location_score(lat, lon, potential_rent=None):
         'traffic': 0.4,  # 40%
         'education': 0.25,  # 25%
         'transit': 0.25,  # 25%
-        'competition': -0.1  # -10% (Jarima)
+        'competition': -0.1  # -10% (penalty)
     }
 
     base_score = (
@@ -92,7 +92,7 @@ def calculate_location_score(lat, lon, potential_rent=None):
                          (education_points * weights['education']) +
                          (transit_points * weights['transit']) +
                          (competition_penalty * weights['competition'])
-                 ) * 10  # 100 ballik tizimga o'tkazish
+                 ) * 10  # scale to 0-100
 
 
     if is_too_close_to_self:

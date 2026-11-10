@@ -17,7 +17,7 @@ class TwoGisSearchTests(TestCase):
         CompetitorCategory.objects.create(name_uz="Kafe", name_ru="Кафе")
 
     def page(self, ids, total):
-        items = [{"id": f"{i}_x", "name": f"Kafe {i}", "full_name": "Toshkent", "purpose_name": "Кафе",
+        items = [{"id": f"{i}_x", "name": f"Kafe {i}", "full_name": "Tashkent", "purpose_name": "Кафе",
                   "point": {"lat": 41.3, "lon": 69.2}} for i in ids]
         resp = mock.Mock(status_code=200)
         resp.json.return_value = {"result": {"items": items, "total": total}}

@@ -6,7 +6,7 @@ networks:
 
 services:
   db:
-    image: postgis/postgis:16-3.4  # PostGIS qo'shilgan versiya
+    image: postgis/postgis:16-3.4  # PostgreSQL with PostGIS
     container_name: get_place_db
     restart: always
     environment:
@@ -25,7 +25,7 @@ services:
       - "127.0.0.1:5432:5432"
 
   redis:
-    image: redis:7-alpine # redis:8 hali beta bo'lishi mumkin, 7 barqaror
+    image: redis:7-alpine # Redis 7 (stable)
     container_name: get_place_redis
     restart: always
     networks:
@@ -48,7 +48,7 @@ services:
       - media_volume:/app/media
     env_file:
       - .env
-    # NPY_DISABLE_CPU_FEATURES olib tashlandi, chunki NumPy optimallashdi
+    # NPY_DISABLE_CPU_FEATURES is set in the Dockerfile
     networks:
       - get_place_network
     depends_on:

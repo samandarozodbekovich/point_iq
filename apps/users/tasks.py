@@ -11,9 +11,8 @@ def flush_expired_tokens():
 @shared_task
 def send_registration_email(phone_number, code):
     subject = "Activate your account"
-    body = f"<p>Sizning tasdiqlash kodingiz: <b>{code}</b></p>"
+    body = f"<p>Your verification code: <b>{code}</b></p>"
 
-    # to‘g‘ri ko‘rinish
     msg = EmailMessage(
         subject=subject,
         body=body,

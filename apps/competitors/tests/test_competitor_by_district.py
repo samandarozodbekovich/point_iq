@@ -18,9 +18,9 @@ class CompetitorByDistrictTests(TestCase):
         district = District.objects.get()
         inside = district.boundary.point_on_surface
         cat = CompetitorCategory.objects.create(name_uz="Kafe", name_ru="Кафе")
-        Competitor.objects.create(category=cat, name_uz="Ichkarida", latitude=inside.y, longitude=inside.x)
-        Competitor.objects.create(category=cat, name_uz="Tashqarida", latitude=40.0, longitude=60.0)
+        Competitor.objects.create(category=cat, name_uz="Inside", latitude=inside.y, longitude=inside.x)
+        Competitor.objects.create(category=cat, name_uz="Outside", latitude=40.0, longitude=60.0)
 
         r = APIClient().get("/api/competitors/competitor/", {"category": "Kafe", "district_id": district.id})
         self.assertEqual(r.status_code, 200)
-        self.assertEqual([c["name_uz"] for c in r.data["results"]], ["Ichkarida"])
+        self.assertEqual([c["name_uz"] for c in r.data["results"]], ["Inside"])

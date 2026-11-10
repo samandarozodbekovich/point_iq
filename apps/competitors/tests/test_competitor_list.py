@@ -52,7 +52,7 @@ class CompetitorListQueryCountTests(TestCase):
         self.assertLessEqual(large, 5)
 
     def test_list_does_not_write(self):
-        c = Competitor.objects.create(category=self.category, name_uz="Yangi", name_ru="Новый", name_cyr="")
+        c = Competitor.objects.create(category=self.category, name_uz="New one", name_ru="Новый", name_cyr="")
         before = HitCount.objects.count()
         _, data = self.count_list_queries()
         self.assertEqual(HitCount.objects.count(), before, "GET list created HitCount rows")

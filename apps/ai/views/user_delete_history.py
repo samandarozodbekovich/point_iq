@@ -17,7 +17,7 @@ class UserDeleteHistoryView(DestroyAPIView):
 
         user = self.request.user
         if not user.is_authenticated:
-            return QueryHistory.objects.none()  # yoki raise PermissionDenied()
+            return QueryHistory.objects.none()  # or raise PermissionDenied()
 
         return QueryHistory.objects.filter(user=user)
 

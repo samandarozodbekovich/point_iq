@@ -12,12 +12,12 @@ class BaseTimeModel(models.Model):
         self.is_deleted = True
         self.save()
 
-    # Restore qilish
+    # Restore
     def restore(self):
         self.is_deleted = False
         self.save()
 
-    # Bazadan butunlay o‘chirish
+    # Delete permanently
     def hard_delete(self):
         super().delete()
 
@@ -32,6 +32,6 @@ class BaseNameModel(models.Model):
 
 
 class SoftDeleteManager(models.Manager):
-    """Faqat o‘chirilmagan obyektlarni ko‘rsatadigan manager"""
+    """Manager that hides soft-deleted rows."""
     def get_queryset(self):
         return super().get_queryset().filter(is_deleted=False)

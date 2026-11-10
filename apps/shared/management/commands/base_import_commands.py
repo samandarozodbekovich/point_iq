@@ -47,11 +47,11 @@ class BaseImportCommand(BaseCommand):
                 fields = entry
                 pk = fields.get("pk")
 
-            # ForeignKey maydonlarni pk orqali to‘g‘rilash
+            # resolve ForeignKey fields given as a pk
             for field in model._meta.fields:
                 if field.is_relation and field.name in fields:
                     value = fields[field.name]
-                    if isinstance(value, int):  # faqat id berilgan bo‘lsa
+                    if isinstance(value, int):  # only when an id was given
                         fields[field.name + "_id"] = value
                         del fields[field.name]
                     elif isinstance(value, dict) and "pk" in value:

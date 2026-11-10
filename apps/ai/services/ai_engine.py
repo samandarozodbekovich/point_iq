@@ -18,7 +18,7 @@ client = OpenAI(api_key=settings.OPENAI_API_KEY)
 class BusinessAgent:
     @staticmethod
     def get_history(user, limit=5):
-        """Foydalanuvchi tarixini xavfsiz formatda yuklash."""
+        """The user's recent finished queries as chat messages."""
         if not user or not user.is_authenticated:
             return []
 
@@ -26,7 +26,7 @@ class BusinessAgent:
         messages = []
         for r in reversed(records):
             messages.append({"role": "user", "content": r.user_query})
-            # response_json ichidan ai_response kalitini xavfsiz olish
+            # read ai_response from response_json defensively
             if isinstance(r.response_json, dict):
                 ai_msg = r.response_json.get('ai_response')
                 if ai_msg:
@@ -35,7 +35,7 @@ class BusinessAgent:
 
     @staticmethod
     def fetch_stats(coords):
-        """Berilgan nuqta atrofidagi real statistikani bazadan olish."""
+        """Real statistics from the database around the given point."""
         if not coords:
             return None
         lat, lon = coords
@@ -81,7 +81,7 @@ class BusinessAgent:
 
     @classmethod
     def ask_ai(cls, query, user=None):
-        # 1. Hudud va Koordinatani aniqlash (Oldingi mantiq)
+        # 1. Detect the district and its coordinates
         q_lower = query.lower()
         regions = ["mirobod", "chilonzor", "yunusobod", "sergeli", "yakkasaroy", "mirzo ulug'bek", "shayxontohur",
                    "olmazar", "yashnobod", "uchtepa"]
@@ -96,33 +96,33 @@ class BusinessAgent:
             except:
                 pass
 
-        # 2. Bazadan REAL ma'lumotlarni olish
+        # 2. Real data from the database
         stats = cls.fetch_stats(coords)
         history = cls.get_history(user)
 
-        # 3. Promptni MA'LUMOTLARGA ASOSLANGAN (Data-Driven) qilish
+        # 3. Data-driven prompt
         system_prompt = (
-            "Siz 'Get Place' tahlilchisisiz. Sizning maqsadingiz — bazadagi ma'lumotlar asosida "
-            "foydalanuvchiga eng to'g'ri joyni ko'rsatish.\n"
-            "YO'RIQNOMA:\n"
-            "1. Agar 'stats' ichida raqamlar bo'lsa, ularni tahlil qiling. "
-            "Masalan: 'Ushbu nuqtada 10 ta raqobatchi bor, bu raqobat ancha kuchli ekanini ko'rsatadi'.\n"
-            "2. 'education' va 'population' butun tuman ('district') bo'yicha statistika. "
-            "Maktab va bog'chalar ko'p bo'lsa, bu o'quv markazi uchun katta plyus ekanini ayting.\n"
-            "3. FAQAT 'stats' ichidagi raqamlardan foydalaning. U yerda yo'q ko'rsatkichni o'ylab topmang; "
-            "bunday holatda bu bo'yicha ma'lumot yo'qligini ayting.\n"
-            "4. Raqamlarga tayanganda 'Bazadagi ma'lumotlarimizga ko'ra...' deb javob bering.\n"
-            "5. Takroriy salomlashmang. FAQAT JSON formatda qaytaring."
+            "You are the 'Get Place' location analyst. Your goal is to recommend the best place "
+            "for the user's business based on the data in our database.\n"
+            "INSTRUCTIONS:\n"
+            "1. If 'stats' contains numbers, analyse them. For example: 'There are 10 competitors "
+            "at this point, so competition is strong.'\n"
+            "2. 'education' and 'population' are statistics for the whole district ('district'). "
+            "Many schools and kindergartens are a big plus for a training centre.\n"
+            "3. Use ONLY the numbers in 'stats'. Never invent a figure that is not there; "
+            "say that there is no data for it instead.\n"
+            "4. When you rely on the numbers, say so ('According to our data...').\n"
+            "5. Answer in Uzbek (Latin script). Do not repeat greetings. Return ONLY JSON."
         )
 
         messages = [{"role": "system", "content": system_prompt}]
         messages.extend(history)
 
-        # AIga barcha ma'lumotlarni yuboramiz
+        # everything the model needs
         messages.append({"role": "user", "content": json.dumps({
             "user_query": query,
             "region": detected_region,
-            "stats": stats,  # Real raqamlar shu yerda
+            "stats": stats,  # the real numbers
             "is_returning": len(history) > 0
         })})
 
@@ -131,22 +131,22 @@ class BusinessAgent:
                 model="gpt-4o-mini",
                 messages=messages,
                 response_format={"type": "json_object"},
-                temperature=0.6  # Biroz kreativlik qo'shdik
+                temperature=0.6  # a little creativity
             )
             ai_data = json.loads(res.choices[0].message.content)
 
             final_response = {
-                "ai_response": ai_data.get("ai_response", "Ma'lumot topilmadi."),
+                "ai_response": ai_data.get("ai_response", "No data found."),
                 "intent": ai_data.get("intent", "general"),
                 "business_summary": ai_data.get("business_summary", ""),
                 "suggestions": ai_data.get("suggestions", []),
                 "risks": ai_data.get("risks", []),
                 "region": detected_region,
-                "region_stats": stats,  # Foydalanuvchi ham raqamlarni ko'rsin
+                "region_stats": stats,  # the user sees the numbers too
                 "status": "success"
             }
 
-            # Tarixni saqlash
+            # save to history
             QueryHistory.objects.create(
                 user=user if user and user.is_authenticated else None,
                 user_query=query,
@@ -159,4 +159,4 @@ class BusinessAgent:
 
         except Exception as e:
             logger.error(f"AI Error: {e}")
-            return {"ai_response": "Tizim tahlilni yakunlay olmadi.", "status": "failed"}
+            return {"ai_response": "The analysis could not be completed.", "status": "failed"}

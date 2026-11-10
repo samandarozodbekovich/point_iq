@@ -9,7 +9,7 @@ class PropertyImage(BaseTimeModel):
     image = models.ImageField(upload_to='properties/property_images')
     is_deleted = models.BooleanField(default=False)
 
-    objects = SoftDeleteManager()  # faqat o‘chirilmaganlar
+    objects = SoftDeleteManager()  # excludes soft-deleted rows
     all_objects = models.Manager()
 
     def __str__(self):

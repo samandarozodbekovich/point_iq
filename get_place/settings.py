@@ -60,7 +60,7 @@ ALLOWED_HOSTS = [
     'pointiq.uz',
     'www.api.pointiq.uz',
 ]
-# HTTPS va proxy headers
+# HTTPS and proxy headers
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -214,14 +214,14 @@ SIMPLE_JWT = {
 
 
 LEAFLET_CONFIG = {
-    'DEFAULT_CENTER': (41.2995, 69.2401), # Toshkent koordinatalari
+    'DEFAULT_CENTER': (41.2995, 69.2401), # Tashkent
     'DEFAULT_ZOOM': 12,
     'MIN_ZOOM': 5,
     'MAX_ZOOM': 18,
     'TILES': [
         ('satellite', 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
          {'attribution': '&copy; OpenStreetMap contributors'}),
-        # Agar Google xaritasini xohlasangiz:
+        # To use Google Maps tiles instead:
         ('Google Maps', 'http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}',
          {'attribution': 'Google'}),
     ],

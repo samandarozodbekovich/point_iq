@@ -27,18 +27,18 @@ class BusinessIntelligenceView(APIView):
             lat = float(request.query_params.get('lat'))
             lng = float(request.query_params.get('lng'))
         except (TypeError, ValueError):
-            return Response({"error": "lat va lng parametrlari talab qilinadi"}, status=400)
+            return Response({"error": "lat and lng parameters are required"}, status=400)
 
         query = request.query_params.get('query')
         category_name = request.query_params.get('category')
         radius = float(request.query_params.get('radius', 1500))
         user_point = Point(lng, lat, srid=4326)
 
-        # 2. Ma'lumotlarni yig'ish (Background Task)
+        # 2. Collect data (background task)
         if query and allow_paid_call(TwoGisApiThrottle, request, self):
             fetch_and_update_competitors_2gis.delay(query=query, category_name=category_name)
 
-        # 3. Tahlil: Raqobatchilar, POI va Transport
+        # 3. Analysis: competitors, POIs and transport
         comp_qs = Competitor.objects.filter(location__distance_lte=(user_point, D(m=radius)))
         comp_count = comp_qs.count()
         avg_rating = comp_qs.aggregate(Avg('average_rating'))['average_rating__avg'] or 0
@@ -53,7 +53,7 @@ class BusinessIntelligenceView(APIView):
             line__intersects=search_buffer, intensity_level='high'
         ).count()
 
-        # 4. Demografiya: Nuqta orqali Tumanni topish va ma'lumotlarni yig'ish
+        # 4. Demographics of the district containing the point
         demographics_data = {}
         pop_density = 0
         avg_income = 0
@@ -62,7 +62,7 @@ class BusinessIntelligenceView(APIView):
         target_district = District.find_containing(lat, lng)
 
         if target_district:
-            # Aholi va Daromad
+            # Population and income
             pop = Population.objects.filter(district=target_district).first()
             if pop:
                 pop_density = pop.population_density
@@ -78,7 +78,7 @@ class BusinessIntelligenceView(APIView):
                     'relationship_status__name_uz'
                 ).annotate(total=Sum('count'))
 
-                # Ta'lim va Iste'mol
+                # Education and consumption
                 edu = PeopleEducation.objects.filter(district=target_district).first()
                 consume = PeopleConsume.latest_for_district(target_district)
 
@@ -101,11 +101,11 @@ class BusinessIntelligenceView(APIView):
                 }
 
         # 5. INTEGRAL SCORE (Murakkab ball hisoblash)
-        # Oqim va infrastruktura (POI + Traffic + Transit)
+        # Flow and infrastructure (POI + traffic + transit)
         flow_score = (poi_count * 1.5) + (high_traffic_roads * 8) + (transit_count * 5)
-        # Demografiya vazni (Zichlik va Daromad)
+        # Demographic weight (density and income)
         demographic_score = (pop_density / 500) + (avg_income / 10000)
-        # Raqobat jarimasi
+        # Competition penalty
         competition_penalty = (comp_count * 4) + (10 if avg_rating > 4 else 0)
 
         final_score = max(0, min(100, int(flow_score + demographic_score - competition_penalty)))
@@ -127,7 +127,7 @@ class BusinessIntelligenceView(APIView):
             "analysis": {
                 "score": final_score,
                 "recommendation": self._get_recommendation(final_score),
-                "market_saturation": "Yuqori" if comp_count > 15 else "Past/O'rtacha"
+                "market_saturation": "High" if comp_count > 15 else "Low/Medium"
             },
             "demographics": demographics_data,
             "dashboard": {
@@ -144,7 +144,7 @@ class BusinessIntelligenceView(APIView):
         })
 
     def _get_recommendation(self, score):
-        if score > 80: return "Ideal hudud. Aholi zichligi va oqim juda yuqori."
-        if score > 55: return "Yaxshi tanlov. Barqaror mijoz bazasi shakllanishi mumkin."
-        if score > 35: return "Xatarli hudud. Raqobatni qayta tahlil qiling."
-        return "Tavsiya etilmaydi. Biznes uchun resurslar yetarli emas."
+        if score > 80: return "Ideal area. Very high population density and foot traffic."
+        if score > 55: return "Good choice. A stable customer base is likely."
+        if score > 35: return "Risky area. Review the competition again."
+        return "Not recommended. Not enough demand for the business."

@@ -109,9 +109,9 @@ class Command(BaseCommand):
             )
 
             action = 'created' if created else 'updated'
-            self.stdout.write(f'{action}: {district.name_uz} ({len(coord)} nuqta)')
+            self.stdout.write(f'{action}: {district.name_uz} ({len(coord)} points)')
             loaded_count += 1
 
         self.stdout.write(
-            self.style.SUCCESS(f'\n🎉 Jami {loaded_count} ta tuman yuklandi!')
+            self.style.SUCCESS(f'\nLoaded {loaded_count} districts.')
         )

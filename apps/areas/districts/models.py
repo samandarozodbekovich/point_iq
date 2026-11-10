@@ -21,7 +21,7 @@ class District(BaseNameModel, BaseTimeModel):
 
 
     def __str__(self):
-        return f"{self.name_uz} ({self.city.name_uz if self.city else 'Shahar yo\'q'})"
+        return f"{self.name_uz} ({self.city.name_uz if self.city else 'no city'})"
 
     def get_boundary_coord(self):
 

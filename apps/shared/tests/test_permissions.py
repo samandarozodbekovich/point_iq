@@ -79,7 +79,7 @@ class OwnedResourcePermissionTests(TestCase):
             price=1, currency="USD", area_sq_m=1, rooms=1, floor=1)
 
     def listing_payload(self):
-        return {"property_type": "flat", "title": "Yangi", "description": "-", "address": "-", "price": "1",
+        return {"property_type": "flat", "title": "New listing", "description": "-", "address": "-", "price": "1",
                 "currency": "USD", "area_sq_m": "1", "rooms": 1, "floor": 1}
 
     def image(self):
@@ -92,7 +92,7 @@ class OwnedResourcePermissionTests(TestCase):
     def test_create_sets_owner(self):
         r = client_for(self.other).post("/api/property/", self.listing_payload(), format="json")
         self.assertEqual(r.status_code, 201, r.data)
-        self.assertEqual(PropertyListing.objects.get(title="Yangi").owner, self.other)
+        self.assertEqual(PropertyListing.objects.get(title="New listing").owner, self.other)
 
     def test_only_owner_edits_listing(self):
         url = f"/api/property/{self.listing.pk}/"

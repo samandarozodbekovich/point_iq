@@ -54,7 +54,7 @@ class PaidApiAccessTests(TestCase):
         self.assertFalse(google.called)
 
     def test_list_triggers_2gis_only_for_logged_in_users(self):
-        params = {"category": "Kafe", "query": "hech narsa"}
+        params = {"category": "Kafe", "query": "nothing"}
         r = APIClient().get("/api/competitors/competitor/", params)
         self.assertEqual(r.status_code, 200)
         self.assertFalse(self.fetch_and_update_competitors_2gis.called)

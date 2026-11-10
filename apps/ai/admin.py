@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.db import models  # Muhim: formfield_overrides uchun db.models kerak
+from django.db import models  # needed for formfield_overrides
 from django_json_widget.widgets import JSONEditorWidget
 
 from apps.ai.models import QueryHistory
@@ -7,57 +7,57 @@ from apps.ai.models import QueryHistory
 
 @admin.register(QueryHistory)
 class QueryHistoryAdmin(admin.ModelAdmin):
-    # 1. Ro'yxat ko'rinishini boyitish
+    # 1. List view columns
     list_display = (
         "id",
-        "get_user_phone",  # Telefon raqamini chiroyli ko'rsatish
-        "user_query_short",  # Uzun so'rovlarni qisqartirib ko'rsatish
+        "get_user_phone",  # user's phone number
+        "user_query_short",  # long queries truncated
         "business_type",
         "region",
-        "status_styled",  # Statusni rangli ko'rsatish
+        "status_styled",  # colored status
         "created_at",
     )
 
     # 2. Filtrlarni qulaylashtirish
     list_filter = ("status", "business_type", "created_at", "user")
 
-    # 3. Qidiruvni kuchaytirish
+    # 3. Search
     search_fields = ("user__phone_number", "user_query", "region")
 
-    # 4. Faqat o'qish uchun maydonlar
+    # 4. Read-only fields
     readonly_fields = ("created_at", "status")
 
-    # 5. JSON Editor widgetini to'g'ri ulash
+    # 5. JSON editor widget for JSON fields
     formfield_overrides = {
         models.JSONField: {'widget': JSONEditorWidget},
     }
 
-    # 6. Admin paneldagi maydonlar strukturasi (Fieldsets)
+    # 6. Fieldsets
     fieldsets = (
-        ("Mijoz haqida", {
+        ("Client", {
             "fields": ("user",),
-            "description": "So'rov yuborgan foydalanuvchi ma'lumotlari."
+            "description": "The user who sent the query."
         }),
-        ("So'rov tafsilotlari", {
+        ("Query details", {
             "fields": ("user_query", "business_type", "region", "status"),
         }),
-        ("AI Tahlili (JSON)", {
+        ("AI analysis (JSON)", {
             "fields": ("response_json",),
-            "classes": ("extrapretty",),  # Custom CSS uchun
+            "classes": ("extrapretty",),  # custom CSS
         }),
-        ("Vaqt", {
+        ("Time", {
             "fields": ("created_at",),
             "classes": ("collapse",)
         }),
     )
 
-    # --- Yordamchi metodlar (Optimallashtirish uchun) ---
+    # --- Display helpers ---
 
-    @admin.display(description="Foydalanuvchi")
+    @admin.display(description="User")
     def get_user_phone(self, obj):
-        return obj.user.phone_number if obj.user else "Mehmon"
+        return obj.user.phone_number if obj.user else "Guest"
 
-    @admin.display(description="So'rov")
+    @admin.display(description="Query")
     def user_query_short(self, obj):
         if len(obj.user_query) > 50:
             return f"{obj.user_query[:50]}..."
@@ -67,9 +67,9 @@ class QueryHistoryAdmin(admin.ModelAdmin):
     def status_styled(self, obj):
         from django.utils.html import format_html
         colors = {
-            'done': '#28a745',  # Yashil
-            'processing': '#ffc107',  # Sariq
-            'failed': '#dc3545',  # Qizil
+            'done': '#28a745',  # green
+            'processing': '#ffc107',  # yellow
+            'failed': '#dc3545',  # red
         }
         color = colors.get(obj.status, 'gray')
         return format_html(

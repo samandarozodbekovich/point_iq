@@ -8,14 +8,14 @@ logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
-    help = "OpenCellID orqali Toshkent hududidagi mobil minoralarni bazaga yuklash"
+    help = "Load mobile cell towers in Tashkent from OpenCellID"
 
-    # API va Koordinata sozlamalari
+    # API and area settings
     OPENCELLID_KEY = settings.OPENCELLID_KEY  # from .env; no fallback key in code
     TASHKENT_BBOX = "41.2,69.1,41.4,69.3"  # minLat,minLon,maxLat,maxLon
 
     def handle(self, *args, **options):
-        self.stdout.write(self.style.WARNING("Minoralar bazasini yangilash boshlandi..."))
+        self.stdout.write(self.style.WARNING("Updating cell towers..."))
 
         url = "https://opencellid.org/cell/getInArea"
         params = {
@@ -28,20 +28,20 @@ class Command(BaseCommand):
         try:
             response = requests.get(url, params=params, timeout=30)
             if response.status_code != 200:
-                self.stdout.write(self.style.ERROR(f"API Xatosi: {response.status_code}"))
+                self.stdout.write(self.style.ERROR(f"API error: {response.status_code}"))
                 return
 
             cells = response.json()
             if not isinstance(cells, list):
-                self.stdout.write(self.style.ERROR("API noto'g'ri formatda javob qaytardi."))
+                self.stdout.write(self.style.ERROR("Unexpected API response format."))
                 return
 
             created_count = 0
             updated_count = 0
 
             for cell in cells:
-                # Bazada bor yoki yo'qligini tekshirish (Unique identifier orqali)
-                # Odatda radio, mcc, mnc, lac va cellid kombinatsiyasi unikal bo'ladi
+                # Match existing rows by the cell's unique identifier:
+                # radio, mcc, mnc, lac and cellid together
                 tower, created = CellTower.objects.update_or_create(
                     radio=cell.get('radio'),
                     mcc=cell.get('mcc'),
@@ -62,8 +62,8 @@ class Command(BaseCommand):
                     updated_count += 1
 
             self.stdout.write(self.style.SUCCESS(
-                f"Tugatildi! Yangi: {created_count}, Yangilandi: {updated_count}"
+                f"Done. Created: {created_count}, updated: {updated_count}"
             ))
 
         except Exception as e:
-            self.stdout.write(self.style.ERROR(f"Xatolik yuz berdi: {str(e)}"))
+            self.stdout.write(self.style.ERROR(f"Error: {str(e)}"))

@@ -6,7 +6,7 @@ def is_inside_uzbekistan(lat, lon):
     return 37.0 <= lat <= 46.0 and 56.0 <= lon <= 74.0
 
 def geocode_nominatim(address: str):
-    """Nominatim orqali address geocoding"""
+    """Geocode an address with Nominatim."""
     if not address:
         return None, None
 

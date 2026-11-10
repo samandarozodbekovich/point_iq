@@ -16,7 +16,7 @@ class TrafficAnalysis:
             location__distance_lte=(point, D(m=radius))
         ).annotate(distance=Distance("location", point))
 
-        # POI larni ham qo'shdik
+        # POIs too
         pois = PointOfInterestModel.objects.filter(
             location__distance_lte=(point, D(m=radius))
         ).annotate(distance=Distance("location", point))
@@ -25,7 +25,7 @@ class TrafficAnalysis:
         for item in list(nodes) + list(pois):
             dist_m = item.distance.m
             decay_factor = 1 / (1 + (dist_m / 100))
-            # Node uchun base_weight, POI uchun attraction_factor
+            # base_weight for nodes, attraction_factor for POIs
             weight = getattr(item, 'base_weight', getattr(item, 'attraction_factor', 5))
             total_score += (weight * 10) * decay_factor
 
@@ -46,11 +46,11 @@ class TrafficAnalysis:
         # Market Status Logic
         comp_count = nearby_competitors.count()
         if comp_count > 10:
-            market_status = "O'ta to'yingan (Qizil)"
+            market_status = "Saturated (red)"
         elif comp_count > 4:
-            market_status = "Raqobat mavjud (Sariq)"
+            market_status = "Competitive (yellow)"
         else:
-            market_status = "Ochiq (Yashil)"
+            market_status = "Open (green)"
 
         return {
             "total_score": round(total_score, 2),

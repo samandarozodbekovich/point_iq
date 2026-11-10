@@ -28,7 +28,7 @@ class BaseBulkMethods:
 
             if objects_to_create:
                 model.objects.bulk_create(objects_to_create, ignore_conflicts=True)
-                created_objects = objects_to_create  # keyin serialize qilamiz
+                created_objects = objects_to_create  # serialized below
 
         return Response(self.get_serializer(created_objects, many=True).data, status=status.HTTP_201_CREATED)
 
@@ -52,7 +52,7 @@ class BaseBulkMethods:
                     return Response({'error': f"Object with id {obj_id} not found"}, status=status.HTTP_404_NOT_FOUND)
 
                 for field, value in item.items():
-                    if field != 'id':  # ID ni o‘zgartirmaymiz
+                    if field != 'id':  # never change the id
                         setattr(obj, field, value)
                 update_objs.append(obj)
 

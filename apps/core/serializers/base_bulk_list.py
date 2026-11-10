@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 class BaseBulkListSerializer(serializers.ListSerializer):
     def __init__(self, *args, **kwargs):
-        # Swagger schema generatsiyasi paytida child bo‘lmasa xatoga tushmasin
+        # don't fail while swagger builds the schema without a child serializer
         if kwargs.get('child') is None and getattr(self, 'swagger_fake_view', False):
             kwargs['child'] = serializers.Serializer()
         super().__init__(*args, **kwargs)

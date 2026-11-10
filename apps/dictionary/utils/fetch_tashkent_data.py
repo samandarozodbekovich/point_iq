@@ -34,7 +34,7 @@ def fetch_overpass(lat, lng, radius):
     Network and server errors are raised, not swallowed, so the caller can
     retry them; they are the failures a retry can actually fix.
     """
-    logger.info("Overpass API ga optimallashtirilgan so'rov yuborilmoqda...")
+    logger.info("Querying the Overpass API...")
     query = f"""
             [out:json][timeout:60];
             (
@@ -58,7 +58,7 @@ def save_elements(data):
     for el in data.get('elements', []):
         tags = el.get('tags', {})
 
-        # 1. Transport bog'lamalari (TrafficNodeModel)
+        # 1. Transport nodes (TrafficNodeModel)
         if tags.get("amenity") == "bus_station" or tags.get("railway") == "station":
             TrafficNodeModel.objects.update_or_create(
                 external_id=f"node/{el['id']}",
@@ -78,7 +78,7 @@ def save_elements(data):
             PointOfInterestModel.objects.update_or_create(
                 external_id=f"node/{el['id']}",
                 defaults={
-                    'name': tags.get('name', f"{category or 'Noma`lum'}"),
+                    'name': tags.get('name', f"{category or 'Unknown'}"),
                     'location': Point(el['lon'], el['lat'], srid=4326),
                     'category': category,
                     'attraction_factor': POI_WEIGHTS.get(category, DEFAULT_POI_WEIGHT),
@@ -87,7 +87,7 @@ def save_elements(data):
             )
             counts['pois'] += 1
 
-        # 3. Yo'llar (TrafficSegmentModel)
+        # 3. Roads (TrafficSegmentModel)
         elif el['type'] == 'way' and 'highway' in tags:
             geom = el.get('geometry', [])
             if len(geom) > 1:
@@ -99,7 +99,7 @@ def save_elements(data):
                 TrafficSegmentModel.objects.update_or_create(
                     external_id=f"way/{el['id']}",
                     defaults={
-                        'street_name': tags.get('name', "Nomsiz ko'cha"),
+                        'street_name': tags.get('name', "Unnamed street"),
                         'line': LineString([(pt['lon'], pt['lat']) for pt in geom], srid=4326),
                         'intensity_level': 'high' if h_type in ['primary', 'trunk'] else 'medium',
                         'zone_color': road_color
@@ -107,7 +107,7 @@ def save_elements(data):
                 )
                 counts['ways'] += 1
 
-    logger.info(f"Yakunlandi: {counts['nodes']} stansiya, {counts['pois']} POI, {counts['ways']} ko'cha saqlandi.")
+    logger.info(f"Done: saved {counts['nodes']} stations, {counts['pois']} POIs, {counts['ways']} streets.")
     return counts
 
 

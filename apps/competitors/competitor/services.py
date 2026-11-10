@@ -55,13 +55,13 @@ def fetch_and_save_nearby_competitors(lat, long, radius, category_id):
 
     with transaction.atomic():
         for place in places:
-            # Google API New da unikal ID 'name' maydonida keladi (places/ChIJ...)
+            # In the new Google Places API the unique id is in 'name' (places/ChIJ...)
             g_id = place.get('name')
 
-            print(f"Hozir tekshirilyapti: {place.get('displayName', {}).get('text')} | ID: {g_id}")
+            print(f"Checking: {place.get('displayName', {}).get('text')} | ID: {g_id}")
 
             if not g_id:
-                print("ID topilmadi, o'tkazib yuborildi.")
+                print("No ID, skipped.")
                 continue
 
             try:
@@ -77,11 +77,11 @@ def fetch_and_save_nearby_competitors(lat, long, radius, category_id):
                         "review_count": place.get("userRatingCount", 0),
                     }
                 )
-                print(f"Bazaga yozildi! ID: {obj.id}")
+                print(f"Saved, ID: {obj.id}")
                 if created:
                     created_count += 1
             except Exception as e:
-                print(f"Saqlashda xato yuz berdi: {e}")
+                print(f"Failed to save: {e}")
 
     return {
         "total_found": len(places),

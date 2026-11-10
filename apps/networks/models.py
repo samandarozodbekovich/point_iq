@@ -8,7 +8,7 @@ from apps.areas.districts.models import District
 OPERATORS_BY_MNC = {
     1: 'Beeline',
     2: 'Ucell',
-    4: 'Beeline',  # Ba'zi hududlarda
+    4: 'Beeline',  # in some regions
     5: 'Ucell',
     7: 'Mobiuz (UMS)',
     99: 'Uztelecom (Uzmobile)',
@@ -42,7 +42,7 @@ class CellTower(BaseTimeModel):
     def operator_name(self):
         # Derived from the MNC instead of stored: it can never go stale or
         # disagree with mnc.
-        return OPERATORS_BY_MNC.get(self.mnc, "Noma'lum")
+        return OPERATORS_BY_MNC.get(self.mnc, "Unknown")
 
 
 

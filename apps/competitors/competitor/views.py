@@ -70,9 +70,9 @@ class CompetitorViewSet(BaseModelViewSet):
         return Response(serializer.data)
 
     @swagger_auto_schema(manual_parameters=[
-        openapi.Parameter('category', openapi.IN_QUERY, type=openapi.TYPE_STRING, description="Kategoriya nomi (uz yoki ru)"),
-        openapi.Parameter('district_id', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description="Tuman ID raqami"),
-        openapi.Parameter('query', openapi.IN_QUERY, type=openapi.TYPE_STRING, description="Nomi yoki manzili bo'yicha qidiruv"),
+        openapi.Parameter('category', openapi.IN_QUERY, type=openapi.TYPE_STRING, description="Category name (uz or ru)"),
+        openapi.Parameter('district_id', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description="District ID"),
+        openapi.Parameter('query', openapi.IN_QUERY, type=openapi.TYPE_STRING, description="Search by name or address"),
     ])
     def list(self, request):
         category_name = request.query_params.get("category")
@@ -108,7 +108,7 @@ class CompetitorViewSet(BaseModelViewSet):
 
             return Response({
                 "status": "loading",
-                "message": "Ma'lumotlar bazada topilmadi. 2GIS'dan yuklanmoqda...",
+                "message": "Not found in the database. Loading from 2GIS...",
                 "count": 0,
                 "results": []
             }, status=status.HTTP_202_ACCEPTED)
@@ -123,11 +123,11 @@ class CompetitorViewSet(BaseModelViewSet):
             type=openapi.TYPE_OBJECT,
             required=['query'],
             properties={
-                'query': openapi.Schema(type=openapi.TYPE_STRING, description="Qidiruv so'zi (Manzil, shahar yoki brend)"),
-                'category_name': openapi.Schema(type=openapi.TYPE_STRING, description="Filtrlash uchun kategoriya (RU tilda)"),
+                'query': openapi.Schema(type=openapi.TYPE_STRING, description="Search text (address, city or brand)"),
+                'category_name': openapi.Schema(type=openapi.TYPE_STRING, description="Category to filter by (in Russian)"),
             }
         ),
-        operation_description="2GIS orqali matnli qidiruv va fonda bazaga yuklash"
+        operation_description="Text search on 2GIS, saved to the database in the background"
     )
     @action(detail=False, methods=['post'], url_path='sync-2gis')
     def sync_2gis(self, request):
@@ -141,7 +141,7 @@ class CompetitorViewSet(BaseModelViewSet):
         return Response({
             "status": "2GIS sync started",
             "task_id": task.id,
-            "message": f"'{query}' bo'yicha ma'lumotlar fonda yuklanmoqda."
+            "message": f"Loading results for '{query}' in the background."
         }, status=status.HTTP_202_ACCEPTED)
 
     @swagger_auto_schema(
@@ -153,14 +153,14 @@ class CompetitorViewSet(BaseModelViewSet):
                 'lat': openapi.Schema(type=openapi.TYPE_NUMBER),
                 'lng': openapi.Schema(type=openapi.TYPE_NUMBER),
                 'radius': openapi.Schema(type=openapi.TYPE_INTEGER, default=500),
-                'category_id': openapi.Schema(type=openapi.TYPE_INTEGER, description="Bazadagi kategoriya ID-si"),
+                'category_id': openapi.Schema(type=openapi.TYPE_INTEGER, description="Category ID in the database"),
             }
         ),
-        operation_description="Google orqali radius bo'yicha fonda bazaga yuklash"
+        operation_description="Google search within a radius, saved to the database in the background"
     )
     @action(detail=False, methods=['post'], url_path='sync-google')
     def sync_google(self, request):
-        """Google orqali radius bo'yicha qidiruv (Celery task)"""
+        """Google search within a radius (Celery task)."""
         lat = request.data.get("lat")
         lng = request.data.get("lng")
         radius = request.data.get("radius", 500)
@@ -169,20 +169,19 @@ class CompetitorViewSet(BaseModelViewSet):
         if not lat or not lng or not category_id:
             return Response({"error": "lat, lng and category_id are required"}, status=400)
 
-        # Google API types mapping (View ichidagi map_to_google_type'ga o'xshash mantiq Task ichida bo'lishi kerak)
         task = fetch_google_competitors_task.delay(lat, lng, radius, category_id)
         return Response({
             "status": "Google sync started",
             "task_id": task.id,
-            "message": "Belgilangan hudud bo'yicha Google ma'lumotlari fonda yuklanmoqda."
+            "message": "Loading Google results for the area in the background."
         }, status=status.HTTP_202_ACCEPTED)
 
     def filter_by_district(self, district_id, category):
-        """Tuman chegarasi bo'yicha bazadan filterlash"""
+        """Competitors inside the district boundary."""
         try:
             district = District.objects.get(id=district_id)
         except District.DoesNotExist:
-            return Response({"error": "Tuman topilmadi"}, status=404)
+            return Response({"error": "District not found"}, status=404)
 
         if district.boundary is None:
             results = self.get_queryset().none()
@@ -245,13 +244,13 @@ class PointIQScoreView(APIView):
             lon = serializer.validated_data['lon']
             rent = serializer.validated_data.get('potential_rent')
 
-            # 1. Skoringni hisoblaymiz
+            # 1. Score
             score = calculate_location_score(lat, lon, potential_rent=rent)
 
-            # 2. Qo'shimcha tahliliy ma'lumotlarni yig'amiz (Frontend uchun)
+            # 2. Extra details for the frontend
             poi_summary = get_poi_counts_in_radius(lat, lon)
 
-            # 3. Biznes tavsiyasi
+            # 3. Recommendation
             recommendation = "Highly Recommended" if score > 75 else "Needs Review" if score > 50 else "Not Recommended"
 
             return Response({

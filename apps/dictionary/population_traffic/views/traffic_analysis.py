@@ -34,7 +34,7 @@ class TrafficAnalysisPointView(APIView):
                     fetch_tashkent_data.delay(point.y, point.x, radius)
 
                 return Response({
-                    "message": "Ushbu hudud bo'yicha ma'lumotlar yuklanmoqda. Iltimos, bir ozdan so'ng qayta urinib ko'ring.",
+                    "message": "Data for this area is loading. Please try again shortly.",
                     "status": "processing"
                 }, status=status.HTTP_202_ACCEPTED)
 

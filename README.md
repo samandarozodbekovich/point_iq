@@ -1,52 +1,52 @@
 # PointIQ (get_place) — backend
 
-Biznes uchun joy tanlashga yordam beradigan API: berilgan nuqta atrofidagi
-raqobatchilar, aholi va demografiya, transport va yo'l oqimi, mobil minoralar
-bo'yicha ma'lumot yig'adi, joyni baholaydi va AI orqali tavsiya beradi.
-Hozircha Toshkent shahri uchun.
+An API that helps businesses choose a location: for a given point it gathers
+competitors, population and demographics, transport and road traffic, and
+mobile cell towers, scores the location and gives AI recommendations.
+Currently covers Tashkent.
 
-## Texnologiyalar
+## Stack
 
-| Qism | Nima |
+| Part | What |
 |---|---|
-| Til / framework | Python 3.12, Django 6.1, Django REST Framework |
-| Baza | PostgreSQL 16 + PostGIS |
-| Fon vazifalar | Celery (worker + beat), Redis (broker, kesh, rate limit) |
-| Autentifikatsiya | JWT (SimpleJWT), telefon + SMS kod |
-| Tashqi xizmatlar | OpenAI, Google Places, 2GIS, Overpass (OpenStreetMap), OpenCellID, Nominatim |
+| Language / framework | Python 3.12, Django 6.1, Django REST Framework |
+| Database | PostgreSQL 16 + PostGIS |
+| Background jobs | Celery (worker + beat), Redis (broker, cache, rate limits) |
+| Authentication | JWT (SimpleJWT), phone number + SMS code |
+| External services | OpenAI, Google Places, 2GIS, Overpass (OpenStreetMap), OpenCellID, Nominatim |
 
-## Loyiha tuzilmasi
+## Project layout
 
 ```
 get_place/        settings, urls, celery
 apps/
-  users/          ro'yxatdan o'tish, SMS kod (OTP), login, parolni tiklash
-  areas/          shaharlar va tumanlar (chegaralari PostGIS'da)
-  citizens/       aholi, ta'lim, iste'mol — tuman bo'yicha statistika
-  competitors/    raqobatchilar, kategoriyalar, sharhlar, Google/2GIS importi
-  dictionary/     transport tugunlari, POI, yo'llar, heatmap, joy tahlili
-  government_bodies/  davlat organlari va xodimlar
-  property/       ko'chmas mulk e'lonlari va rasmlari
-  networks/       mobil minoralar (OpenCellID)
-  ai/             AI chat va so'rovlar tarixi
-  shared/         umumiy viewset'lar, ruxsatlar, throttle, pagination
-data/             boshlang'ich ma'lumotlar (tumanlar GeoJSON, kategoriyalar, ...)
+  users/          signup, SMS codes (OTP), login, password reset
+  areas/          cities and districts (boundaries in PostGIS)
+  citizens/       population, education, consumption — per-district statistics
+  competitors/    competitors, categories, reviews, Google/2GIS import
+  dictionary/     transport nodes, POIs, roads, heatmap, location analysis
+  government_bodies/  government bodies and their staff
+  property/       real estate listings and their images
+  networks/       mobile cell towers (OpenCellID)
+  ai/             AI chat and query history
+  shared/         shared viewsets, permissions, throttles, pagination
+data/             seed data (district GeoJSON, categories, ...)
 ```
 
-## Lokal ishga tushirish
+## Running locally
 
-Kerak: Python 3.12, PostgreSQL 16 + PostGIS, Redis, GDAL/GEOS.
-Windows'da GDAL [OSGeo4W](https://trac.osgeo.org/osgeo4w/) orqali
-`C:\OSGeo4W` ga o'rnatilgan bo'lishi kerak (yo'li `settings.py` da).
+Requirements: Python 3.12, PostgreSQL 16 + PostGIS, Redis, GDAL/GEOS.
+On Windows, GDAL is expected from [OSGeo4W](https://trac.osgeo.org/osgeo4w/)
+in `C:\OSGeo4W` (path set in `settings.py`).
 
 ```bash
 python -m venv venv
 venv\Scripts\activate            # Linux/macOS: source venv/bin/activate
 pip install -r requirements.txt
 
-cp .env.example .env             # qiymatlarni to'ldiring (pastga qarang)
+cp .env.example .env             # fill in the values (see below)
 
-# PostgreSQL'da baza va PostGIS
+# Database with PostGIS
 createdb get_place_db
 psql get_place_db -c "CREATE EXTENSION postgis;"
 
@@ -54,136 +54,135 @@ python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
 
-# alohida terminallarda
+# in separate terminals
 celery -A get_place worker -l info
 celery -A get_place beat -l info
 ```
 
-## Docker bilan
+## Docker
 
 ```bash
 cp .env.example .env             # DB_HOST=db, REDIS_HOST=redis
 docker compose up -d --build
 ```
 
-Servislar: `db` (PostGIS), `redis`, `api` (gunicorn, `migrate` va
-`collectstatic` ni o'zi bajaradi), `celery`, `celery-beat`.
+Services: `db` (PostGIS), `redis`, `api` (gunicorn; runs `migrate` and
+`collectstatic` on start), `celery`, `celery-beat`.
 
-`api` va `db` portlari faqat `127.0.0.1` da ochiq: tashqaridan so'rovlar
-shu serverdagi reverse proxy (nginx va h.k.) orqali keladi. Proxy boshqa
-mashinada bo'lsa, `docker-compose.yml` dagi `ports` ni moslang.
+The `api` and `db` ports are bound to `127.0.0.1` only: outside traffic comes
+through a reverse proxy (nginx etc.) on the same host. If the proxy runs on
+another machine, adjust `ports` in `docker-compose.yml`.
 
-## Muhit o'zgaruvchilari (`.env`)
+## Environment variables (`.env`)
 
-Ro'yxat `.env.example` da. `.env` hech qachon git'ga qo'shilmaydi.
+The full list is in `.env.example`. `.env` is never committed.
 
-| O'zgaruvchi | Vazifasi |
+| Variable | Purpose |
 |---|---|
 | `SECRET_KEY`, `DEBUG` | Django |
 | `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT` | PostgreSQL |
-| `REDIS_HOST`, `REDIS_PORT`, `CELERY_*` | Redis va Celery |
+| `REDIS_HOST`, `REDIS_PORT`, `CELERY_*` | Redis and Celery |
 | `OPENAI_API_KEY` | AI chat |
-| `GOOGLE_MAP_API_KEY` | Google Places (raqobatchilar tahlili) |
-| `TWO_GIS_API_KEY` | 2GIS qidiruv va import |
-| `OPENCELLID_KEY` | mobil minoralar |
+| `GOOGLE_MAP_API_KEY` | Google Places (competitor analysis) |
+| `TWO_GIS_API_KEY` | 2GIS search and import |
+| `OPENCELLID_KEY` | cell towers |
 | `ESKIZ_EMAIL`, `ESKIZ_PASSWORD` | SMS (Eskiz) |
-| `NUM_PROXIES` | server oldidagi proxy'lar soni; rate limit uchun mijoz IP'si shundan aniqlanadi (odatda `1`) |
-| `CORS_ALLOWED_ORIGINS` | API'ni chaqira oladigan frontend manzillari, vergul bilan |
+| `NUM_PROXIES` | number of proxies in front of the app; used to find the client IP for rate limits (usually `1`) |
+| `CORS_ALLOWED_ORIGINS` | frontend origins allowed to call the API, comma-separated |
 
-`ALLOWED_HOSTS` hozircha `settings.py` ichida ro'yxat sifatida yozilgan.
+`ALLOWED_HOSTS` is currently a list in `settings.py`.
 
-## Boshlang'ich ma'lumotlarni yuklash
+## Loading seed data
 
 ```bash
-# Tumanlar (har bir fayl uchun; tashkent.geojson — butun shahar)
+# Districts (once per file; tashkent.geojson is the whole city)
 python manage.py upload_districts data/districts/chilanzar.geojson
 
-# Raqobatchi kategoriyalari — mavjud bazada avval --dry-run
+# Competitor categories — on an existing database, run --dry-run first
 python manage.py upload_category data/competitors/competitor_category.json --dry-run
 python manage.py upload_category data/competitors/competitor_category.json
 
-# Iste'mol statistikasi
+# Consumption statistics
 python manage.py upload_people_consume data/citizens/people_consume.json
 
-# Mobil minoralar: fayldan yoki OpenCellID'dan
+# Cell towers: from a file or from OpenCellID
 python manage.py upload_cell_towers --file data/cell_towers/cell.geojson
 python manage.py sync_towers
 
-# Transport tugunlari, POI va yo'llar (Overpass)
+# Transport nodes, POIs and roads (Overpass)
 python manage.py fetch_tashkent_data --lat 41.311 --lng 69.240 --radius 800
 
-# JSON'dan import (dublikat tekshiruvi --unique-field bo'yicha, default name_uz)
-python manage.py import_competitors <fayl.json>
-python manage.py import_branch <fayl.json>
+# JSON import (duplicates checked by --unique-field, default name_uz)
+python manage.py import_competitors <file.json>
+python manage.py import_branch <file.json>
 ```
 
 ## API
 
-Barcha endpointlar `/api/` ostida. Hujjatlar: `/swagger/` va `/redoc/`.
+All endpoints live under `/api/`. Docs: `/swagger/` and `/redoc/`.
 
-### Autentifikatsiya
+### Authentication
 
-1. `POST /api/users/signup/` — telefon raqam; javobda vaqtinchalik token.
-   Telefonga 6 xonali kod yuboriladi.
-2. `POST /api/users/verify/` — kod (token bilan).
-3. `PUT /api/users/change-info/` — ism va parol; ro'yxatdan o'tish shu bilan
-   tugaydi, javobda yangi tokenlar keladi.
+1. `POST /api/users/signup/` — phone number; returns a temporary token and
+   sends a 6-digit code to the phone.
+2. `POST /api/users/verify/` — the code (with the token).
+3. `PUT /api/users/change-info/` — name and password; completes registration
+   and returns new tokens.
 4. `POST /api/users/login/`, `POST /api/users/login-refresh/`,
    `POST /api/users/logout/`.
 
-Parolni tiklash: `POST /api/users/forgot-password/` (kod yuboriladi), keyin
+Password reset: `POST /api/users/forgot-password/` (sends a code), then
 `PUT /api/users/reset-password/` (`phone_number`, `code`, `password`,
-`confirm_password`). Parol o'zgarganda userning barcha eski sessiyalari
-yopiladi.
+`confirm_password`). Changing the password ends all of the user's other
+sessions.
 
-Kod 5 marta noto'g'ri kiritilsa bloklanadi — yangi kod so'rash kerak.
+A code is locked after 5 wrong attempts; request a new one.
 
-### Cheklovlar
+### Rate limits
 
-| Nima | Limit |
+| What | Limit |
 |---|---|
-| AI chat | userga soatiga 20 |
-| Google Places | userga soatiga 10 |
-| 2GIS | userga soatiga 30 |
-| Kod yuborish | telefon raqamga soatiga 5 |
-| Kod tekshirish | telefon raqamga soatiga 10 |
-| Ro'yxatdan o'tish | IP'ga soatiga 10 |
+| AI chat | 20 per hour per user |
+| Google Places | 10 per hour per user |
+| 2GIS | 30 per hour per user |
+| Sending codes | 5 per hour per phone number |
+| Checking codes | 10 per hour per phone number |
+| Signup | 10 per hour per IP |
 
-Qiymatlar `settings.py` dagi `REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]` da.
-Pullik tashqi API'larni chaqiradigan endpointlar login talab qiladi.
+The values are in `REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]` in `settings.py`.
+Endpoints that call paid external APIs require login.
 
-### Ruxsatlar va sahifalash
+### Permissions and pagination
 
-- Ma'lumotnomalar (tumanlar, aholi, davlat organlari, ...) hamma uchun o'qish
-  uchun ochiq, yozish faqat admin uchun.
-- E'lonlar va ularning rasmlarini login qilgan user yaratadi; o'zgartirish —
-  faqat egasi yoki admin.
-- Raqobatchilar va e'lonlar ro'yxati sahifalanadi: 50 tadan,
-  `?page=` va `?page_size=` (200 gacha); javobda `next` / `previous`.
-- Heatmap (`/api/statistics/heatmap/`) uchun `in_bbox=xmin,ymin,xmax,ymax`
-  majburiy (har tomoni 0.5° gacha).
+- Reference data (districts, population, government bodies, ...) can be read
+  by anyone; only admins can write it.
+- Listings and their images are created by logged-in users; only the owner
+  or an admin can change them.
+- Competitor and listing lists are paginated: 50 per page, `?page=` and
+  `?page_size=` (up to 200); responses include `next` / `previous`.
+- The heatmap (`/api/statistics/heatmap/`) requires
+  `in_bbox=xmin,ymin,xmax,ymax` (at most 0.5° each way).
 
-## Testlar
+## Tests
 
-Har bir ilovaning testlari `apps/<ilova>/tests/` da, har bir API yoki klass
-uchun alohida fayl (masalan `apps/users/tests/test_password_reset.py`).
-Umumiy yordamchilar: `apps/shared/testing.py`.
+Each app keeps its tests in `apps/<app>/tests/`, one file per API or class
+(e.g. `apps/users/tests/test_password_reset.py`). Shared helpers live in
+`apps/shared/testing.py`.
 
 ```bash
 python manage.py test
 ```
 
-Testlar haqiqiy PostgreSQL + PostGIS bilan ishlaydi: `.env` dagi
-foydalanuvchi test bazasini yarata olishi kerak. Tashqi xizmatlar
-(OpenAI, Google, 2GIS, Celery) testlarda mock qilinadi.
+Tests run against a real PostgreSQL + PostGIS: the database user in `.env`
+must be allowed to create the test database. External services (OpenAI,
+Google, 2GIS, Celery) are mocked.
 
 ## Deploy
 
 ```bash
 git pull
-docker compose up -d --build     # migrate api konteynerida bajariladi
+docker compose up -d --build     # migrate runs in the api container
 ```
 
-Yangi migratsiyalar kelganda ma'lumot yuklash buyruqlari ham kerak bo'lishi
-mumkin — commit xabarlariga qarang (masalan, tumanlar chegarasi uchun
-`upload_districts` ni qayta ishga tushirish).
+New migrations may also need a data command — check the commit messages
+(e.g. re-run `upload_districts` for district boundaries).

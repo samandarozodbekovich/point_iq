@@ -7,7 +7,7 @@ class BaseModelViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.model is None:
-            raise ValueError("BaseModelViewSet uchun 'model' atributi belgilanmagan.")
+            raise ValueError("BaseModelViewSet requires a 'model' attribute.")
 
         # The same queryset for every action: get_object() already narrows it
         # to the requested pk. Returning none() for actions missing from a

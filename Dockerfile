@@ -2,7 +2,7 @@
 # and it matches the version the project is developed and tested with.
 FROM python:3.12-slim AS base
 
-# Tizim kutubxonalarini o'rnatish
+# System libraries (GDAL/GEOS/PROJ for GeoDjango, libpq for psycopg2)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libssl-dev \
@@ -20,12 +20,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# NumPy xatosini oldini olish uchun (bo'sh joy bilan ajratilgan formatda)
+# Disable these NumPy CPU features to avoid illegal-instruction crashes on older CPUs (space-separated)
 ENV NPY_DISABLE_CPU_FEATURES="AVX512F AVX512_SKX AVX2 AVX SSE4_2 SSSE3 SSE3 SSE2 SSE" \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1
 
-# Django GDAL yo'llarini aniq ko'rsatish (Linux uchun)
+# Explicit GDAL/GEOS library paths for Django (Linux)
 ENV GDAL_LIBRARY_PATH=/usr/lib/libgdal.so
 ENV GEOS_LIBRARY_PATH=/usr/lib/libgeos_c.so
 

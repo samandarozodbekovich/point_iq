@@ -15,7 +15,7 @@ def check_email_or_phone(email_or_phone):
     else:
         raise ValidationError({
             'success':False,
-            'message':'Email yoki telefon raqam notogri'
+            'message':'Invalid email or phone number'
         })
     return email_or_phone
 
@@ -31,7 +31,7 @@ def check_user_type(user_input):
     else:
         data = {
             'secces':False,
-            'message':'Username, telefon raqam yoki email addressingiz noto\'g\'ri'
+            'message':'Invalid username, phone number or email address'
             }
         raise ValidationError(data)
     return user_input

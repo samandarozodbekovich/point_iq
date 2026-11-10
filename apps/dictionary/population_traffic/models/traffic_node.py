@@ -6,8 +6,8 @@ from apps.shared.models import BaseTimeModel
 class TrafficNodeModel(BaseTimeModel):
     NODE_TYPES = (
     ('transit', 'Transit (Metro station)'),
-    ('target', 'Target (Bozor, Mall)'),
-    ('local', 'Lokal (Turar joy)')
+    ('target', 'Target (bazaar, mall)'),
+    ('local', 'Local (residential)')
     )
     name = models.CharField(max_length=255)
     location = geo_models.PointField(srid=4326)

@@ -43,7 +43,7 @@ class User(AbstractBaseUser, PermissionsMixin, BaseTimeModel):
     def create_verify_code(self):
         from apps.users.models.user_confirmation import UserConfirmation
         if self.is_superuser:
-            return None  # superuser uchun code yaratma
+            return None  # no codes for superusers
 
         code = f"{secrets.randbelow(10 ** OTP_LENGTH):0{OTP_LENGTH}d}"
 

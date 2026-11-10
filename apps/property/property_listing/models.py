@@ -30,7 +30,7 @@ class PropertyListing(BaseTimeModel):
     is_for_rent = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
 
-    objects = SoftDeleteManager()  # faqat o‘chirilmaganlar
+    objects = SoftDeleteManager()  # excludes soft-deleted rows
     all_objects = models.Manager()
 
     class Meta:

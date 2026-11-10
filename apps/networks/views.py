@@ -6,7 +6,6 @@ from .models import CellTower
 from .serializers import CellTowerSerializer
 from ..shared.views.base_view_set import BaseModelViewSet
 
-# Yangi servisni import qilamiz
 from apps.ai.services.ai_engine import BusinessAgent
 
 class CellTowerViewSet(BaseModelViewSet):
@@ -17,19 +16,18 @@ class CellTowerViewSet(BaseModelViewSet):
     @action(detail=False, methods=['get'])
     def ai_query(self, request):
         """
-        GET /networks/ai_query/?query=<so'rov>
-        Yangi BusinessAgent servisi orqali tahlil qilish.
+        GET /networks/ai_query/?query=<text>
+        Analysis through the BusinessAgent service.
         """
         query = request.query_params.get('query', '').strip()
 
         if not query:
             return Response(
-                {"error": "query parametri yuborilmadi"},
+                {"error": "query parameter is required"},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        # Barcha mantiq (Geocode, Stats, AI, History) bitta servisda
-        # BusinessAgent ichida allaqachon extract_context va geocoding bor
+        # Geocoding, stats, AI and history all live in BusinessAgent.
         ai_response = BusinessAgent.ask_ai(
             query=query,
             user=request.user

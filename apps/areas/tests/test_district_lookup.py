@@ -48,7 +48,7 @@ class DistrictLookupTests(TestCase):
         migration = importlib.import_module("apps.areas.migrations.0002_district_boundary")
         polygon = self.chilonzor[0] if self.chilonzor.geom_type == "MultiPolygon" else self.chilonzor
         ring = [list(c) for c in polygon[0].coords]
-        d = District.objects.create(name_uz="Eski", boundary_json=ring[:-1])  # unclosed ring, as stored
+        d = District.objects.create(name_uz="Old", boundary_json=ring[:-1])  # unclosed ring, as stored
         migration.backfill(django_apps, None)
         d.refresh_from_db()
         self.assertTrue(d.boundary.contains(self.chilonzor.point_on_surface))

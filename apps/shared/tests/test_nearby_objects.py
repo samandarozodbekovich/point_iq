@@ -22,8 +22,8 @@ class NearbyObjectsTests(TestCase):
         self.assertEqual([b.name_uz for b in result], ["0.5km", "2km"])
 
     def test_decimal_coordinates(self):
-        PropertyListing.objects.create(property_type="flat", title="Yaqin", description="-", address="-",
+        PropertyListing.objects.create(property_type="flat", title="Nearby", description="-", address="-",
                                        price=1, currency="USD", area_sq_m=1, rooms=1, floor=1,
                                        latitude=Decimal("41.300500"), longitude=Decimal("69.279700"))
         result = get_nearby_objects("41.3", "69.2797", model=PropertyListing)
-        self.assertEqual([p.title for p in result], ["Yaqin"])
+        self.assertEqual([p.title for p in result], ["Nearby"])

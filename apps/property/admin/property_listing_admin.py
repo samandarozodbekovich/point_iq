@@ -15,7 +15,7 @@ class PropertyListingAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
 
     def save_model(self, request, obj, form, change):
-        if not change:  # faqat yangi yozuvda
+        if not change:  # only when creating
             obj.owner = request.user
         obj.save()
 

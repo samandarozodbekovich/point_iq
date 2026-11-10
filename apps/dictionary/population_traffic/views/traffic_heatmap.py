@@ -18,7 +18,7 @@ MAX_FEATURES_PER_LAYER = 2000
 
 class TrafficHeatmapView(APIView):
     def get(self, request):
-        # 1. Filtrlarni olish
+        # 1. Filters
         layers = request.query_params.get('layers', 'all').split(',')
 
         features = []
@@ -38,9 +38,9 @@ class TrafficHeatmapView(APIView):
                 truncated = True
             return rows[:MAX_FEATURES_PER_LAYER]
 
-        # 2. Qatlamlar bo'yicha ma'lumot yig'ish
+        # 2. Collect each layer
 
-        # NODES (Transport bog'lamalari)
+        # NODES (transport nodes)
         if 'all' in layers or 'node' in layers:
             qs = TrafficNodeModel.objects.all()
             qs = qs.filter(location__contained=bbox_polygon)
@@ -51,7 +51,7 @@ class TrafficHeatmapView(APIView):
                     "type": "node"
                 }))
 
-        # POI (Nuqtalar)
+        # POI (points of interest)
         if 'all' in layers or 'poi' in layers:
             qs = PointOfInterestModel.objects.all()
             qs = qs.filter(location__contained=bbox_polygon)
@@ -68,7 +68,7 @@ class TrafficHeatmapView(APIView):
                     "category": category
                 }))
 
-        # COMPETITORS (Raqobatchilar)
+        # COMPETITORS
         if 'all' in layers or 'competitor' in layers:
             qs = Competitor.objects.filter(location__isnull=False)
             qs = qs.filter(location__contained=bbox_polygon)
@@ -80,7 +80,7 @@ class TrafficHeatmapView(APIView):
                     "label": c.name_uz
                 }))
 
-        # SEGMENTS (Yo'llar)
+        # SEGMENTS (roads)
         if 'all' in layers or 'segment' in layers:
             qs = TrafficSegmentModel.objects.all()
             qs = qs.filter(line__intersects=bbox_polygon)
@@ -89,7 +89,7 @@ class TrafficHeatmapView(APIView):
                     "type": "Feature",
                     "geometry": {"type": "LineString", "coordinates": s.line.coords},
                     "properties": {
-                        "color": s.zone_color,  # Biz fetch_data da saqlagan rang
+                        "color": s.zone_color,  # colour stored by the Overpass import
                         "weight": 3 if s.intensity_level == "high" else 1.5,
                         "type": "segment",
                         "street_name": s.street_name

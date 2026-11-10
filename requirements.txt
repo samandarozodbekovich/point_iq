@@ -18,12 +18,12 @@ PyJWT==2.15.1
 psycopg2-binary==2.9.13
 Pillow==13.0.0
 
-# Task Queue va Cache
+# Task queue and cache
 celery==5.7.0
 redis==8.1.0
 django-hitcount==1.3.5
 
-# HTTP va Utilities
+# HTTP and utilities
 requests==2.34.2
 urllib3==2.8.0
 
@@ -32,7 +32,7 @@ pytz==2026.6
 tzdata==2026.6
 sqlparse==0.6.1
 
-# Geo va Mapping
+# Geo and mapping
 numpy==2.5.4
 geopandas==1.2.0
 shapely==2.2.0

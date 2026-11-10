@@ -17,11 +17,11 @@ class Command(BaseCommand):
         # used to carry its own copy, which queried the API twice and
         # compared string literals ("amenity" == "bus_station"), so it never
         # saved a single station.
-        self.stdout.write("Overpass API ga so'rov yuborilmoqda...")
+        self.stdout.write("Querying the Overpass API...")
         try:
             data = fetch_overpass(options['lat'], options['lng'], options['radius'])
         except (requests.RequestException, ValueError) as e:
-            raise CommandError(f"Overpass xatosi: {e}")
+            raise CommandError(f"Overpass error: {e}")
 
         counts = save_elements(data)
         self.stdout.write(self.style.SUCCESS(

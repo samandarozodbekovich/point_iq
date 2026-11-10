@@ -32,7 +32,7 @@ def safe_get_schedule(item, weekday="Mon"):
 
 
 def fetch_item_details(item_id, fields=None):
-    """2GIS'dan qo'shimcha ma'lumot olish"""
+    """Fetch item details from 2GIS."""
     base = "https://catalog.api.2gis.com/3.0/items/byid"
     params = f"?id={item_id}&key={TWO_GIS_API_KEY}"
     if fields:
@@ -86,7 +86,7 @@ def find_category_by_purpose(purpose_name):
 def search_place_2gis(query: str = None, category_name: str = None, fetch_details: bool = True):
 
     if not query:
-        logger.error("2GIS: 'query' talab qilinadi")
+        logger.error("2GIS: 'query' is required")
         return 0
 
     q_value = query
@@ -201,7 +201,7 @@ def search_place_2gis(query: str = None, category_name: str = None, fetch_detail
 
             if not category_obj:
                 logger.warning(
-                    f"Competitor skip qilindi (category topilmadi): "
+                    f"Competitor skipped (no category): "
                     f"name={name}, purpose_name={purpose_name}"
                 )
                 continue
