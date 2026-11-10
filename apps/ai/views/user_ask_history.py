@@ -13,7 +13,9 @@ class _UserHistoryMixin:
         if getattr(self, 'swagger_fake_view', False):
             return QueryHistory.objects.none()  # response empty queryset
         # Only the caller's own history.
-        return QueryHistory.objects.filter(user=self.request.user).order_by("-created_at")
+        # -id breaks ties between entries saved within the same clock tick,
+        # which otherwise come back in an arbitrary order.
+        return QueryHistory.objects.filter(user=self.request.user).order_by("-created_at", "-id")
 
 
 # Two views instead of one class inheriting ListAPIView and RetrieveAPIView:

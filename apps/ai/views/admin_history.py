@@ -12,7 +12,7 @@ class AdminHistoryViewSet(GenericViewSet, ListModelMixin, DestroyModelMixin):
 
     permission_classes = [IsAdminUser]
     serializer_class = QueryHistorySerializer
-    queryset = QueryHistory.objects.all().order_by("-created_at")
+    queryset = QueryHistory.objects.all().order_by("-created_at", "-id")
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()

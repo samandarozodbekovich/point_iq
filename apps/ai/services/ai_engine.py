@@ -22,7 +22,7 @@ class BusinessAgent:
         if not user or not user.is_authenticated:
             return []
 
-        records = QueryHistory.objects.filter(user=user, status='done').order_by('-created_at')[:limit]
+        records = QueryHistory.objects.filter(user=user, status='done').order_by('-created_at', '-id')[:limit]
         messages = []
         for r in reversed(records):
             messages.append({"role": "user", "content": r.user_query})

@@ -26,7 +26,7 @@ class BaseDeletedItemsViewSet(viewsets.ModelViewSet):
         return obj.owner_id
 
     def get_queryset(self):
-        return self.model.objects.filter(is_deleted=False).order_by("-created_at")
+        return self.model.objects.filter(is_deleted=False).order_by("-created_at", "-id")  # -id: stable pages
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
